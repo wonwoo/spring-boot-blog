@@ -25,4 +25,9 @@ public class PostController {
     return "post";
   }
 
+  @GetMapping
+  public String post(){
+    return "markdown";
+  }
+
 }
