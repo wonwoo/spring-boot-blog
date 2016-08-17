@@ -29,8 +29,9 @@
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 
+    <![endif]-->
+    <link rel="stylesheet" href="/markdown/css/github-gist.css">
 </head>
 
 <body>
@@ -41,7 +42,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                {{post.content}}
+                <pre>{{{post.content}}}</pre>
             </div>
         </div>
     </div>
@@ -50,6 +51,5 @@
 <hr>
 
 {{> footer}}
-
 </body>
 </html>
