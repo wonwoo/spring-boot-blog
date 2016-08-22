@@ -1,8 +1,10 @@
 package me.wonwoo.domain.model;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
@@ -10,15 +12,18 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Getter
+@Setter
 public class Post {
 
   @Id
   @GeneratedValue
   private Long id;
 
+  @NotNull
   private String title;
 
   @Lob
+  @NotNull
   private String content;
 
   private LocalDateTime regDate;

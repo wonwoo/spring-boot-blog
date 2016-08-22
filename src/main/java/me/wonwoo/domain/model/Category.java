@@ -28,6 +28,10 @@ public class Category {
   Category(){
   }
 
+  public Category(Long id){
+    this.id = id;
+  }
+
   public Category(String name){
     this.name = name;
     this.regDate = LocalDateTime.now();

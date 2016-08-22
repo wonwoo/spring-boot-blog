@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="/markdown/css/base16-light.css">
     <link rel="stylesheet" href="/codemirror/lib/codemirror.css">
     <link rel="stylesheet" href="/markdown/css/github-gist.css">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             margin: 0;
@@ -33,7 +34,7 @@
             position: fixed;
             top: 0;
             left: 0;
-            bottom: 0;
+            bottom: 15%;
             width: 50%;
             height: auto;
             overflow: auto;
@@ -61,7 +62,7 @@
             top: 0;
             right: 0;
             left: 50%;
-            bottom: 0;
+            bottom: 15%;
             overflow: auto;
             padding: 10px;
             padding-left: 20px;
@@ -72,19 +73,19 @@
         }
 
         #menu {
-            display: none;
+            /*display: none;*/
             position: fixed;
-            background-color: #111;
+            /*background-color: #111;*/
             border-radius: 5px;
-            top: 50%;
-            left: 50%;
-            width: 250px;
-            height: 150px;
-            margin-top: -75px;
-            margin-left: -125px;
-            z-index: 99;
-            text-align: center;
-            color: white;
+            top: 90%;
+            left: 90%;
+            /*width: 250px;*/
+            /*height: 150px;*/
+            /*margin-top: -75px;*/
+            /*margin-left: -125px;*/
+            /*z-index: 99;*/
+            /*text-align: center;*/
+            /*color: white;*/
         }
 
         #menu > span {
@@ -349,28 +350,35 @@
 </textarea></form>
 </div>
 <div id="out"></div>
-<div id="menu">
-    <span>Save As</span>
-    <div id="saveas-markdown">
-        <svg height="64" width="64" xmlns="http://www.w3.org/2000/svg">
-            <g transform="scale(0.0625)">
-                <path d="M950.154 192H73.846C33.127 192 0 225.12699999999995 0 265.846v492.308C0 798.875 33.127 832 73.846 832h876.308c40.721 0 73.846-33.125 73.846-73.846V265.846C1024 225.12699999999995 990.875 192 950.154 192zM576 703.875L448 704V512l-96 123.077L256 512v192H128V320h128l96 128 96-128 128-0.125V703.875zM767.091 735.875L608 512h96V320h128v192h96L767.091 735.875z"/>
-            </g>
-        </svg>
+<form action="posts" id="post" method="post">
+    <!--<div id="menu">-->
+    <!--<span>Save As</span>-->
+    <!--<div id="saveas-markdown">-->
+    <!--<svg height="64" width="64" xmlns="http://www.w3.org/2000/svg">-->
+    <!--<g transform="scale(0.0625)">-->
+    <!--<path d="M950.154 192H73.846C33.127 192 0 225.12699999999995 0 265.846v492.308C0 798.875 33.127 832 73.846 832h876.308c40.721 0 73.846-33.125 73.846-73.846V265.846C1024 225.12699999999995 990.875 192 950.154 192zM576 703.875L448 704V512l-96 123.077L256 512v192H128V320h128l96 128 96-128 128-0.125V703.875zM767.091 735.875L608 512h96V320h128v192h96L767.091 735.875z"/>-->
+    <!--</g>-->
+    <!--</svg>-->
 
-        <span>Markdown</span>
-    </div>
-    <div id="saveas-html">
-        <svg height="64" width="64" xmlns="http://www.w3.org/2000/svg">
-            <g transform="scale(0.0625) translate(64,0)">
-                <path d="M608 192l-96 96 224 224L512 736l96 96 288-320L608 192zM288 192L0 512l288 320 96-96L160 512l224-224L288 192z"/>
-            </g>
-        </svg>
+    <!--<span>Markdown</span>-->
+    <!--</div>-->
+    <!--<div id="saveas-html">-->
+    <!--<svg height="64" width="64" xmlns="http://www.w3.org/2000/svg">-->
+    <!--<g transform="scale(0.0625) translate(64,0)">-->
+    <!--<path d="M608 192l-96 96 224 224L512 736l96 96 288-320L608 192zM288 192L0 512l288 320 96-96L160 512l224-224L288 192z"/>-->
+    <!--</g>-->
+    <!--</svg>-->
 
-        <span>HTML</span>
+    <!--<span>HTML</span>-->
+    <!--</div>-->
+    <!--<a id="close-menu">&times;</a>-->
+    <!--</div>-->
+    <input type="hidden" id="content" name="content"/>
+    <input type="hidden" id="title" name="title" value="testTitle"/>
+    <div id="menu">
+        <input class="btn btn-primary" type="button" value="Submit" onclick="saveAsHtml()">
     </div>
-    <a id="close-menu">&times;</a>
-</div>
+</form>
 <script type="text/javascript">
     var URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
     navigator.saveBlob = navigator.saveBlob || navigator.msSaveBlob || navigator.mozSaveBlob || navigator.webkitSaveBlob;
@@ -458,76 +466,10 @@
     }, false);
 
 
-    function saveAsMarkdown() {
-        save(editor.getValue(), "untitled.md");
-    }
-
     function saveAsHtml() {
-        save(document.getElementById('out').innerHTML, "untitled.html");
+        document.getElementById('content').value = document.getElementById('out').innerHTML;
+        document.getElementById('post').submit();
     }
-
-    document.getElementById('saveas-markdown').addEventListener('click', function () {
-        saveAsMarkdown();
-        hideMenu();
-    });
-
-    document.getElementById('saveas-html').addEventListener('click', function () {
-        saveAsHtml();
-        hideMenu();
-    });
-
-    function save(code, name) {
-        var blob = new Blob([code], {type: 'text/plain'});
-        if (window.saveAs) {
-            window.saveAs(blob, name);
-        } else if (navigator.saveBlob) {
-            navigator.saveBlob(blob, name);
-        } else {
-            url = URL.createObjectURL(blob);
-            var link = document.createElement("a");
-            link.setAttribute("href", url);
-            link.setAttribute("download", name);
-            var event = document.createEvent('MouseEvents');
-            event.initMouseEvent('click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
-            link.dispatchEvent(event);
-        }
-    }
-
-
-    var menuVisible = false;
-    var menu = document.getElementById('menu');
-
-    function showMenu() {
-        menuVisible = true;
-        menu.style.display = 'block';
-    }
-
-    function hideMenu() {
-        menuVisible = false;
-        menu.style.display = 'none';
-    }
-
-    document.getElementById('close-menu').addEventListener('click', function () {
-        hideMenu();
-    });
-
-
-    document.addEventListener('keydown', function (e) {
-        if (e.keyCode == 83 && (e.ctrlKey || e.metaKey)) {
-            e.shiftKey ? showMenu() : saveAsMarkdown();
-
-            e.preventDefault();
-            return false;
-        }
-
-        if (e.keyCode === 27 && menuVisible) {
-            hideMenu();
-
-            e.preventDefault();
-            return false;
-        }
-    });
-
 
     function updateHash() {
         window.location.hash = btoa( // base64 so url-safe
