@@ -33,16 +33,15 @@ public class PostController {
   }
 
   @GetMapping
-  public String post() {
+  public String post(PostDto.CreatePost createPost) {
     return "markdown";
   }
 
   @PostMapping
   public String createPost(@ModelAttribute @Valid PostDto.CreatePost createPost, BindingResult bindingResult, Model model) {
-    //TODO 에러처리
-//    if(bindingResult.hasErrors()){
-//      return "post?error=error";
-//    }
+    if(bindingResult.hasErrors()){
+      return "markdown";
+    }
     Post post = new Post(createPost.getTitle(),
                         createPost.getContent(),
                         new Category(createPost.getCategoryId() == null ? 1L : createPost.getCategoryId()));

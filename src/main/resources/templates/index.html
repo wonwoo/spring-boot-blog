@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -31,16 +31,14 @@
 
 </head>
 <body>
-{{> header}}
+<div th:replace="header :: header">&nbsp;</div>
 <!-- Main Content -->
 <div class="container">
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            {{#posts}}
-            <div class="post-preview">
-                <a href="/posts/{{id}}">
-                    <h2 class="post-title">
-                        {{title}}
+            <div class="post-preview" th:each="post : ${posts}">
+                <a th:href="@{'/posts/' + ${post.id}}" >
+                    <h2 class="post-title" th:text="${post.title}">
                     </h2>
                     <!--<h3 class="post-subtitle">-->
                     <!--Problems look mighty small from 150 miles up-->
@@ -48,7 +46,6 @@
                 </a>
                 <p class="post-meta">Posted by <a href="#">Start Bootstrap</a> on September 24, 2014</p>
             </div>
-            {{/posts}}
             <hr>
             <!-- Pager -->
             <ul class="pager">
@@ -59,6 +56,6 @@
         </div>
     </div>
 </div>
-{{> footer}}
+<div th:replace="footer  :: footer">&nbsp;</div>
 </body>
 </html>
