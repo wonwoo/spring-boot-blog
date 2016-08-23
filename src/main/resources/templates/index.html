@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorator="layouts/main">
 <head>
     <title>index</title>
@@ -9,6 +10,11 @@
 <div class="container" layout:fragment="content">
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <ul class="pager" sec:authorize="hasRole('ROLE_ADMIN')">
+                <li class="next">
+                    <a th:href="@{/posts}">write</a>
+                </li>
+            </ul>
             <div class="post-preview" th:each="post : ${posts}">
                 <a th:href="@{'/posts/' + ${post.id}}">
                     <h2 class="post-title" th:text="${post.title}">
@@ -19,7 +25,7 @@
                 </a>
                 <p class="post-meta">Posted by <a href="#">Start Bootstrap</a> on September 24, 2014</p>
             </div>
-            <hr>
+
             <!-- Pager -->
             <ul class="pager">
                 <li class="next">

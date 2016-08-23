@@ -17,10 +17,10 @@
     <script src="/codemirror/lib/util/continuelist.js"></script>
     <script src="/markdown/js/rawinflate.js"></script>
     <script src="/markdown/js/rawdeflate.js"></script>
-    <link rel="stylesheet" href="/markdown/css/base16-light.css">
-    <link rel="stylesheet" href="/codemirror/lib/codemirror.css">
-    <link rel="stylesheet" href="/markdown/css/github-gist.css">
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/markdown/css/base16-light.css" />
+    <link rel="stylesheet" href="/codemirror/lib/codemirror.css" />
+    <link rel="stylesheet" href="/markdown/css/github-gist.css" />
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <style>
         body {
             margin: 0;
@@ -356,10 +356,11 @@
     <div id="menu">
         <label th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></label>
         <label th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></label>
-        <input class="btn btn-primary" type="button" value="Submit" onclick="saveAsHtml()">
+        <input class="btn btn-primary" type="button" value="Submit" onclick="saveAsHtml()" />
     </div>
 </form>
-<script type="text/javascript">
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
     var URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
     navigator.saveBlob = navigator.saveBlob || navigator.msSaveBlob || navigator.mozSaveBlob || navigator.webkitSaveBlob;
     window.saveAs = window.saveAs || window.webkitSaveAs || window.mozSaveAs || window.msSaveAs;
@@ -384,8 +385,7 @@
             }
             return '';
         }
-    })
-            .use(markdownitFootnote);
+    }).use(markdownitFootnote);
 
 
     var hashto;
@@ -483,6 +483,7 @@
         update(editor);
         editor.focus();
     }
+    /*]]>*/
 </script>
 </body>
 </html>
