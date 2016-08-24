@@ -72,6 +72,7 @@ public class SpringBootBlogApplication {
 		return args -> {
 			Category category = new Category("spring");
 			categoryRepository.save(category);
+			categoryRepository.save(new Category("java"));
 			postRepository.save(Arrays.asList(
 				new Post("first Title", "<pre><code class=\"language-java\"><span class=\"hljs-function\"><span class=\"hljs-keyword\">public</span> <span class=\"hljs-keyword\">static</span> <span class=\"hljs-keyword\">void</span> <span class=\"hljs-title\">main</span><span class=\"hljs-params\">()</span></span>{\n\n}\n</code>\n</pre>", category),
 				new Post("second Title", "second Content", category),

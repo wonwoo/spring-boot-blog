@@ -3,16 +3,19 @@ package me.wonwoo.web;
 import lombok.RequiredArgsConstructor;
 import me.wonwoo.domain.model.Category;
 import me.wonwoo.domain.model.Post;
+import me.wonwoo.domain.repository.CategoryRepository;
 import me.wonwoo.domain.repository.PostRepository;
 import me.wonwoo.dto.PostDto;
 import me.wonwoo.service.PostService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Created by wonwoo on 2016. 8. 15..
@@ -25,6 +28,13 @@ public class PostController {
   private final PostRepository postRepository;
 
   private final PostService postService;
+
+  private final CategoryRepository categoryRepository;
+
+  @ModelAttribute("categories")
+  public List<Category> categories(){
+    return categoryRepository.findAll();
+  }
 
   @GetMapping("/{id}")
   public String findByPost(@PathVariable Long id, Model model) {

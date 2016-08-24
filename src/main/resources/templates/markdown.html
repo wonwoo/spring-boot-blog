@@ -17,10 +17,10 @@
     <script src="/codemirror/lib/util/continuelist.js"></script>
     <script src="/markdown/js/rawinflate.js"></script>
     <script src="/markdown/js/rawdeflate.js"></script>
-    <link rel="stylesheet" href="/markdown/css/base16-light.css" />
-    <link rel="stylesheet" href="/codemirror/lib/codemirror.css" />
-    <link rel="stylesheet" href="/markdown/css/github-gist.css" />
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/markdown/css/base16-light.css"/>
+    <link rel="stylesheet" href="/codemirror/lib/codemirror.css"/>
+    <link rel="stylesheet" href="/markdown/css/github-gist.css"/>
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
     <style>
         body {
             margin: 0;
@@ -32,14 +32,14 @@
 
         #in {
             position: fixed;
-            top: 0;
-            left: 0;
+            top: 230px;
+            left: 125px;
             bottom: 15%;
-            width: 50%;
+            width: 40%;
             height: auto;
             overflow: auto;
             font-size: 12px;
-            box-shadow: -10px 2px 6px 10px rgba(0, 0, 0, 0.4);
+            /*box-shadow: -10px 2px 6px 10px rgba(0, 0, 0, 0.4);*/
         }
 
         .CodeMirror {
@@ -59,10 +59,11 @@
 
         #out {
             position: fixed;
-            top: 0;
+            top: 230px;
             right: 0;
             left: 50%;
             bottom: 15%;
+            width: 40%;
             overflow: auto;
             padding: 10px;
             padding-left: 20px;
@@ -77,15 +78,24 @@
             position: fixed;
             /*background-color: #111;*/
             border-radius: 5px;
-            top: 80%;
-            left: 70%;
-            width: 450px;
+            top: 90%;
+            left: 90%;
+            width: 220px;
             /*height: 150px;*/
             /*margin-top: -75px;*/
             /*margin-left: -125px;*/
             /*z-index: 99;*/
             /*text-align: center;*/
             /*color: white;*/
+        }
+
+        #messageContent {
+            position: fixed;
+            /*background-color: #111;*/
+            border-radius: 5px;
+            top: 90%;
+            left: 10%;
+            width: 450px;
         }
 
         #menu > span {
@@ -119,20 +129,6 @@
             fill: #fff;
         }
 
-        #close-menu {
-            position: absolute;
-            top: 5px;
-            right: 9px;
-            color: white;
-            cursor: pointer;
-        }
-
-        .emoji {
-            width: 1em;
-            height: 1em;
-            vertical-align: baseline;
-        }
-
         @media screen and (max-width: 1024px) {
             #in {
                 display: none;
@@ -142,35 +138,6 @@
                 left: 0;
                 padding-left: 10px;
             }
-        }
-
-        .cm-header-1 {
-            font-size: 2em;
-        }
-
-        .cm-header-2 {
-            font-size: 1.75em;
-        }
-
-        .cm-header-3 {
-            font-size: 1.5em;
-        }
-
-        .cm-header-4 {
-            font-size: 1.3em;
-        }
-
-        .cm-header-5 {
-            font-size: 1.2em;
-        }
-
-        .cm-header-6 {
-            font-size: 1.15em;
-        }
-
-        .cm-quote {
-            color: #90a959;
-            font-style: italic;
         }
 
         .view #in {
@@ -345,19 +312,44 @@
     </style>
 </head>
 <body>
-<form action="#" th:action="@{/posts}" th:object="${createPost}" method="post" th:id="post">
-    <div id="in">
-        <input type="hidden" id="content" name="content" th:field="*{content}"/>
-        <input type="hidden" id="title" name="title" th:field="*{title}"/>
-        <input type="hidden" id="code" />
-    </div>
-    <div id="out">
-    </div>
-    <div id="menu">
-        <label th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></label>
-        <label th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></label>
-        <input class="btn btn-primary" type="button" value="Submit" onclick="saveAsHtml()" />
-    </div>
+<form class="form-horizontal well bs-component col-lg-10 col-lg-offset-1" th:action="@{/posts}"
+      th:object="${createPost}" method="post" th:id="post">
+    <fieldset>
+        <div class="form-group" th:classappend="(${#fields.hasErrors('title')}? ' has-error')">
+            <label for="title" class="col-lg-2 control-label">Title</label>
+            <div class="col-lg-10">
+                <input type="text" class="form-control" id="title" name="title" th:field="*{title}"
+                       placeholder="Title"/>
+                <span class="help-block" th:if="${#fields.hasErrors('title')}"
+                      th:errors="*{title}">Incorrect title</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Track</label>
+            <div class="btn-group" data-toggle="buttons" th:each="category : ${categories}">
+                <label class="btn btn-primary active">
+                    <input name="categoryId" type="radio" th:text="${category.name}"  th:value="${category.id}" />
+
+                </label>
+            </div>
+            <span class="help-block" style="text-align: center;" th:if="${#fields.hasErrors('categoryId')}"
+                  th:errors="*{categoryId}">Incorrect title</span>
+        </div>
+
+        <div id="in">
+            <input type="hidden" id="content" name="content" th:field="*{content}"/>
+            <input type="hidden" id="code" th:field="*{code}" />
+        </div>
+        <div id="out" >
+        </div>
+        <div id="messageContent">
+            <label for="content" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></label>
+        </div>
+        <div id="menu">
+            <input class="btn btn-primary" type="button" value="Submit" onclick="saveAsHtml()"/>
+        </div>
+    </fieldset>
 </form>
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
@@ -423,7 +415,7 @@
 
     var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
         mode: 'gfm',
-        lineNumbers: false,
+        lineNumbers: true,
         matchBrackets: true,
         lineWrapping: true,
         theme: 'base16-light',
@@ -431,19 +423,6 @@
     });
 
     editor.on('change', update);
-
-
-    document.addEventListener('drop', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            editor.setValue(e.target.result);
-        };
-
-        reader.readAsText(e.dataTransfer.files[0]);
-    }, false);
 
 
     function saveAsHtml() {
