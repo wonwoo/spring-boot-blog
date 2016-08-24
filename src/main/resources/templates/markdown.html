@@ -325,7 +325,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" th:classappend="(${#fields.hasErrors('categoryId')}? ' has-error')">
             <label class="col-lg-2 control-label">Track</label>
             <div class="btn-group" data-toggle="buttons" th:each="category : ${categories}">
                 <label class="btn btn-primary active">

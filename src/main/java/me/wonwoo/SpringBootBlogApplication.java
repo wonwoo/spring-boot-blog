@@ -81,9 +81,9 @@ public class SpringBootBlogApplication {
 	CommandLineRunner commandLineRunner(CategoryRepository categoryRepository, PostRepository postRepository, UserRepository userRepository){
 		return args -> {
 			User wonwoo = userRepository.save(new User("aoruqjfu@gmail.com", "wonwoo", "", ""));
-			Category category = new Category("spring");
+			Category category = new Category(1L,"spring");
 			categoryRepository.save(category);
-			categoryRepository.save(new Category("java"));
+			categoryRepository.save(new Category(2L,"java"));
 			postRepository.save(Arrays.asList(
 				new Post("first Title", "<pre><code class=\"language-java\"><span class=\"hljs-function\"><span class=\"hljs-keyword\">public</span> <span class=\"hljs-keyword\">static</span> <span class=\"hljs-keyword\">void</span> <span class=\"hljs-title\">main</span><span class=\"hljs-params\">()</span></span>{\n\n}\n</code>\n</pre>", category,wonwoo),
 				new Post("second Title", "second Content", category,wonwoo),
