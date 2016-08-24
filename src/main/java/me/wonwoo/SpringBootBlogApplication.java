@@ -77,60 +77,60 @@ public class SpringBootBlogApplication {
 	public Java8TimeDialect java8TimeDialect() {
 		return new Java8TimeDialect();
 	}
-
-	//test data
-	@Bean
-	CommandLineRunner commandLineRunner(CategoryRepository categoryRepository, PostRepository postRepository, UserRepository userRepository){
-		return args -> {
-			User wonwoo = userRepository.save(new User("aoruqjfu@gmail.com", "wonwoo", "", ""));
-			Category category = new Category(1L,"spring");
-			categoryRepository.save(category);
-			categoryRepository.save(new Category(2L,"java"));
-			postRepository.save(Arrays.asList(
-				new Post("first Title", "<pre><code class=\"language-java\"><span class=\"hljs-function\"><span class=\"hljs-keyword\">public</span> <span class=\"hljs-keyword\">static</span> <span class=\"hljs-keyword\">void</span> <span class=\"hljs-title\">main</span><span class=\"hljs-params\">()</span></span>{\n\n}\n</code>\n</pre>", category,wonwoo),
-				new Post("second Title", "second Content", category,wonwoo),
-				new Post("third Title1", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("third 342Title", "third Content", category,wonwoo),
-				new Post("th4214rd Title", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("thi414d Title", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("thi3423rd Title", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("third 123Title", "third Content", category,wonwoo),
-				new Post("thir2412d Title", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("third Ti123tle", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("thir41d T4itle", "third Content", category,wonwoo),
-				new Post("th1325ird Title", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("third Title", "third Content", category,wonwoo),
-				new Post("thir51d Title", "third Content", category,wonwoo)
-			));
-		};
-	}
+//
+//	//test data
+//	@Bean
+//	CommandLineRunner commandLineRunner(CategoryRepository categoryRepository, PostRepository postRepository, UserRepository userRepository){
+//		return args -> {
+//			User wonwoo = userRepository.save(new User("aoruqjfu@gmail.com", "wonwoo", "", ""));
+//			Category category = new Category(1L,"spring");
+//			categoryRepository.save(category);
+//			categoryRepository.save(new Category(2L,"java"));
+//			postRepository.save(Arrays.asList(
+//				new Post("first Title", "<pre><code class=\"language-java\"><span class=\"hljs-function\"><span class=\"hljs-keyword\">public</span> <span class=\"hljs-keyword\">static</span> <span class=\"hljs-keyword\">void</span> <span class=\"hljs-title\">main</span><span class=\"hljs-params\">()</span></span>{\n\n}\n</code>\n</pre>", category,wonwoo),
+//				new Post("second Title", "second Content", category,wonwoo),
+//				new Post("third Title1", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("third 342Title", "third Content", category,wonwoo),
+//				new Post("th4214rd Title", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("thi414d Title", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("thi3423rd Title", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("third 123Title", "third Content", category,wonwoo),
+//				new Post("thir2412d Title", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("third Ti123tle", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("thir41d T4itle", "third Content", category,wonwoo),
+//				new Post("th1325ird Title", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("third Title", "third Content", category,wonwoo),
+//				new Post("thir51d Title", "third Content", category,wonwoo)
+//			));
+//		};
+//	}
 }
