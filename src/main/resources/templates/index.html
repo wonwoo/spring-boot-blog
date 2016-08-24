@@ -23,7 +23,7 @@
                     <!--Problems look mighty small from 150 miles up-->
                     <!--</h3>-->
                 </a>
-                <p class="post-meta">Posted by <a href="#">Start Bootstrap</a> on September 24, 2014</p>
+                <p class="post-meta">Posted by <strong th:text="${post.user.name}"></strong> on <strong th:text="${#temporals.format(post.regDate, 'yyyy-MM-dd')}"> </strong></p>
             </div>
 
             <!-- Pager -->

@@ -1,6 +1,8 @@
 package me.wonwoo.domain.model;
 
 import lombok.Getter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,6 +14,7 @@ import java.util.List;
  */
 @Entity
 @Getter
+@EntityListeners(value = AuditingEntityListener.class)
 public class Category {
 
   @Id
@@ -20,6 +23,7 @@ public class Category {
 
   private String name;
 
+  @CreatedDate
   private LocalDateTime regDate;
 
   @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
@@ -34,6 +38,5 @@ public class Category {
 
   public Category(String name){
     this.name = name;
-    this.regDate = LocalDateTime.now();
   }
 }

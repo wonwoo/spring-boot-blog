@@ -2,6 +2,8 @@ package me.wonwoo.domain.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -12,7 +14,7 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Getter
-@Setter
+@EntityListeners(value = AuditingEntityListener.class)
 public class Post {
 
   @Id
@@ -26,7 +28,12 @@ public class Post {
   @NotNull
   private String content;
 
+  @CreatedDate
   private LocalDateTime regDate;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "USER_ID")
+  private User user;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "CATEGORY_ID")
@@ -35,10 +42,10 @@ public class Post {
   Post(){
   }
 
-  public Post(String title, String content, Category category){
+  public Post(String title, String content, Category category, User user){
     this.title = title;
     this.content = content;
     this.category = category;
-    this.regDate = LocalDateTime.now();
+    this.user = user;
   }
 }

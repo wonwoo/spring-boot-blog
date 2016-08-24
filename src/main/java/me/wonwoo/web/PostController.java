@@ -3,10 +3,12 @@ package me.wonwoo.web;
 import lombok.RequiredArgsConstructor;
 import me.wonwoo.domain.model.Category;
 import me.wonwoo.domain.model.Post;
+import me.wonwoo.domain.model.User;
 import me.wonwoo.domain.repository.CategoryRepository;
 import me.wonwoo.domain.repository.PostRepository;
 import me.wonwoo.dto.PostDto;
 import me.wonwoo.service.PostService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -48,13 +50,13 @@ public class PostController {
   }
 
   @PostMapping
-  public String createPost(@ModelAttribute @Valid PostDto.CreatePost createPost, BindingResult bindingResult, Model model) {
+  public String createPost(@ModelAttribute @Valid PostDto.CreatePost createPost, BindingResult bindingResult, @AuthenticationPrincipal User user, Model model) {
     if(bindingResult.hasErrors()){
       return "markdown";
     }
     Post post = new Post(createPost.getTitle(),
                         createPost.getContent(),
-                        new Category(createPost.getCategoryId() == null ? 1L : createPost.getCategoryId()));
+                        new Category(createPost.getCategoryId() == null ? 1L : createPost.getCategoryId()),user);
     model.addAttribute("post", postService.createPost(post));
     return "post";
 

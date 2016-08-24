@@ -4,6 +4,8 @@ import lombok.Getter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by wonwoo on 2016. 8. 23..
@@ -22,6 +24,9 @@ public class User implements Serializable {
   private String github;
 
   private String avatarUrl;
+
+  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+  private List<Post> post = new ArrayList<>();
 
   @Column
   @Lob
