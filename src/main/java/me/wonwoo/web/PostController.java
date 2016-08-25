@@ -2,10 +2,12 @@ package me.wonwoo.web;
 
 import lombok.RequiredArgsConstructor;
 import me.wonwoo.domain.model.Category;
+import me.wonwoo.domain.model.Comment;
 import me.wonwoo.domain.model.Post;
 import me.wonwoo.domain.model.User;
 import me.wonwoo.domain.repository.CategoryRepository;
 import me.wonwoo.domain.repository.PostRepository;
+import me.wonwoo.dto.CommentDto;
 import me.wonwoo.dto.PostDto;
 import me.wonwoo.service.PostService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -39,7 +41,7 @@ public class PostController {
   }
 
   @GetMapping("/{id}")
-  public String findByPost(@PathVariable Long id, Model model) {
+  public String findByPost(@PathVariable Long id, Model model , @ModelAttribute CommentDto commentDto) {
     model.addAttribute("post", postRepository.findOne(id));
     return "post";
   }

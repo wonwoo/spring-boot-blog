@@ -28,6 +28,9 @@ public class User implements Serializable {
   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
   private List<Post> post = new ArrayList<>();
 
+  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+  private List<Comment> comments = new ArrayList<>();
+
   @Column
   @Lob
   private String bio;

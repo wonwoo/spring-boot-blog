@@ -5,13 +5,13 @@ import me.wonwoo.domain.model.Category;
 import me.wonwoo.domain.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-/**
- * Created by wonwoo on 2016. 8. 24..
- */
 @Service
 @Transactional
 @RequiredArgsConstructor
+/**
+ * Created by wonwoo on 2016. 8. 24..
+ */
+
 public class CategoryService {
 
   private final CategoryRepository categoryRepository;

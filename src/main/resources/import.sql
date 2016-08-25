@@ -6,3 +6,6 @@ insert into category(ID, NAME, REG_DATE) values(3, 'markdown', CURRENT_TIMESTAMP
 
 insert into post(ID, TITLE, CONTENT, REG_DATE, USER_ID,CATEGORY_ID) values(1, '테스트', '지금 포스팅은 테스트 포스팅 입니다.', CURRENT_TIMESTAMP(), 1, 1);
 insert into post(ID, TITLE, CONTENT, REG_DATE, USER_ID,CATEGORY_ID) values(2, 'markdown', '<h1>An h1 header</h1><pf>Paragraphs are separated by a blank line.</p><p>2nd paragraph. <em>Italic</em>, <strong>bold</strong>, and <code>monospace</code>. Itemized listslook like:</p><ul><li>this one</li><li>that one</li><li>the other one</li></ul>', CURRENT_TIMESTAMP(), 1, 3);
+
+insert into comment(ID, CONTENT, REG_DATE, POST_ID, USER_ID) values(1, '테스트 댓글', CURRENT_TIMESTAMP(), 1, 1);
+insert into comment(ID, CONTENT, REG_DATE, POST_ID, USER_ID) values(2, 'markdown 댓글', CURRENT_TIMESTAMP(), 2, 1);
