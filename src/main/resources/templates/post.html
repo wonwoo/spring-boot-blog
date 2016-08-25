@@ -88,7 +88,7 @@
                     <ul class="media-list comments" th:each="comment : ${post.comments}">
                         <li class="media">
                             <a class="pull-left" href="#">
-                                <img class="media-object img-circle img-thumbnail" src="http://snipplicious.com/images/guest.png" width="64" alt="Generic placeholder image" />
+                                <img class="media-object img-circle img-thumbnail" th:src="${comment.user.avatarUrl}" src="http://snipplicious.com/images/guest.png" width="64" alt="Generic placeholder image" />
                             </a>
                             <div class="media-body">
                                 <h5 class="media-heading pull-left" th:text="${comment.user.github}">loneswan</h5>
