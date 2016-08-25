@@ -59,8 +59,9 @@ public class PostController {
     Post post = new Post(createPost.getTitle(),
                         createPost.getContent(),
                         new Category(createPost.getCategoryId() == null ? 1L : createPost.getCategoryId()),user);
-    model.addAttribute("post", postService.createPost(post));
-    return "post";
+    Post newPost = postService.createPost(post);
+    model.addAttribute("post", newPost);
+    return "redirect:/posts/" +  newPost.getId();
 
   }
 }
