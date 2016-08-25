@@ -77,18 +77,6 @@ public class SpringBootBlogApplication {
 		}
 
 	}
-    @Bean
-    public DataSource dataSource() throws URISyntaxException {
-        URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
-        String username = dbUri.getUserInfo().split(":")[0];
-        String password = dbUri.getUserInfo().split(":")[1];
-        String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
-		HikariDataSource basicDataSource = new HikariDataSource();
-		basicDataSource.setJdbcUrl(dbUrl);
-        basicDataSource.setUsername(username);
-        basicDataSource.setPassword(password);
-        return basicDataSource;
-    }
 
 	@Bean
 	public Java8TimeDialect java8TimeDialect() {
