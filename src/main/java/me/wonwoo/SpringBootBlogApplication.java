@@ -1,15 +1,7 @@
 package me.wonwoo;
 
-import com.zaxxer.hikari.HikariDataSource;
 import lombok.RequiredArgsConstructor;
-import me.wonwoo.domain.model.Category;
-import me.wonwoo.domain.model.Post;
-import me.wonwoo.domain.model.User;
-import me.wonwoo.domain.repository.CategoryRepository;
-import me.wonwoo.domain.repository.PostRepository;
-import me.wonwoo.domain.repository.UserRepository;
 import me.wonwoo.security.GitProperties;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -28,12 +20,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 
-import javax.sql.DataSource;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Collections;
 
 @SpringBootApplication
