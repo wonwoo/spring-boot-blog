@@ -33,11 +33,14 @@ public class DataSourceConfig {
     @Bean
     public DataSource dataSource() throws URISyntaxException {
         URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
+        System.out.println(dbUri);
+        System.out.println(dbUri.getHost() + dbUri.getPath());
         String username = dbUri.getUserInfo().split(":")[0];
         String password = dbUri.getUserInfo().split(":")[1];
         String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
         HikariDataSource basicDataSource = new HikariDataSource();
         basicDataSource.setJdbcUrl(dbUrl);
+        System.out.println(dbUrl);
         basicDataSource.setUsername(username);
         basicDataSource.setPassword(password);
         return basicDataSource;
