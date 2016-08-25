@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="layouts/main">
+      layout:decorator="layouts/main" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
 
@@ -14,7 +14,48 @@
 
     <link rel="stylesheet" href="/markdown/css/github-gist.css" />
 </head>
+<style>
+    .comments .media-heading {
+        margin-top: 25px;
+    }
 
+    .comments .comment-info {
+        margin-left: 6px;
+        margin-top: 21px;
+    }
+
+    .comments .comment-info .btn {
+        font-size: 0.8em;
+    }
+
+    .comments .comment-info .fa {
+        line-height: 10px;
+    }
+
+    .comments .media-body p {
+        position: relative;
+        background: #F7F7F7;
+        padding: 15px;
+        margin-top: 50px;
+    }
+
+    .comments .media-body p::before {
+        background-color: #F7F7F7;
+        box-shadow: -2px 2px 2px 0 rgba( 178, 178, 178, .4 );
+        content: "\00a0";
+        display: block;
+        height: 30px;
+        left: 20px;
+        position: absolute;
+        top: -13px;
+        transform: rotate( 135deg );
+        width:  30px;
+    }
+
+    .white {
+        color: #fff;
+    }
+</style>
 <body>
 
 <!-- Post Content -->
@@ -24,7 +65,40 @@
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" th:utext="${post.content}">
             </div>
         </div>
+        <div class="row" style="padding-top: 100px;">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h4 id="addComment">Leave a Comment:</h4>
+                <div class="well" sec:authorize="hasRole('ROLE_USER')">
+                    <input type="text" class="form-control input-lg" id="content" name="content"
+                           placeholder="content"/>
+                    <ul class="pager" style="text-align:right;" >
+                        <li class="next">
+                            <button  type="submit" class="btn btn-primary">Submit</button>
+                        </li>
+                    </ul>
+
+                    <p class="well" sec:authorize="!hasRole('ROLE_USER')">Please <a th:href="@{/login}">sign in</a> to add comments!</p>
+                </div>
+
+                <ul class="media-list comments">
+                    <li class="media">
+                        <a class="pull-left" href="#">
+                            <img class="media-object img-circle img-thumbnail" src="http://snipplicious.com/images/guest.png" width="64" alt="Generic placeholder image" />
+                        </a>
+                        <div class="media-body">
+                            <h5 class="media-heading pull-left">loneswan</h5>
+                            <div class="comment-info pull-left">
+                                <div class="btn-default btn-xs"><i class="fa fa-clock-o"></i> Posted 3 weeks ago</div>
+                            </div>
+
+                            <p class="well">This is really awesome snippet!</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
+
 </article>
 </body>
 </html>
