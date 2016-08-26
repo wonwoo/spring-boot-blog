@@ -13,7 +13,7 @@
     <title>Clean Blog - Sample Post</title>
 
     <link rel="stylesheet" href="/markdown/css/github-gist.css" />
-</head>
+
 <style>
     .comments .media-heading {
         margin-top: 25px;
@@ -56,6 +56,15 @@
         color: #fff;
     }
 </style>
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    function deleteComment(postId, commentId){
+        document.getElementById("deleteComment").action = "/comments/"+postId + "/" + commentId;
+        document.getElementById("deleteComment").submit();
+    }
+    /*]]>*/
+</script>
+</head>
 <body>
 
 <!-- Post Content -->
@@ -65,28 +74,29 @@
             <div class="col-lg-12 col-lg-offset-0 col-md-10 col-md-offset-1" th:utext="${post.content}">
             </div>
         </div>
-        <form  th:action="@{/comments}"
-              th:object="${commentDto}" method="post" th:id="comment">
-            <input type="hidden" th:value="${post.id}" id="postId" name="postId"/>
-            <div class="row" style="padding-top: 100px;">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <h4 id="addComment">Leave a Comment:</h4>
+
+        <div class="row" style="padding-top: 100px;">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h4 id="addComment">Leave a Comment:</h4>
+                <form  th:action="@{/comments}"
+                       th:object="${commentDto}" method="post" th:id="comment">
+                    <input type="hidden" th:value="${post.id}" id="postId" name="postId"/>
                     <div class="well" sec:authorize="hasRole('ROLE_USER')">
-                        <input type="text" class="form-control input-lg" id="content" name="content"
-                               placeholder="content"/>
-                        <span class="help-block" th:if="${#fields.hasErrors('content')}"
-                              th:errors="*{content}"></span>
-                        <ul class="pager" style="text-align:right;" >
-                            <li class="next">
-                                <button  type="submit" class="btn btn-primary">Submit</button>
-                            </li>
-                        </ul>
+                    <input type="text" class="form-control input-lg" id="content" name="content"
+                           placeholder="content"/>
+                    <span class="help-block" th:if="${#fields.hasErrors('content')}"
+                          th:errors="*{content}"></span>
+                    <ul class="pager" style="text-align:right;" >
+                        <li class="next">
+                            <button  type="submit" class="btn btn-primary">Submit</button>
+                        </li>
+                    </ul>
 
-                        <p class="well" sec:authorize="!hasRole('ROLE_USER')">Please <a th:href="@{/login}">sign in</a> to add comments!</p>
-                    </div>
-
+                    <p class="well" sec:authorize="!hasRole('ROLE_USER')">Please <a th:href="@{/login}">sign in</a> to add comments!</p>
+                </div>
+                </form>
+                <form th:object="${commentDto}" th:action="@{/}" method="post" th:id="deleteComment">
                     <ul class="media-list comments" th:each="comment : ${post.comments}">
-
                         <li class="media">
                             <a class="pull-left" href="#">
                                 <img class="media-object img-circle img-thumbnail" th:src="${comment.user.avatarUrl}" src="http://snipplicious.com/images/guest.png" width="64" alt="Generic placeholder image" />
@@ -96,14 +106,14 @@
                                 <div class="comment-info pull-left">
                                     <div class="btn-default btn-xs" th:text="${#temporals.format(comment.regDate, 'yyyy-MM-dd')}"><i class="fa fa-clock-o"></i> Posted 3 weeks ago</div>
                                 </div>
-                                <span sec:authorize="hasRole('ROLE_USER')" th:if="${#authentication.principal.github == comment.user.github}"  class="glyphicon glyphicon-remove" ></span>
+                                <span style="top: 18px;" th:onclick="'deleteComment(\'' + ${comment.post.id} + '\', \'' + ${comment.id} + '\');'" sec:authorize="hasRole('ROLE_USER')" th:if="${#authentication.principal.github == comment.user.github}"  class="glyphicon glyphicon-remove" ></span>
                                 <p class="well" th:text="${comment.content}">This is really awesome snippet!</p>
                             </div>
                         </li>
                     </ul>
-                </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 
 </article>
