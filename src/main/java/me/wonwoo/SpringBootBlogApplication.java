@@ -1,9 +1,9 @@
 package me.wonwoo;
 
-import lombok.RequiredArgsConstructor;
 import me.wonwoo.security.GitProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.cache.JCacheManagerCustomizer;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
@@ -20,12 +20,14 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 
+import javax.cache.configuration.MutableConfiguration;
+import javax.cache.expiry.CreatedExpiryPolicy;
+import javax.cache.expiry.Duration;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 
 @SpringBootApplication
-@RequiredArgsConstructor
 @EntityScan(basePackageClasses = {SpringBootBlogApplication.class, Jsr310JpaConverters.class })
 @EnableConfigurationProperties(GitProperties.class)
 @EnableJpaAuditing
@@ -36,6 +38,21 @@ public class SpringBootBlogApplication {
 		SpringApplication.run(SpringBootBlogApplication.class, args);
 	}
 
+
+	@Bean
+	public JCacheManagerCustomizer cacheManagerCustomizer() {
+		return cm -> {
+			cm.createCache("spring.blog.category", initConfiguration(Duration.ONE_MINUTE));
+			cm.createCache("github.user", initConfiguration(Duration.ONE_HOUR));
+		};
+	}
+
+	private MutableConfiguration<Object, Object> initConfiguration(Duration duration) {
+		return new MutableConfiguration<>()
+				.setStoreByValue(false)
+				.setStatisticsEnabled(true)
+				.setExpiryPolicyFactory(CreatedExpiryPolicy.factoryOf(duration));
+	}
 
 	@Bean
 	public RestTemplate restTemplate(GitProperties gitProperties) {

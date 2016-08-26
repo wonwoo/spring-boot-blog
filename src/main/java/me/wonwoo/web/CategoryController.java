@@ -5,6 +5,7 @@ import me.wonwoo.domain.model.Category;
 import me.wonwoo.domain.repository.CategoryRepository;
 import me.wonwoo.dto.CategoryDto;
 import me.wonwoo.service.CategoryService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +27,7 @@ public class CategoryController {
 
   @GetMapping
   public String categories(Pageable pageable, Model model) {
-    model.addAttribute("categories", categoryRepository.findAll(pageable));
+    model.addAttribute("categories", categoryService.findAll(pageable));
     return "category/list";
   }
 

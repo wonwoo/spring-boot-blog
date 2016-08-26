@@ -9,6 +9,7 @@ import me.wonwoo.domain.repository.CategoryRepository;
 import me.wonwoo.domain.repository.PostRepository;
 import me.wonwoo.dto.CommentDto;
 import me.wonwoo.dto.PostDto;
+import me.wonwoo.service.CategoryService;
 import me.wonwoo.service.PostService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -33,11 +34,11 @@ public class PostController {
 
   private final PostService postService;
 
-  private final CategoryRepository categoryRepository;
+  private final CategoryService categoryService;
 
   @ModelAttribute("categories")
   public List<Category> categories(){
-    return categoryRepository.findAll();
+    return categoryService.findAll();
   }
 
   @GetMapping("/{id}")
