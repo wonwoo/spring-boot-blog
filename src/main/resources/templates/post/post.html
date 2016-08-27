@@ -70,11 +70,15 @@
 <!-- Post Content -->
 <article>
     <div class="container" layout:fragment="content">
+        <ul class="pager" sec:authorize="hasRole('ROLE_ADMIN')">
+            <li class="next">
+                <a th:href="@{'/posts/edit/' + ${post.id}}">edit</a>
+            </li>
+        </ul>
         <div class="row">
             <div class="col-lg-12 col-lg-offset-0 col-md-10 col-md-offset-1" th:utext="${post.content}">
             </div>
         </div>
-
         <div class="row" style="padding-top: 100px;">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <h4 id="addComment">Leave a Comment:</h4>

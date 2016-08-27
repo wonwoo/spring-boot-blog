@@ -2,25 +2,25 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Markdown Editor</title>
-    <script src="/markdown/js/markdown-it.js"></script>
-    <script src="/markdown/js/markdown-it-footnote.js"></script>
-    <script src="/markdown/js/highlight.pack.js"></script>
-    <script src="/markdown/js/emojify.js"></script>
-    <script src="/codemirror/lib/codemirror.js"></script>
-    <script src="/codemirror/overlay.js"></script>
-    <script src="/codemirror/xml/xml.js"></script>
-    <script src="/codemirror/markdown/markdown.js"></script>
-    <script src="/codemirror/gfm/gfm.js"></script>
-    <script src="/codemirror/javascript/javascript.js"></script>
-    <script src="/codemirror/css/css.js"></script>
-    <script src="/codemirror/htmlmixed/htmlmixed.js"></script>
-    <script src="/codemirror/lib/util/continuelist.js"></script>
-    <script src="/markdown/js/rawinflate.js"></script>
-    <script src="/markdown/js/rawdeflate.js"></script>
-    <link rel="stylesheet" href="/markdown/css/base16-light.css"/>
-    <link rel="stylesheet" href="/codemirror/lib/codemirror.css"/>
-    <link rel="stylesheet" href="/markdown/css/github-gist.css"/>
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <script th:src="@{/markdown/js/markdown-it.js}"></script>
+    <script th:src="@{/markdown/js/markdown-it-footnote.js}"></script>
+    <script th:src="@{/markdown/js/highlight.pack.js}"></script>
+    <script th:src="@{/markdown/js/emojify.js}"></script>
+    <script th:src="@{/codemirror/lib/codemirror.js}"></script>
+    <script th:src="@{/codemirror/overlay.js}"></script>
+    <script th:src="@{/codemirror/xml/xml.js}"></script>
+    <script th:src="@{/codemirror/markdown/markdown.js}"></script>
+    <script th:src="@{/codemirror/gfm/gfm.js}"></script>
+    <script th:src="@{/codemirror/javascript/javascript.js}"></script>
+    <script th:src="@{/codemirror/css/css.js}"></script>
+    <script th:src="@{/codemirror/htmlmixed/htmlmixed.js}"></script>
+    <script th:src="@{/codemirror/lib/util/continuelist.js}"></script>
+    <script th:src="@{/markdown/js/rawinflate.js}"></script>
+    <script th:src="@{/markdown/js/rawdeflate.js}"></script>
+    <link rel="stylesheet" th:href="@{/markdown/css/base16-light.css}"/>
+    <link rel="stylesheet" th:href="@{/codemirror/lib/codemirror.css}"/>
+    <link rel="stylesheet" th:href="@{/markdown/css/github-gist.css}"/>
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
     <style>
         body {
             margin: 0;
@@ -313,7 +313,7 @@
 </head>
 <body>
 <form class="form-horizontal well bs-component col-lg-10 col-lg-offset-1" th:action="@{/posts}"
-      th:object="${createPost}" method="post" th:id="post">
+      th:object="${editPost}" method="post" th:id="post">
     <fieldset>
         <div class="form-group" th:classappend="(${#fields.hasErrors('title')}? ' has-error')">
             <label for="title" class="col-lg-2 control-label">Title</label>
@@ -339,7 +339,9 @@
 
         <div id="in">
             <input type="hidden" id="content" name="content" th:field="*{content}"/>
-            <input type="hidden" id="code" th:field="*{code}" />
+            <input type="hidden" id="code" th:field="*{code}" >
+
+            </input>
         </div>
         <div id="out" >
         </div>

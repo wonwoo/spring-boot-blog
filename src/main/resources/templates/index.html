@@ -12,7 +12,7 @@
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
             <ul class="pager" sec:authorize="hasRole('ROLE_ADMIN')">
                 <li class="next">
-                    <a th:href="@{/posts}">write</a>
+                    <a th:href="@{/posts/new}">write</a>
                 </li>
             </ul>
             <div class="post-preview" th:each="post : ${posts.content}">
