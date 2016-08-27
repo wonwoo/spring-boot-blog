@@ -35,7 +35,7 @@ public class CommentController {
     @PostMapping
     public String createComment(@ModelAttribute @Valid CommentDto commentDto, BindingResult bindingResult, @AuthenticationPrincipal User user, Model model){
         if(bindingResult.hasErrors()){
-            return "post";
+            return "post/post";
         }
         model.addAttribute("comment",commentService.createComment(
                 new Comment(commentDto.getContent(),

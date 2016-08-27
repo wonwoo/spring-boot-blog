@@ -44,18 +44,18 @@ public class PostController {
   @GetMapping("/{id}")
   public String findByPost(@PathVariable Long id, Model model , @ModelAttribute CommentDto commentDto) {
     model.addAttribute("post", postRepository.findOne(id));
-    return "post";
+    return "post/post";
   }
 
   @GetMapping
   public String post(PostDto.CreatePost createPost) {
-    return "markdown";
+    return "post/markdown";
   }
 
   @PostMapping
   public String createPost(@ModelAttribute @Valid PostDto.CreatePost createPost, BindingResult bindingResult, @AuthenticationPrincipal User user, Model model) {
     if(bindingResult.hasErrors()){
-      return "markdown";
+      return "post/markdown";
     }
     Post post = new Post(createPost.getTitle(),
                         createPost.getContent(),
