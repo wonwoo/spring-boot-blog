@@ -9,7 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Created by wonwoo on 2016. 8. 15..
  */
 public interface PostRepository extends JpaRepository<Post, Long> {
-  Page<Post> findByYn(String ym, Pageable pageable);
-
   Post findByIdAndYn(Long id, String yn);
 }
