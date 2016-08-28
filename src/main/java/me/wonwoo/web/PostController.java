@@ -49,7 +49,7 @@ public class PostController {
   }
 
   @GetMapping("/new")
-  public String newPost(PostDto.CreatePost createPost) {
+  public String newPost(PostDto postDto) {
     return "post/new";
   }
 
@@ -59,7 +59,7 @@ public class PostController {
     if(post == null){
       throw new NotFoundException(id + " not found");
     }
-    PostDto.CreatePost createPost = new PostDto.CreatePost();
+    PostDto createPost = new PostDto();
 
     createPost.setCategoryId(post.getCategory().getId());
     createPost.setCategoryName(post.getCategory().getName());
@@ -72,7 +72,7 @@ public class PostController {
   }
 
   @PostMapping
-  public String createPost(@ModelAttribute @Valid PostDto.CreatePost createPost, BindingResult bindingResult, @AuthenticationPrincipal User user, Model model) {
+  public String createPost(@ModelAttribute @Valid PostDto createPost, BindingResult bindingResult, @AuthenticationPrincipal User user, Model model) {
     if(bindingResult.hasErrors()){
       return "post/new";
     }
@@ -87,7 +87,7 @@ public class PostController {
   }
 
   @PostMapping("/{id}/edit")
-  public String modifyPost(@PathVariable Long id, @ModelAttribute("editPost") @Valid PostDto.CreatePost createPost, BindingResult bindingResult,@AuthenticationPrincipal User user) {
+  public String modifyPost(@PathVariable Long id, @ModelAttribute("editPost") @Valid PostDto createPost, BindingResult bindingResult,@AuthenticationPrincipal User user) {
     if(bindingResult.hasErrors()){
       return "post/edit";
     }
