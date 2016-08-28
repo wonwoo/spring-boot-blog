@@ -329,10 +329,10 @@
             <label class="col-lg-2 control-label">categories</label>
             <div class="btn-group" data-toggle="buttons" th:each="category : ${categories}">
                 <label class="btn btn-primary active">
-                    <input name="categoryId" type="radio" th:text="${category.name}"  th:value="${category.id}" />
-
+                    <input th:onclick="'changeCategory(this)'" name="categoryId" type="radio" th:text="${category.name}"  th:value="${category.id}" />
                 </label>
             </div>
+
             <span class="help-block" style="text-align: center;" th:if="${#fields.hasErrors('categoryId')}"
                   th:errors="*{categoryId}">Incorrect title</span>
         </div>
@@ -353,6 +353,11 @@
 </form>
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
+
+    function changeCategory(obj){
+        alert(obj.text);
+    }
+
     var URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
     navigator.saveBlob = navigator.saveBlob || navigator.msSaveBlob || navigator.mozSaveBlob || navigator.webkitSaveBlob;
     window.saveAs = window.saveAs || window.webkitSaveAs || window.mozSaveAs || window.msSaveAs;

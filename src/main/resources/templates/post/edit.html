@@ -329,7 +329,7 @@
             <label class="col-lg-2 control-label">categories</label>
             <div class="btn-group" data-toggle="buttons" th:each="category : ${categories}">
                 <label class="btn btn-primary active">
-                    <input name="categoryId" type="radio" th:text="${category.name}" th:value="${category.id}" />
+                    <input name="categoryId" type="radio" th:checked="checked" th:text="${category.name}" th:value="${category.id}" />
 
                 </label>
             </div>

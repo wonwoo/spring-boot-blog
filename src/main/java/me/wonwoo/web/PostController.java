@@ -7,6 +7,7 @@ import me.wonwoo.domain.model.User;
 import me.wonwoo.domain.repository.PostRepository;
 import me.wonwoo.dto.CommentDto;
 import me.wonwoo.dto.PostDto;
+import me.wonwoo.exception.NotFoundException;
 import me.wonwoo.service.CategoryService;
 import me.wonwoo.service.PostService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -39,7 +40,11 @@ public class PostController {
 
   @GetMapping("/{id}")
   public String findByPost(@PathVariable Long id, Model model , @ModelAttribute CommentDto commentDto) {
-    model.addAttribute("post", postRepository.findOne(id));
+    Post post = postRepository.findOne(id);
+    if(post == null){
+      throw new NotFoundException(id + " not found");
+    }
+    model.addAttribute("post", post);
     return "post/post";
   }
 
@@ -51,6 +56,9 @@ public class PostController {
   @GetMapping("/edit/{id}")
   public String editPost(@PathVariable Long id, Model model) {
     Post post = postRepository.findOne(id);
+    if(post == null){
+      throw new NotFoundException(id + " not found");
+    }
     PostDto.CreatePost createPost = new PostDto.CreatePost();
 
     createPost.setCategoryId(post.getCategory().getId());
