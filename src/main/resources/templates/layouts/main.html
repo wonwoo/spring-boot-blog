@@ -132,7 +132,11 @@
 
 <!-- Theme JavaScript -->
 <script th:src="@{/js/clean-blog.min.js}"></script>
-
+<script>
+    function postSearch(){
+        location.href='?q='+ document.getElementById("q").value;
+    }
+</script>
 </body>
 
 </html>

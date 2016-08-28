@@ -55,6 +55,10 @@ public class Post {
   public Post(Long id){
     this.id = id;
   }
+  public Post(String title,String yn){
+    this.title = title;
+    this.yn = yn;
+  }
 
   public Post(String title, String content, String code, String yn, Category category, User user){
     this.title = title;
