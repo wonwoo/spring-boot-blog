@@ -329,14 +329,19 @@
             <label class="col-lg-2 control-label">categories</label>
             <div class="btn-group" data-toggle="buttons" th:each="category : ${categories}">
                 <label class="btn btn-primary active">
-                    <input name="categoryId" type="radio" th:checked="checked" th:text="${category.name}" th:value="${category.id}" />
+                    <input th:onclick="'changeCategory(\'' + ${category.name} + '\')'" name="categoryId" type="radio" th:checked="checked" th:text="${category.name}" th:value="${category.id}" />
 
                 </label>
             </div>
             <span class="help-block" style="text-align: center;" th:if="${#fields.hasErrors('categoryId')}"
                   th:errors="*{categoryId}">Incorrect title</span>
         </div>
-
+        <div class="form-group">
+            <label class="col-lg-2 control-label">category</label>
+            <div class="col-lg-10">
+                <input type="text" class="form-control" id="categoryName" th:field="*{categoryName}" disabled="disabled"/>
+            </div>
+        </div>
         <div id="in">
             <input type="hidden" id="content" name="content" th:field="*{content}"/>
             <input type="hidden" id="code" th:field="*{code}" >
@@ -356,6 +361,10 @@
 </form>
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
+
+    function changeCategory(name){
+        document.getElementById("categoryName").value = name;
+    }
 
     function deletePost(postId){
         document.getElementById("post").action = "/posts/"+postId +"/delete";

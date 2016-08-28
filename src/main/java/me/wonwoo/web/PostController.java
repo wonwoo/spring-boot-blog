@@ -62,6 +62,7 @@ public class PostController {
     PostDto.CreatePost createPost = new PostDto.CreatePost();
 
     createPost.setCategoryId(post.getCategory().getId());
+    createPost.setCategoryName(post.getCategory().getName());
     createPost.setTitle(post.getTitle());
     createPost.setCode(post.getCode());
     createPost.setContent(post.getContent());

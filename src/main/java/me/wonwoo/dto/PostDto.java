@@ -20,6 +20,8 @@ public class PostDto {
     @NotNull
     private Long categoryId;
 
+    private String categoryName;
+
     private String code;
   }
 }
