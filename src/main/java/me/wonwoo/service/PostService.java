@@ -3,6 +3,7 @@ package me.wonwoo.service;
 import lombok.RequiredArgsConstructor;
 import me.wonwoo.domain.model.Post;
 import me.wonwoo.domain.repository.PostRepository;
+import me.wonwoo.exception.InvalidParametErexception;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,4 +20,24 @@ public class PostService {
     return postRepository.save(post);
   }
 
+  public Post udpatePost(Long id, Post post) {
+    Post oldPost = postRepository.getOne(id);
+    if(oldPost == null){
+      throw new InvalidParametErexception(id + " not found");
+    }
+
+    oldPost.setContent(post.getContent());
+    oldPost.setCode(post.getCode());
+    oldPost.setTitle(post.getTitle());
+    oldPost.setCategory(post.getCategory());
+    return oldPost;
+  }
+
+  public void deletePost(Long id) {
+    Post oldPost = postRepository.getOne(id);
+    if(oldPost == null){
+      throw new InvalidParametErexception(id + " not found");
+    }
+    oldPost.setYn("N");
+  }
 }

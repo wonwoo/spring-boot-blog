@@ -3,10 +3,10 @@ package me.wonwoo.exception;
 /**
  * Created by wonwoo on 2016. 8. 22..
  */
-public class invalidParametErexception extends RuntimeException {
+public class InvalidParametErexception extends RuntimeException {
   private final String message;
 
-  public invalidParametErexception(String message){
+  public InvalidParametErexception(String message){
     this.message = message;
   }
 

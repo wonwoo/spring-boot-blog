@@ -18,9 +18,9 @@ public class IndexController {
 
   private final PostRepository postRepository;
 
-  @GetMapping("/")
+  @GetMapping({"/", "index"})
   public String home(Model model, @PageableDefault(size = 5, sort = "regDate" ,direction = Sort.Direction.DESC)  Pageable pageable){
-    model.addAttribute("posts", postRepository.findAll(pageable));
+    model.addAttribute("posts", postRepository.findByYn("Y",pageable));
     return "index";
   }
 

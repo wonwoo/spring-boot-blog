@@ -57,10 +57,10 @@ public class PostController {
     createPost.setTitle(post.getTitle());
     createPost.setCode(post.getCode());
     createPost.setContent(post.getContent());
+    createPost.setId(id);
     model.addAttribute("editPost", createPost);
     return "post/edit";
   }
-
 
   @PostMapping
   public String createPost(@ModelAttribute @Valid PostDto.CreatePost createPost, BindingResult bindingResult, @AuthenticationPrincipal User user, Model model) {
@@ -68,11 +68,34 @@ public class PostController {
       return "post/new";
     }
     Post post = new Post(createPost.getTitle(),
-                        createPost.getContent(),
-                        createPost.getCode(),
-                        new Category(createPost.getCategoryId() == null ? 1L : createPost.getCategoryId()),user);
+      createPost.getContent(),
+      createPost.getCode(),
+      "Y",
+      new Category(createPost.getCategoryId() == null ? 1L : createPost.getCategoryId()),user);
     Post newPost = postService.createPost(post);
     model.addAttribute("post", newPost);
     return "redirect:/posts/" +  newPost.getId();
+  }
+
+  @PostMapping("/{id}/edit")
+  public String modifyPost(@PathVariable Long id, @ModelAttribute("editPost") @Valid PostDto.CreatePost createPost, BindingResult bindingResult,@AuthenticationPrincipal User user) {
+    if(bindingResult.hasErrors()){
+      return "post/edit";
+    }
+    postService.udpatePost(id, new Post(
+      createPost.getTitle(),
+        createPost.getContent(),
+        createPost.getCode(),
+      "Y",
+      new Category(createPost.getCategoryId()),
+      user
+    ));
+    return "redirect:/posts/" +  id;
+  }
+
+  @PostMapping("{id}/delete")
+  public String deletePost(@PathVariable Long id){
+    postService.deletePost(id);
+    return "redirect:/index";
   }
 }

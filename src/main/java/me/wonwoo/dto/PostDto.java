@@ -12,6 +12,7 @@ public class PostDto {
 
   @Data
   public static class CreatePost {
+    private Long id;
     @NotBlank
     private String title;
     @NotBlank

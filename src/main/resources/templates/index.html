@@ -27,7 +27,7 @@
             </div>
             <nav aria-label="Page navigation" style="text-align: center;">
             <!-- Pager -->
-                <ul class="pagination">
+                <ul class="pagination" th:if="${posts.totalPages != 0}">
                     <li th:class="${posts.number eq 0}?'disabled':''">
                         <a th:if="${posts.number eq 0}" href="javascript:void(0)" aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a>
                         <a th:unless="${posts.number eq 0}" th:href="@{__${#httpServletRequest.requestURI}__(page=${posts.number-1})}"  aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a>

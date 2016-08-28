@@ -1,5 +1,6 @@
 package me.wonwoo.domain.model;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
@@ -14,7 +15,7 @@ import java.util.List;
  * Created by wonwoo on 2016. 8. 15..
  */
 @Entity
-@Getter
+@Data
 @EntityListeners(value = AuditingEntityListener.class)
 public class Post {
 
@@ -31,6 +32,8 @@ public class Post {
 
   @Lob
   private String code;
+
+  private String yn;
 
   @CreatedDate
   private LocalDateTime regDate;
@@ -53,10 +56,11 @@ public class Post {
     this.id = id;
   }
 
-  public Post(String title, String content, String code, Category category, User user){
+  public Post(String title, String content, String code, String yn, Category category, User user){
     this.title = title;
     this.content = content;
     this.code = code;
+    this.yn = yn;
     this.category = category;
     this.user = user;
   }
