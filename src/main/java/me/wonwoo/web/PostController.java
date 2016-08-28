@@ -40,7 +40,7 @@ public class PostController {
 
   @GetMapping("/{id}")
   public String findByPost(@PathVariable Long id, Model model , @ModelAttribute CommentDto commentDto) {
-    Post post = postRepository.findOne(id);
+    Post post = postRepository.findByIdAndYn(id, "Y");
     if(post == null){
       throw new NotFoundException(id + " not found");
     }
@@ -55,7 +55,7 @@ public class PostController {
 
   @GetMapping("/edit/{id}")
   public String editPost(@PathVariable Long id, Model model) {
-    Post post = postRepository.findOne(id);
+    Post post = postRepository.findByIdAndYn(id, "Y");
     if(post == null){
       throw new NotFoundException(id + " not found");
     }

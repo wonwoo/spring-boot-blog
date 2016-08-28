@@ -21,7 +21,7 @@ public class PostService {
   }
 
   public Post udpatePost(Long id, Post post) {
-    Post oldPost = postRepository.getOne(id);
+    Post oldPost = postRepository.findByIdAndYn(id, "Y");
     if(oldPost == null){
       throw new NotFoundException(id + " not found");
     }
@@ -34,7 +34,7 @@ public class PostService {
   }
 
   public void deletePost(Long id) {
-    Post oldPost = postRepository.getOne(id);
+    Post oldPost = postRepository.findByIdAndYn(id, "Y");
     if(oldPost == null){
       throw new NotFoundException(id + " not found");
     }
