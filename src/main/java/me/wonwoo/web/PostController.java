@@ -105,6 +105,6 @@ public class PostController {
   @PostMapping("{id}/delete")
   public String deletePost(@PathVariable Long id){
     postService.deletePost(id);
-    return "redirect:/index";
+    return "redirect:/#/";
   }
 }
