@@ -133,6 +133,16 @@
 					<repoToken>Q4Yux4xYhDHtL0z43kx3EB0LqQVc0w7yx</repoToken>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<check>true</check>
+					<format>xml</format>
+					<aggregate>true</aggregate>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 </project>
