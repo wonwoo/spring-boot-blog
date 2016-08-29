@@ -11,7 +11,6 @@ public class SpringBootBlogApplicationTests {
 
 	@Test
 	public void contextLoads() {
-		assertThat("1").isEqualTo("1");
 	}
 
 }
