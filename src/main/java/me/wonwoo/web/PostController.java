@@ -1,6 +1,7 @@
 package me.wonwoo.web;
 
 import lombok.RequiredArgsConstructor;
+import me.wonwoo.config.PostProperties;
 import me.wonwoo.domain.model.Category;
 import me.wonwoo.domain.model.Post;
 import me.wonwoo.domain.model.User;
@@ -33,10 +34,18 @@ public class PostController {
 
   private final CategoryService categoryService;
 
+  private final PostProperties postProperties;
+
   @ModelAttribute("categories")
   public List<Category> categories(){
     return categoryService.findAll();
   }
+
+  @ModelAttribute("theme")
+  public String theme(){
+    return postProperties.getTheme();
+  }
+
 
   @GetMapping("/{id}")
   public String findByPost(@PathVariable Long id, Model model , @ModelAttribute CommentDto commentDto) {

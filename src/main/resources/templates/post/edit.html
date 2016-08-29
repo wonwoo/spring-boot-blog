@@ -13,7 +13,7 @@
     <script th:src="@{/markdown/js/rawdeflate.js}"></script>
     <link rel="stylesheet" th:href="@{/markdown/css/base16-light.css}"/>
     <link rel="stylesheet" th:href="@{/codemirror/lib/codemirror.css}"/>
-    <link rel="stylesheet" th:href="@{/markdown/css/github-gist.css}"/>
+    <link rel="stylesheet" th:href="@{'/markdown/css/' + ${theme} + '.css'}" />
     <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
     <style>
         body {

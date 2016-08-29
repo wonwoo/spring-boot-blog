@@ -12,7 +12,7 @@
 
     <title>Clean Blog - Sample Post</title>
 
-    <link rel="stylesheet" href="/markdown/css/github-gist.css" />
+    <link rel="stylesheet" th:href="@{'/markdown/css/' + ${theme} + '.css'}" />
 
 <style>
     .comments .media-heading {

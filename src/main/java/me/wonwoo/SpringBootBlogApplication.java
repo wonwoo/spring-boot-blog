@@ -1,5 +1,6 @@
 package me.wonwoo;
 
+import me.wonwoo.config.PostProperties;
 import me.wonwoo.security.GitProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -28,65 +29,65 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 
 @SpringBootApplication
-@EntityScan(basePackageClasses = {SpringBootBlogApplication.class, Jsr310JpaConverters.class })
-@EnableConfigurationProperties(GitProperties.class)
+@EntityScan(basePackageClasses = {SpringBootBlogApplication.class, Jsr310JpaConverters.class})
+@EnableConfigurationProperties({GitProperties.class, PostProperties.class})
 @EnableJpaAuditing
 @EnableCaching
 public class SpringBootBlogApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SpringBootBlogApplication.class, args);
-	}
+  public static void main(String[] args) {
+    SpringApplication.run(SpringBootBlogApplication.class, args);
+  }
 
 
-	@Bean
-	public JCacheManagerCustomizer cacheManagerCustomizer() {
-		return cm -> {
-			cm.createCache("spring.blog.category", initConfiguration(Duration.ONE_MINUTE));
-			cm.createCache("github.user", initConfiguration(Duration.ONE_HOUR));
-		};
-	}
+  @Bean
+  public JCacheManagerCustomizer cacheManagerCustomizer() {
+    return cm -> {
+      cm.createCache("spring.blog.category", initConfiguration(Duration.ONE_MINUTE));
+      cm.createCache("github.user", initConfiguration(Duration.ONE_HOUR));
+    };
+  }
 
-	private MutableConfiguration<Object, Object> initConfiguration(Duration duration) {
-		return new MutableConfiguration<>()
-				.setStoreByValue(false)
-				.setStatisticsEnabled(true)
-				.setExpiryPolicyFactory(CreatedExpiryPolicy.factoryOf(duration));
-	}
+  private MutableConfiguration<Object, Object> initConfiguration(Duration duration) {
+    return new MutableConfiguration<>()
+      .setStoreByValue(false)
+      .setStatisticsEnabled(true)
+      .setExpiryPolicyFactory(CreatedExpiryPolicy.factoryOf(duration));
+  }
 
-	@Bean
-	public RestTemplate restTemplate(GitProperties gitProperties) {
-		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.setInterceptors(Collections.singletonList(
-			new GithubAppTokenInterceptor(gitProperties.getGithub().getToken())));
-		return restTemplate;
-	}
+  @Bean
+  public RestTemplate restTemplate(GitProperties gitProperties) {
+    RestTemplate restTemplate = new RestTemplate();
+    restTemplate.setInterceptors(Collections.singletonList(
+      new GithubAppTokenInterceptor(gitProperties.getGithub().getToken())));
+    return restTemplate;
+  }
 
-	private static class GithubAppTokenInterceptor implements ClientHttpRequestInterceptor {
+  private static class GithubAppTokenInterceptor implements ClientHttpRequestInterceptor {
 
-		private final String token;
+    private final String token;
 
-		GithubAppTokenInterceptor(String token) {
-			this.token = token;
-		}
+    GithubAppTokenInterceptor(String token) {
+      this.token = token;
+    }
 
-		@Override
-		public ClientHttpResponse intercept(HttpRequest httpRequest, byte[] bytes,
-																				ClientHttpRequestExecution clientHttpRequestExecution) throws IOException {
-			if (StringUtils.hasText(this.token)) {
-				byte[] basicAuthValue = this.token.getBytes(StandardCharsets.UTF_8);
-				httpRequest.getHeaders().set(HttpHeaders.AUTHORIZATION,
-					"Basic " + Base64Utils.encodeToString(basicAuthValue));
-			}
-			return clientHttpRequestExecution.execute(httpRequest, bytes);
-		}
+    @Override
+    public ClientHttpResponse intercept(HttpRequest httpRequest, byte[] bytes,
+                                        ClientHttpRequestExecution clientHttpRequestExecution) throws IOException {
+      if (StringUtils.hasText(this.token)) {
+        byte[] basicAuthValue = this.token.getBytes(StandardCharsets.UTF_8);
+        httpRequest.getHeaders().set(HttpHeaders.AUTHORIZATION,
+          "Basic " + Base64Utils.encodeToString(basicAuthValue));
+      }
+      return clientHttpRequestExecution.execute(httpRequest, bytes);
+    }
 
-	}
+  }
 
-	@Bean
-	public Java8TimeDialect java8TimeDialect() {
-		return new Java8TimeDialect();
-	}
+  @Bean
+  public Java8TimeDialect java8TimeDialect() {
+    return new Java8TimeDialect();
+  }
 //
 //	//test data
 //	@Bean

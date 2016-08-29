@@ -4,6 +4,7 @@
       layout:decorator="layouts/main">
 <head>
     <title>index</title>
+    <link rel="stylesheet" th:href="@{'/markdown/css/' + ${theme} + '.css'}" />
 </head>
 <body>
 <!-- Main Content
@@ -15,7 +16,7 @@
         <input type="button" class="btn btn-secondary" value="search" th:onclick="'postSearch()'"/>
     </div>
     <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
             <ul class="pager" sec:authorize="hasRole('ROLE_ADMIN')">
                 <li class="next">
                     <a th:href="@{/posts/new}">write</a>
@@ -29,8 +30,19 @@
                     <!--Problems look mighty small from 150 miles up-->
                     <!--</h3>-->
                 </a>
-                <p class="post-meta">Posted by <strong th:text="${post.user.name}"></strong> on <strong th:text="${#temporals.format(post.regDate, 'yyyy-MM-dd')}"> </strong> category <strong th:text="${post.category.name}"></strong></p>
+                <p class="post-meta" style="margin: 10px 0px;">Posted by <strong th:text="${post.user.name}"></strong> on <strong th:text="${#temporals.format(post.regDate, 'yyyy-MM-dd')}"> </strong> category <strong th:text="${post.category.name}"></strong></p>
+                <div class="row" th:if="${show}">
+                    <div class="col-lg-10 col-lg-offset-0 col-md-10 col-md-offset-1" th:utext="${post.content}">
+
+                    </div>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                </div>
             </div>
+
             <nav aria-label="Page navigation" style="text-align: center;">
             <!-- Pager -->
                 <ul class="pagination" th:if="${posts.totalPages != 0}">
