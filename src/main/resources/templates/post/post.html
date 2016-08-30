@@ -88,18 +88,17 @@
                        th:object="${commentDto}" method="post" th:id="comment">
                     <input type="hidden" th:value="${post.id}" id="postId" name="postId"/>
                     <div class="well" sec:authorize="hasRole('ROLE_USER')">
-                    <input type="text" class="form-control input-lg" id="content" name="content"
-                           placeholder="content"/>
-                    <span class="help-block" th:if="${#fields.hasErrors('content')}"
-                          th:errors="*{content}"></span>
-                    <ul class="pager" style="text-align:right;" >
-                        <li class="next">
-                            <button  type="submit" class="btn btn-primary">Submit</button>
-                        </li>
-                    </ul>
-
+                        <input type="text" class="form-control input-lg" id="content" name="content"
+                               placeholder="content"/>
+                        <span class="help-block" th:if="${#fields.hasErrors('content')}"
+                              th:errors="*{content}"></span>
+                        <ul class="pager" style="text-align:right;" >
+                            <li class="next">
+                                <button  type="submit" class="btn btn-primary">Submit</button>
+                            </li>
+                        </ul>
+                    </div>
                     <p class="well" sec:authorize="!hasRole('ROLE_USER')">Please <a th:href="@{/login}">sign in</a> to add comments!</p>
-                </div>
                 </form>
                 <form th:object="${commentDto}" th:action="@{/}" method="post" th:id="deleteComment">
                     <ul class="media-list comments" th:each="comment : ${post.comments}">
