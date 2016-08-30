@@ -1,6 +1,7 @@
 package me.wonwoo.github;
 
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,10 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * Created by wonwoo on 2016. 8. 23..
@@ -29,12 +34,24 @@ public class GithubClient {
       String.format("https://api.github.com/users/%s", githubId)), GithubUser.class).getBody();
   }
 
+  @Cacheable("github.commits")
+  public List<Commit> getRecentCommits(String organization, String project) {
+    ResponseEntity<Commit[]> response = doGetRecentCommit(organization, project);
+    return Arrays.asList(response.getBody());
+  }
+
   private <T> ResponseEntity<T> invoke(RequestEntity<?> request, Class<T> type) {
     try {
       return this.restTemplate.exchange(request, type);
     } catch (RestClientException ex) {
       throw ex;
     }
+  }
+
+  private ResponseEntity<Commit[]> doGetRecentCommit(String organization, String project) {
+    String url = String.format(
+            "https://api.github.com/repos/%s/%s/commits", organization, project);
+    return invoke(createRequestEntity(url), Commit[].class);
   }
 
   private RequestEntity<?> createRequestEntity(String url) {
