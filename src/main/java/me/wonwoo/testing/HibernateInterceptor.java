@@ -25,7 +25,11 @@ public class HibernateInterceptor implements StatementInspector {
 
   @Override
   public String inspect(String sql) {
-    queryCount.get().getCount().addAndGet(1);
+    Counter counter = queryCount.get();
+    if(counter != null){
+      AtomicLong count = counter.getCount();
+      count.addAndGet(1);
+    }
     return sql;
   }
 }
