@@ -1,15 +1,3 @@
-/*
- * ****************************************************************************
- *
- *
- *  Copyright(c) 2015 Helloworld. All rights reserved.
- *
- *  This software is the proprietary information of Helloworld.
- *
- *
- * ***************************************************************************
- */
-
 package me.wonwoo.github.asciidoc;
 
 import java.io.Serializable;
@@ -21,57 +9,84 @@ import java.io.Serializable;
  * Time : 오후 6:33
  * desc :
  */
+@SuppressWarnings("serial")
 public class GitHubRepo implements Serializable {
 
-    private final long id;
+  private long id;
 
-    private final String url;
+  private String url;
 
-    private final String htmlUrl;
+  private String htmlUrl;
 
-    private final String cloneUrl;
+  private String cloneUrl;
 
-    private final String gitUrl;
+  private String gitUrl;
 
-    private final String sshUrl;
+  private String sshUrl;
 
-    private final String svnUrl;
+  private String svnUrl;
 
-    public GitHubRepo(long id, String url, String htmlUrl, String cloneUrl, String gitUrl, String sshUrl,
-                      String svnUrl) {
-        this.id = id;
-        this.url = url;
-        this.htmlUrl = htmlUrl;
-        this.cloneUrl = cloneUrl;
-        this.gitUrl = gitUrl;
-        this.sshUrl = sshUrl;
-        this.svnUrl = svnUrl;
-    }
+  public GitHubRepo() {
 
-    private String name;
+  }
 
-    private String description;
+  public GitHubRepo(long id, String url, String htmlUrl, String cloneUrl, String gitUrl, String sshUrl,
+                    String svnUrl) {
+    this.id = id;
+    this.url = url;
+    this.htmlUrl = htmlUrl;
+    this.cloneUrl = cloneUrl;
+    this.gitUrl = gitUrl;
+    this.sshUrl = sshUrl;
+    this.svnUrl = svnUrl;
+  }
 
-    public long getId() { return id; }
+  private String name;
 
-    public String getUrl() { return url; }
+  private String description;
 
-    public String getHtmlUrl() { return htmlUrl; }
+  public long getId() {
+    return id;
+  }
 
-    public String getCloneUrl() { return cloneUrl; }
+  public String getUrl() {
+    return url;
+  }
 
-    public String getGitUrl() { return gitUrl; }
+  public String getHtmlUrl() {
+    return htmlUrl;
+  }
 
-    public String getSshUrl() { return sshUrl; }
+  public String getCloneUrl() {
+    return cloneUrl;
+  }
 
-    public String getSvnUrl() { return svnUrl; }
+  public String getGitUrl() {
+    return gitUrl;
+  }
 
-    public String getName() { return name; }
+  public String getSshUrl() {
+    return sshUrl;
+  }
 
-    public void setName(String name) { this.name = name; }
+  public String getSvnUrl() {
+    return svnUrl;
+  }
 
-    public String getDescription() { return description; }
+  public String getName() {
+    return name;
+  }
 
-    public void setDescription(String description) { this.description = description; }
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
 }

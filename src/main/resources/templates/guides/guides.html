@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/main">
+<head>
+    <title>index</title>
+</head>
+<body>
+<!-- Main Content -->
+<div class="container" layout:fragment="content">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>title</th>
+            <th>subtitle</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="guide,index : ${guides}">
+            <th scope="row" th:text="${index.count}"></th>
+            <td><a th:text="${guide.title}" th:href="@{'/guides/' + ${guide.guideId}}"></a></td>
+            <td th:text="${guide.subtitle}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

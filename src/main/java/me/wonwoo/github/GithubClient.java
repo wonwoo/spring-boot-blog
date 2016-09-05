@@ -1,5 +1,6 @@
 package me.wonwoo.github;
 
+import me.wonwoo.github.asciidoc.GitHubRepo;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -67,6 +68,18 @@ public class GithubClient {
     String url = String.format(
             "https://api.github.com/%s", path);
     return invoke(createRequestEntity(url),String.class).getBody();
+  }
+
+  public GitHubRepo sendRequestForGithub(String path) {
+    String url = String.format(
+      "https://api.github.com/%s", path);
+    return invoke(createRequestEntity(url),GitHubRepo.class).getBody();
+  }
+
+  public GitHubRepo[] sendRequestForGithubs(String path) {
+    String url = String.format(
+      "https://api.github.com/%s", path);
+    return invoke(createRequestEntity(url),GitHubRepo[].class).getBody();
   }
 
   public byte[] sendRequestForDownload(String path) {
