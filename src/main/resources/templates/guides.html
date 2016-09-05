@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorator="layouts/main">
+
+<head>
+    <title>Clean Blog - About</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/gsguide.css}"/>
+
+</head>
+
+
+<body th:onload="'initPrettify()'">
+<!-- Main Content -->
+<div class="container" layout:fragment="content">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" th:utext="${asciidocGuide.content}">
+
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

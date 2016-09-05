@@ -44,6 +44,7 @@ public class SpringBootBlogApplication {
   public JCacheManagerCustomizer cacheManagerCustomizer() {
     return cm -> {
       cm.createCache("github.commits", initConfiguration(Duration.ONE_MINUTE));
+      cm.createCache("spring.guides", initConfiguration(Duration.ONE_DAY));
       cm.createCache("spring.blog.category", initConfiguration(Duration.ONE_MINUTE));
       cm.createCache("github.user", initConfiguration(Duration.ONE_HOUR));
     };

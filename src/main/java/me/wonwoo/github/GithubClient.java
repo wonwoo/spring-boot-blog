@@ -62,4 +62,16 @@ public class GithubClient {
       throw new IllegalStateException("Invalid URL " + url, ex);
     }
   }
+
+  public String sendRequestForJson(String path) {
+    String url = String.format(
+            "https://api.github.com/%s", path);
+    return invoke(createRequestEntity(url),String.class).getBody();
+  }
+
+  public byte[] sendRequestForDownload(String path) {
+    String url = String.format(
+            "https://api.github.com/%s", path);
+    return invoke(createRequestEntity(url), byte[].class).getBody();
+  }
 }
