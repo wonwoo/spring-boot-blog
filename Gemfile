@@ -1,1 +1,6 @@
-ruby '1.9.3', :engine => 'jruby', :engine_version => '1.7.16'
+source 'https://rubygems.org'
+
+gem "puma"
+gem "actionpack", "~> 3.2"
+gem "railties",   "~> 3.2"
+gem "tzinfo"
