@@ -74,7 +74,6 @@ public class GuideOrganization {
     }
   }
 
-  @Cacheable("spring.guides")
   public AsciidocGuide getAsciidocGuide(String path) {
     final String htmlContent;
     final Map<String, List<String>> frontMatter;
@@ -239,7 +238,6 @@ public class GuideOrganization {
   }
 
   //
-  @Cacheable("spring.guide")
   public GitHubRepo[] findAllRepositories() {
 //        return gitHub.sendRequestForJson("/{type}/{name}/repos?per_page=100", type, name);
     return gitHub.sendRequestForGithubs(type + "/" + name + "/repos?per_page=100");
