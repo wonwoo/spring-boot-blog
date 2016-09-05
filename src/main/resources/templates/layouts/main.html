@@ -144,6 +144,8 @@
         location.href='?q='+ document.getElementById("q").value;
     }
 
+//    var storage = storageProvider();
+
     function initPrettify() {
 
         var plan = {
@@ -163,6 +165,77 @@
         }.bind(plan));
 
         return plan;
+    }
+
+    var body = $('body');
+    var container = $('.container');
+
+    var relatedElementMap = {
+        "reveal-gradle":'#scratch',
+        "reveal-maven":'#use-maven',
+        "reveal-sts":'#use-sts',
+        "use-gradle":'#reveal-gradle',
+        "use-maven":'#reveal-maven',
+        "use-sts":'#reveal-sts'
+    };
+
+    function initHideShowGuide() {
+        var plan = {
+            ready: ready,
+            destroy: function() {
+                container.off('click', '.use-gradle h2, .use-maven h2, .use-sts h2', hideBuildSteps);
+                container.off('click', '.reveal-gradle', revealGradle);
+                container.off('click', '.reveal-maven', revealMaven);
+                container.off('click', '.reveal-sts', revealSTS);
+            }
+        }
+
+        function ready () {
+            registerBuildSwitches();
+        }
+
+        $(ready);
+
+        return plan;
+    }
+
+    function revealGradle(e) {
+        reveal('gradle', e);
+    }
+
+    function revealMaven(e) {
+        reveal('maven', e);
+    }
+
+    function revealSTS(e) {
+        reveal('sts', e);
+    }
+
+    function reveal(cls, e) {
+        hideBuildSteps();
+        body.addClass('show-' + cls);
+
+        if (e !== undefined) {
+            for (var k in relatedElementMap) {
+                if ($(e.currentTarget).hasClass(k)) {
+                    $(relatedElementMap[k]).each(function(i, el){el.scrollIntoView(true);});
+                    break;
+                }
+            }
+        }
+
+    }
+
+    function hideBuildSteps() {
+        body.removeClass('show-gradle show-maven show-sts');
+    }
+
+    function registerBuildSwitches() {
+        container.on('click', '.use-gradle h2, .use-maven h2, .use-sts h2', hideBuildSteps);
+
+        container.on('click', '.reveal-gradle', revealGradle);
+        container.on('click', '.reveal-maven', revealMaven);
+        container.on('click', '.reveal-sts', revealSTS);
     }
 </script>
 </body>
