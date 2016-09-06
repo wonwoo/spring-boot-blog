@@ -19,6 +19,7 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.util.Base64Utils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
+import org.thymeleaf.dialect.springdata.SpringDataDialect;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 
 import javax.cache.configuration.MutableConfiguration;
@@ -44,6 +45,7 @@ public class SpringBootBlogApplication {
   public JCacheManagerCustomizer cacheManagerCustomizer() {
     return cm -> {
       cm.createCache("github.commits", initConfiguration(Duration.ONE_MINUTE));
+      cm.createCache("wp.posts", initConfiguration(Duration.ONE_DAY));
       cm.createCache("spring.gss", initConfiguration(Duration.ONE_DAY));
       cm.createCache("spring.gs", initConfiguration(Duration.ONE_DAY));
       cm.createCache("spring.tuts", initConfiguration(Duration.ONE_DAY));
@@ -91,5 +93,10 @@ public class SpringBootBlogApplication {
   @Bean
   public Java8TimeDialect java8TimeDialect() {
     return new Java8TimeDialect();
+  }
+
+  @Bean
+  public SpringDataDialect springDataDialect() {
+    return new SpringDataDialect();
   }
 }
