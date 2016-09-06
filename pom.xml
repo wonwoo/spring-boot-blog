@@ -150,49 +150,23 @@
         <!--<artifactId>caffeine</artifactId>-->
         <!--</dependency>-->
     </dependencies>
-    <repositories>
-        <repository>
-            <id>rubygems-release</id>
-            <url>http://rubygems-proxy.torquebox.org/releases</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>rubygems-releases</id>
-            <url>http://rubygems-proxy.torquebox.org/releases</url>
-        </pluginRepository>
-    </pluginRepositories>
-
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <groupId>de.saumya.mojo</groupId>
-                <artifactId>gem-maven-plugin</artifactId>
-                <version>1.1.5</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <phase>compile</phase>
-                        <configuration>
-                            <execArgs>${project.build.directory}/rubygems/bin/compass compile ${basedir}/src/main/webapp/resources/sass</execArgs>
-                        </configuration>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>rubygems</groupId>
-                        <artifactId>compass</artifactId>
-                        <version>0.12.2</version>
-                        <type>gem</type>
-                    </dependency>
-                </dependencies>
+                <configuration>
+                    <requiresUnpack>
+                        <dependency>
+                            <groupId>org.jruby</groupId>
+                            <artifactId>jruby-complete</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.asciidoctor</groupId>
+                            <artifactId>asciidoctorj</artifactId>
+                        </dependency>
+                    </requiresUnpack>
+                </configuration>
             </plugin>
         </plugins>
     </build>
