@@ -11,6 +11,9 @@ import org.springframework.web.client.RestClientException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static me.wonwoo.web.SpringGuidesController.GS;
+import static me.wonwoo.web.SpringTutController.TUT;
+
 /**
  * Created by wonwoo on 2016. 9. 5..
  */
@@ -26,20 +29,34 @@ public class GuidesService {
   private static final String REPO_BASE_PATH = "repos/%s/%s";
   private static final String README_PATH_ASC = REPO_BASE_PATH + "/zipball";
 
-  @Cacheable("spring.guides")
+  @Cacheable("spring.gss")
   public List<GuideMetadata> findAllMetadata() {
+    String prefix = "gs-";
+    return invokeMap(org.findRepositoriesByPrefix(prefix), prefix);
+  }
 
-    return org.findRepositoriesByPrefix("gs-")
+  public List<GuideMetadata> invokeMap(List<GitHubRepo> gitHubRepos, String prefix) {
+    return gitHubRepos
       .stream()
-      .map(repo -> new DefaultGuideMetadata(org.getName(), repo.getName().replaceAll("^" + "gs-", ""),
+      .map(repo -> new DefaultGuideMetadata(org.getName(), repo.getName().replaceAll("^" + prefix, ""),
         repo.getName(), repo.getDescription(), new HashSet<>(tagMultimap.getOrDefault(repo
         .getName(), Collections.emptyList()))))
       .collect(Collectors.toList());
   }
+  @Cacheable("spring.tuts")
+  public List<GuideMetadata> findTutAllMetadata() {
+    String prefix = "tut-";
+    return invokeMap(org.findRepositoriesByPrefix(prefix), prefix);
+  }
 
-  @Cacheable("spring.guide")
-  public GettingStartedGuide find(String tutorial) {
-    return populate(create(findMetadata(tutorial)));
+  @Cacheable("spring.gs")
+  public GettingStartedGuide findGs(String tutorial) {
+    return populate(create(findMetadata(tutorial, GS)));
+  }
+
+  @Cacheable("spring.tut")
+  public GettingStartedGuide findTut(String tutorial) {
+    return populate(create(findMetadata(tutorial, TUT)));
   }
 
   private GettingStartedGuide create(GuideMetadata metadata) {
@@ -61,8 +78,8 @@ public class GuidesService {
     return tutorial;
   }
 
-  public GuideMetadata findMetadata(String tutorial) {
-    String repoName = "gs-" + tutorial;
+  public GuideMetadata findMetadata(String tutorial, String type) {
+    String repoName = type + "-" + tutorial;
     String description = getRepoDescription(repoName);
     Set<String> tags = tagMultimap.get(repoName) != null ? new HashSet<>(tagMultimap.get(repoName))
       : Collections.emptySet();

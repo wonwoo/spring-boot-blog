@@ -32,6 +32,9 @@ public class SpringGuidesController {
   private final PostProperties postProperties;
   private final GuidesService guidesService;
 
+  public static final String GS = "gs";
+
+
   @ModelAttribute("theme")
   public String theme() {
     return postProperties.getTheme();
@@ -40,14 +43,16 @@ public class SpringGuidesController {
 
   @GetMapping("/{project}")
   public String guide(Model model, @PathVariable String project) {
-    GettingStartedGuide guide = guidesService.find(project);
+    GettingStartedGuide guide = guidesService.findGs(project);
     model.addAttribute("guide", guide);
     return "guides/guide";
   }
 
+
   @GetMapping
   public String guides(Model model) {
     model.addAttribute("guides", guidesService.findAllMetadata());
+    model.addAttribute("type", GS);
     return "guides/guides";
   }
 }

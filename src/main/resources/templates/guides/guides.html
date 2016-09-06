@@ -18,7 +18,8 @@
         <tbody>
         <tr th:each="guide,index : ${guides}">
             <th scope="row" th:text="${index.count}"></th>
-            <td><a th:text="${guide.title}" th:href="@{'/guides/' + ${guide.guideId}}"></a></td>
+            <td th:if="${type eq 'gs'}"><a th:text="${guide.title}" th:href="@{'/guides/' + ${guide.guideId}}"></a></td>
+            <td th:unless="${type eq 'gs'}" ><a th:text="${guide.title}" th:href="@{'/tut/' + ${guide.guideId}}"></a></td>
             <td th:text="${guide.subtitle}"></td>
         </tr>
         </tbody>
