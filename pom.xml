@@ -24,6 +24,9 @@
         <java.version>1.8</java.version>
         <!--<thymeleaf.version>3.0.0.RELEASE</thymeleaf.version>-->
         <!--<thymeleaf-layout-dialect.version>2.0.0</thymeleaf-layout-dialect.version>-->
+        <root.dir>${basedir}</root.dir>
+        <gem.home>${root.dir}/target/rubygems</gem.home>
+        <gem.path>${root.dir}/target/rubygems</gem.path>
     </properties>
 
     <dependencies>
@@ -130,7 +133,7 @@
         <dependency>
             <groupId>org.jruby</groupId>
             <artifactId>jruby-complete</artifactId>
-            <version>9.1.1.0</version>
+            <version>9.1.2.0</version>
         </dependency>
         <dependency>
             <groupId>commons-lang</groupId>
@@ -148,11 +151,35 @@
         <!--</dependency>-->
     </dependencies>
 
+    <pluginRepositories>
+        <pluginRepository>
+            <id>rubygems-releases</id>
+            <url>http://rubygems-proxy.torquebox.org/releases</url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>de.saumya.mojo</groupId>
+                <artifactId>gem-maven-plugin</artifactId>
+                <version>1.1.5</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <phase>compile</phase>
+                        <configuration>
+                            <execArgs>${project.build.directory}/rubygems/bin/compass compile ${basedir}/src/main/webapp/resources/sass</execArgs>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
