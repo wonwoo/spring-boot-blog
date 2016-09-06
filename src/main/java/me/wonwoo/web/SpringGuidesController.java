@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/guides")
 @RequiredArgsConstructor
+@Navigation(Section.GUIDES)
 public class SpringGuidesController {
 
   private final PostProperties postProperties;

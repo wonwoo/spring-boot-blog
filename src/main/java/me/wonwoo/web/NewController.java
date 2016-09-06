@@ -37,6 +37,7 @@ import java.util.stream.Stream;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/news")
+@Navigation(Section.NEWS)
 public class NewController {
 
     private final GithubClient githubClient;

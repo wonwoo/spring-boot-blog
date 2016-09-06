@@ -15,10 +15,10 @@ body {
   z-index: 700;
 }
 
-.container-fluid {
-  max-width: 1024px;
-  margin: 0 auto;
-}
+/*.container-fluid {*/
+  /*max-width: 1024px;*/
+  /*margin: 0 auto;*/
+/*}*/
 
 .title-divider {
   width: 75%;

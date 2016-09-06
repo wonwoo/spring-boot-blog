@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/tut")
+@Navigation(Section.TUTORIAL)
 public class SpringTutController {
   private final GuidesService guidesService;
   public static final String TUT = "tut";

@@ -22,6 +22,7 @@ import static org.springframework.data.domain.ExampleMatcher.matching;
  */
 @Controller
 @RequiredArgsConstructor
+@Navigation(Section.HOME)
 public class IndexController {
 
   private final PostRepository postRepository;
@@ -41,15 +42,5 @@ public class IndexController {
     model.addAttribute("posts", postRepository.findAll(post, pageable));
     model.addAttribute("show", postProperties.isFull());
     return "index";
-  }
-
-  @GetMapping("/about")
-  public String about() {
-    return "about";
-  }
-
-  @GetMapping("/contact")
-  public String contact() {
-    return "contact";
   }
 }

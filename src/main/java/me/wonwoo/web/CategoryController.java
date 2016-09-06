@@ -20,6 +20,7 @@ import javax.validation.Valid;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/categories")
+@Navigation(Section.CATEGORY)
 public class CategoryController {
 
   private final CategoryRepository categoryRepository;

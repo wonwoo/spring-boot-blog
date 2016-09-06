@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/wordPress")
+@Navigation(Section.WORDPRESS)
 public class WordPressController {
 
   private final WordPressClient wordPressClient;
@@ -28,9 +29,10 @@ public class WordPressController {
     return "wordpress/wordPresses";
   }
 
-  @GetMapping("test")
-  @ResponseBody
-  public Page<WordPress> findAll(@PageableDefault(size = 3) Pageable pageable) {
-    return wordPressClient.findAll(pageable);
-  }
+  //TODO 검새 추가 및 단건? 단건은 일단 보류
+//  @GetMapping("test")
+//  @ResponseBody
+//  public Page<WordPress> findAll(@PageableDefault(size = 3) Pageable pageable) {
+//    return wordPressClient.findAll(pageable);
+//  }
 }

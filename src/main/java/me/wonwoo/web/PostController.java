@@ -26,6 +26,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/posts")
+@Navigation(Section.POST)
 public class PostController {
 
   private final PostRepository postRepository;
