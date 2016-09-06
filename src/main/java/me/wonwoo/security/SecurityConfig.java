@@ -1,5 +1,6 @@
 package me.wonwoo.security;
 
+import lombok.RequiredArgsConstructor;
 import me.wonwoo.domain.model.User;
 import me.wonwoo.domain.repository.UserRepository;
 import me.wonwoo.github.GithubClient;
@@ -21,15 +22,12 @@ import org.springframework.security.core.authority.AuthorityUtils;
  */
 @Configuration
 @EnableOAuth2Sso
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 
     private final GitProperties gitProperties;
-
-    public SecurityConfig(GitProperties gitProperties) {
-        this.gitProperties = gitProperties;
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -39,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/posts/**").hasRole("ADMIN")
                 .antMatchers("/categories/**").hasRole("ADMIN")
                 .antMatchers("/news/**").hasRole("ADMIN")
-                .antMatchers("/about", "/contact", "/guides").permitAll()
+                .antMatchers("/about", "/contact", "/guides/**").permitAll()
                 .antMatchers("/", "/js/**", "/vendor/**", "/codemirror/**", "/markdown/**", "/login/**", "/css/**", "/img/**", "/webjars/**").permitAll()
                 .anyRequest().authenticated()
                 .and()

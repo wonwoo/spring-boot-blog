@@ -155,13 +155,19 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
             <plugin>
-                <groupId>de.saumya.mojo</groupId>
-                <artifactId>gem-maven-plugin</artifactId>
-                <version>1.1.5</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
                 <executions>
                     <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
                         <goals>
-                            <goal>initialize</goal>
+                            <goal>single</goal>
                         </goals>
                     </execution>
                 </executions>
