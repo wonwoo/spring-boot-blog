@@ -150,7 +150,12 @@
         <!--<artifactId>caffeine</artifactId>-->
         <!--</dependency>-->
     </dependencies>
-
+    <repositories>
+        <repository>
+            <id>rubygems-release</id>
+            <url>http://rubygems-proxy.torquebox.org/releases</url>
+        </repository>
+    </repositories>
     <pluginRepositories>
         <pluginRepository>
             <id>rubygems-releases</id>
@@ -180,6 +185,14 @@
                         </configuration>
                     </execution>
                 </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>rubygems</groupId>
+                        <artifactId>compass</artifactId>
+                        <version>0.12.2</version>
+                        <type>gem</type>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
