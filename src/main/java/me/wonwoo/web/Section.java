@@ -9,6 +9,7 @@ public enum Section {
   TUTORIAL("Spring Tutorial"),
   NEWS("News"),
   POST("Post"),
+  GITHUB("GitHub Page"),
   WORDPRESS("WordPress"),
   CATEGORY("Category");
 

@@ -150,6 +150,15 @@
             <artifactId>snakeyaml</artifactId>
             <version>1.17</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.pegdown/pegdown -->
+        <dependency>
+            <groupId>org.pegdown</groupId>
+            <artifactId>pegdown</artifactId>
+            <version>1.6.0</version>
+        </dependency>
+
+
         <!--<dependency>-->
         <!--<groupId>com.github.ben-manes.caffeine</groupId>-->
         <!--<artifactId>caffeine</artifactId>-->
