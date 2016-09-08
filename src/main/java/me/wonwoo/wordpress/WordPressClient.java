@@ -22,10 +22,10 @@ public class WordPressClient extends Client {
   }
 
   @Cacheable("wp.posts")
-  public Page<WordPress> findAll(Pageable pageable) {
+  public Page<WordPress> findAll(Pageable pageable, String q) {
     String url = String.format(
-      WP_API + MY_SITE + "posts?number=%s&page=%s&fields=ID,content,title",
-      pageable.getPageSize(), pageable.getPageNumber() + 1);
+      WP_API + MY_SITE + "posts?number=%s&page=%s&search=%s&fields=ID,content,title",
+      pageable.getPageSize(), pageable.getPageNumber() + 1, q);
     WordPresses body = invoke(createRequestEntity(url), WordPresses.class).getBody();
     return new PageImpl<>(body.getPosts(), pageable, body.getFound());
   }

@@ -44,13 +44,14 @@ public class SpringBootBlogApplication {
   @Bean
   public JCacheManagerCustomizer cacheManagerCustomizer() {
     return cm -> {
-      cm.createCache("github.commits", initConfiguration(Duration.ONE_MINUTE));
       cm.createCache("wp.posts", initConfiguration(Duration.ONE_DAY));
       cm.createCache("spring.gss", initConfiguration(Duration.ONE_DAY));
       cm.createCache("spring.gs", initConfiguration(Duration.ONE_DAY));
       cm.createCache("spring.tuts", initConfiguration(Duration.ONE_DAY));
       cm.createCache("spring.tut", initConfiguration(Duration.ONE_DAY));
       cm.createCache("spring.blog.category", initConfiguration(Duration.ONE_MINUTE));
+      cm.createCache("github.commits", initConfiguration(Duration.ONE_MINUTE));
+      cm.createCache("github.page", initConfiguration(Duration.ONE_DAY));
       cm.createCache("github.user", initConfiguration(Duration.ONE_HOUR));
     };
   }

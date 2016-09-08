@@ -28,7 +28,11 @@ public class GithubPageController {
     @GetMapping
     public String githubPages(Model model){
         List<GithubPage> githubPages = Arrays.asList(githubClient.sendRequest("repos/wonwoo/github/contents/_post", GithubPage[].class));
-        model.addAttribute("githubPages", githubPages.stream().peek(githubPage -> githubPage.setName(githubPage.getName().replace(".md", ""))).collect(toList()));
+        model.addAttribute("githubPages", githubPages
+          .stream()
+          .filter(githubPage -> githubPage.getName().contains(".md"))
+          .peek(githubPage -> githubPage.setName(githubPage.getName().replace(".md", "")))
+          .collect(toList()));
         return "github/list";
     }
 

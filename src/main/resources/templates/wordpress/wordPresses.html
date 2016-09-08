@@ -9,7 +9,11 @@
 <body th:onload="'initPrettify(),initHideShowGuide()'">
 <!-- Main Content -->
 <div class="container" layout:fragment="content">
-    <div class="row listingblock" th:each="wordPress : ${wordPresses.content}">
+    <div class="col-lg-3 col-lg-offset-9">
+        <input type="text" class="form-control" id="q" name="q"/>
+        <input type="button" class="btn btn-secondary" value="search" onclick="location.href='/wordPress?q=' + document.getElementById('q').value" />
+    </div>
+    <div class="row" th:each="wordPress : ${wordPresses.content}">
         <h1 class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" style="margin-bottom:3%; margin-top: 5%"
             th:utext="${wordPress.title}">
         </h1>
