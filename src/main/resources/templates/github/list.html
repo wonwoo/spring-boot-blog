@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/main">
+<head>
+    <title>index</title>
+</head>
+<body>
+<!-- Main Content -->
+<div class="container" layout:fragment="content">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="githubPage,index : ${githubPages}">
+            <th scope="row" th:text="${index.count}"></th>
+            <td><a th:text="${githubPage.name}" th:href="@{'/github/page/' + ${githubPage.name}}"></a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
