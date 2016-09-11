@@ -6,13 +6,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestOperations;
 
 
-/**
- * Created by Helloworld
- * User : wonwoo
- * Date : 2016-09-05
- * Time : 오후 2:09
- * desc :
- */
 //@Component
 //public class CachedRestClient {
 //

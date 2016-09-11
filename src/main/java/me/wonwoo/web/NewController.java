@@ -1,15 +1,3 @@
-/*
- * ****************************************************************************
- *
- *
- *  Copyright(c) 2015 Helloworld. All rights reserved.
- *
- *  This software is the proprietary information of Helloworld.
- *
- *
- * ***************************************************************************
- */
-
 package me.wonwoo.web;
 
 import lombok.RequiredArgsConstructor;
@@ -27,13 +15,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-/**
- * Created by Helloworld
- * User : wonwoo
- * Date : 2016-08-30
- * Time : 오후 3:30
- * desc :
- */
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/news")

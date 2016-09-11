@@ -6,13 +6,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by Helloworld
- * User : wonwoo
- * Date : 2016-09-05
- * Time : 오후 6:35
- * desc :
- */
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
 public class DefaultGuideMetadata implements GuideMetadata {
 

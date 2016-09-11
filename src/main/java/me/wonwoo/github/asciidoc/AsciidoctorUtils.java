@@ -6,13 +6,6 @@ import org.springframework.web.client.RestClientException;
 
 import java.util.Collections;
 
-/**
- * Created by Helloworld
- * User : wonwoo
- * Date : 2016-09-05
- * Time : 오후 1:59
- * desc :
- */
 public class AsciidoctorUtils {
     private static final Log log = LogFactory.getLog(AsciidoctorUtils.class);
 

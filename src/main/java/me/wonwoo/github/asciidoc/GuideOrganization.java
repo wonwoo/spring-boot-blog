@@ -25,13 +25,6 @@ import java.util.zip.ZipFile;
 
 import org.yaml.snakeyaml.Yaml;
 
-/**
- * Created by Helloworld
- * User : wonwoo
- * Date : 2016-09-05
- * Time : 오후 2:02
- * desc :
- */
 @Component
 public class GuideOrganization {
 
