@@ -54,28 +54,20 @@ public class GithubClient extends Client {
   }
 
   public String sendRequestForJson(String path) {
-    String url = String.format(
-      GIT_HUB_URL + "/%s", path);
-    return invoke(createRequestEntity(url), String.class).getBody();
+    return sendRequest(path, String.class);
   }
 
 
   public GitHubRepo sendRequestForGithub(String path) {
-    String url = String.format(
-      GIT_HUB_URL + "/%s", path);
-    return invoke(createRequestEntity(url), GitHubRepo.class).getBody();
+    return sendRequest(path, GitHubRepo.class);
   }
 
   public GitHubRepo[] sendRequestForGithubs(String path) {
-    String url = String.format(
-      GIT_HUB_URL + "/%s", path);
-    return invoke(createRequestEntity(url), GitHubRepo[].class).getBody();
+    return sendRequest(path, GitHubRepo[].class);
   }
 
   public byte[] sendRequestForDownload(String path) {
-    String url = String.format(
-      GIT_HUB_URL + "/%s", path);
-    return invoke(createRequestEntity(url), byte[].class).getBody();
+    return sendRequest(path, byte[].class);
   }
 
   public <T> T sendRequest(String path, Class<T> clazz) {
