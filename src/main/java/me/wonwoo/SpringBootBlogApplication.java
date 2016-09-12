@@ -20,7 +20,6 @@ import org.springframework.util.Base64Utils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.thymeleaf.dialect.springdata.SpringDataDialect;
-import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 
 import javax.cache.configuration.MutableConfiguration;
 import javax.cache.expiry.CreatedExpiryPolicy;
@@ -89,11 +88,6 @@ public class SpringBootBlogApplication {
       }
       return clientHttpRequestExecution.execute(httpRequest, bytes);
     }
-  }
-
-  @Bean
-  public Java8TimeDialect java8TimeDialect() {
-    return new Java8TimeDialect();
   }
 
   @Bean
