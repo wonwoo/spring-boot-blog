@@ -7,6 +7,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriUtils;
+
+import java.io.UnsupportedEncodingException;
+import java.util.Collections;
 
 /**
  * Created by wonwoo on 2016. 9. 6..
@@ -23,10 +27,15 @@ public class WordPressClient extends Client {
 
   @Cacheable("wp.posts")
   public Page<WordPress> findAll(Pageable pageable, String q) {
-    String url = String.format(
-      WP_API + MY_SITE + "posts?number=%s&page=%s&search=%s&fields=ID,content,title",
-      pageable.getPageSize(), pageable.getPageNumber() + 1, q);
-    WordPresses body = invoke(createRequestEntity(url), WordPresses.class).getBody();
+      String url;
+      try {
+          url = String.format(
+            WP_API + MY_SITE + "posts?number=%s&page=%s&search=%s&fields=ID,content,title",
+            pageable.getPageSize(), pageable.getPageNumber() + 1, UriUtils.encode(q, "UTF-8"));
+      } catch (UnsupportedEncodingException e) {
+           return new PageImpl<>(Collections.emptyList(), pageable, 0);
+      }
+      WordPresses body = invoke(createRequestEntity(url), WordPresses.class).getBody();
     return new PageImpl<>(body.getPosts(), pageable, body.getFound());
   }
 }
