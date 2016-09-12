@@ -17,13 +17,6 @@ import org.springframework.web.client.RestClientException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * Created by Helloworld
- * User : wonwoo
- * Date : 2016-09-05
- * Time : 오후 5:00
- * desc :
- */
 @Controller
 @RequestMapping("/guides")
 @RequiredArgsConstructor

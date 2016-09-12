@@ -1,15 +1,3 @@
-/*
- * ****************************************************************************
- *
- *
- *  Copyright(c) 2015 Helloworld. All rights reserved.
- *
- *  This software is the proprietary information of Helloworld.
- *
- *
- * ***************************************************************************
- */
-
 package me.wonwoo.github;
 
 import com.fasterxml.jackson.core.JsonParser;
@@ -21,13 +9,6 @@ import org.springframework.boot.jackson.JsonObjectDeserializer;
 import java.io.IOException;
 import java.time.Instant;
 
-/**
- * Created by Helloworld
- * User : wonwoo
- * Date : 2016-08-30
- * Time : 오후 3:32
- * desc :
- */
 public class CommitDeserializer extends JsonObjectDeserializer<Commit> {
 
     @Override

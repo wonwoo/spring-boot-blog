@@ -1,15 +1,3 @@
-/*
- * ****************************************************************************
- *
- *
- *  Copyright(c) 2015 Helloworld. All rights reserved.
- *
- *  This software is the proprietary information of Helloworld.
- *
- *
- * ***************************************************************************
- */
-
 package me.wonwoo.github;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -17,13 +5,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.io.Serializable;
 import java.time.Instant;
 
-/**
- * Created by Helloworld
- * User : wonwoo
- * Date : 2016-08-30
- * Time : 오후 3:31
- * desc :
- */
 @JsonDeserialize(using = CommitDeserializer.class)
 @SuppressWarnings("serial")
 public class Commit implements Serializable {

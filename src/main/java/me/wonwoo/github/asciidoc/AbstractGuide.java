@@ -5,13 +5,7 @@ import org.springframework.util.Assert;
 
 import java.util.Set;
 
-/**
- * Created by Helloworld
- * User : wonwoo
- * Date : 2016-09-05
- * Time : 오후 6:16
- * desc :
- */
+
 public abstract class AbstractGuide implements Guide {
 
     private GuideMetadata metadata;

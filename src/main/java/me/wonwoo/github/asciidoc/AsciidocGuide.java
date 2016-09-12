@@ -3,13 +3,6 @@ package me.wonwoo.github.asciidoc;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Created by Helloworld
- * User : wonwoo
- * Date : 2016-09-05
- * Time : 오후 2:00
- * desc :
- */
 public class AsciidocGuide {
     private final String content;
     private final Set<String> tags;

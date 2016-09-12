@@ -1,12 +1,5 @@
 package me.wonwoo.github.asciidoc;
 
-/**
- * Created by Helloworld
- * User : wonwoo
- * Date : 2016-09-05
- * Time : 오후 2:18
- * desc :
- */
 public class RepoContent {
     private String name;
     private String path;

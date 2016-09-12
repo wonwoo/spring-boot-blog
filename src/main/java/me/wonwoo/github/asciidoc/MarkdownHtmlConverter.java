@@ -13,13 +13,6 @@ import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by Helloworld
- * User : wonwoo
- * Date : 2016-09-05
- * Time : 오후 2:41
- * desc :
- */
 public class MarkdownHtmlConverter implements HttpMessageConverter<MarkdownHtml> {
 
     public List<MediaType> getSupportedMediaTypes() {

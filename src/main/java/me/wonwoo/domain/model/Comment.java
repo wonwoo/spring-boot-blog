@@ -7,13 +7,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-/**
- * Created by Helloworld
- * User : wonwoo
- * Date : 2016-08-25
- * Time : 오후 1:01
- * desc :
- */
 @Entity
 @EntityListeners(value = AuditingEntityListener.class)
 @Getter
