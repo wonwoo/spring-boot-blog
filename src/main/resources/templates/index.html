@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorator="layouts/main">
+      layout:decorator="layouts/main" xmlns:sd="http://www.thymeleaf.org/spring-data">
 <head>
     <title>index</title>
     <link rel="stylesheet" th:href="@{'/markdown/css/' + ${theme} + '.css'}" />
@@ -38,26 +38,30 @@
                 </div>
             </div>
 
-            <nav aria-label="Page navigation" style="text-align: center;">
-            <!-- Pager -->
-                <ul class="pagination" th:if="${posts.totalPages != 0}">
-                    <li th:class="${posts.number eq 0}?'disabled':''">
-                        <a th:if="${posts.number eq 0}" href="javascript:void(0)" aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a>
-                        <a th:unless="${posts.number eq 0}" th:href="@{__${#httpServletRequest.requestURI}__(page=${posts.number-1})}"  aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a>
-                    </li>
-
-                    <li th:each="no:${#numbers.sequence(0, posts.totalPages-1)}" th:class="${posts.number eq no}?'active':''">
-                        <a th:href="@{__${#httpServletRequest.requestURI}__(page=${no})}" th:inline="text">[[${no+1}]]</a>
-                    </li>
-
-                    <li th:class="${posts.number+1 ge posts.totalPages}?'disabled':''">
-                        <a th:if="${posts.number+1 ge posts.totalPages}" href="javascript:void(0)"   aria-label='Next'><span aria-hidden='true'>&raquo;</span></a>
-                        <a th:unless="${posts.number+1 ge posts.totalPages}" th:href="@{__${#httpServletRequest.requestURI}__(page=${posts.number+1})}"  aria-label='Next'><span aria-hidden='true'>&raquo;</span></a>
-                    </li>
-                </ul>
-            </nav>
+            <div class="row" style="margin-top: 5%">
+                <div class="col-lg-4 col-lg-offset-0 col-md-10 col-md-offset-1">
+                    <div sd:pagination-summary="">info</div>
+                </div>
+                <div class="col-lg-6 col-lg-offset-0 col-md-10 col-md-offset-1">
+                    <nav class="pull-right">
+                        <ul class="pagination" sd:pagination="full">
+                            <!-- Pagination created by SpringDataDialect, this content is just for mockup -->
+                            <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                            <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
         </div>
     </div>
+    <th:block layout:fragment="script">
+        <script type="text/javascript" th:inline="javascript">
+            function postSearch(){
+                location.href='?q='+ document.getElementById("q").value;
+            }
+        </script>
+    </th:block>
+
 </div>
 </body>
 </html>
