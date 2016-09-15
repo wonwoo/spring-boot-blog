@@ -12,5 +12,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface PostRepository extends JpaRepository<Post, Long> {
   Post findByIdAndYn(Long id, String yn);
 
-  Page<Post> findByCategory(Category category, Pageable pageable);
+  Page<Post> findByCategoryAndYn(Category category, String y, Pageable pageable);
 }
