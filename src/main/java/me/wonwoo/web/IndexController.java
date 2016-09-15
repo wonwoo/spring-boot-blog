@@ -2,7 +2,9 @@ package me.wonwoo.web;
 
 import lombok.RequiredArgsConstructor;
 import me.wonwoo.config.PostProperties;
+import me.wonwoo.domain.model.Category;
 import me.wonwoo.domain.model.Post;
+import me.wonwoo.domain.repository.CategoryRepository;
 import me.wonwoo.domain.repository.PostRepository;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -14,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 import static org.springframework.data.domain.ExampleMatcher.matching;
 
@@ -27,10 +31,16 @@ public class IndexController {
 
   private final PostRepository postRepository;
   private final PostProperties postProperties;
+  private final CategoryRepository categoryRepository;
 
   @ModelAttribute("theme")
   public String theme(){
     return postProperties.getTheme();
+  }
+
+  @ModelAttribute("categories")
+  public List<Category> categories(){
+    return categoryRepository.findAll();
   }
 
   @GetMapping({"/", "index"})

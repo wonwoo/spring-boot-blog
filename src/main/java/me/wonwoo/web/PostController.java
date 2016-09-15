@@ -11,6 +11,9 @@ import me.wonwoo.dto.PostDto;
 import me.wonwoo.exception.NotFoundException;
 import me.wonwoo.service.CategoryService;
 import me.wonwoo.service.PostService;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 /**
  * Created by wonwoo on 2016. 8. 15..
@@ -112,9 +117,16 @@ public class PostController {
     return "redirect:/posts/" +  id;
   }
 
-  @PostMapping("{id}/delete")
+  @PostMapping("/{id}/delete")
   public String deletePost(@PathVariable Long id){
     postService.deletePost(id);
     return "redirect:/#/";
+  }
+
+  @GetMapping("/category/{id}")
+  public String categotyPost(Model model, @PathVariable Long id, @PageableDefault(size = 5, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable){
+    model.addAttribute("posts", postRepository.findByCategory(new Category(id), pageable));
+    model.addAttribute("show", postProperties.isFull());
+    return "index";
   }
 }
