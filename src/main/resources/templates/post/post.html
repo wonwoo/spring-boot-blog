@@ -75,8 +75,7 @@
         <div class="row" style="padding-top: 100px;">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <h4 id="addComment">Leave a Comment:</h4>
-                <form  th:action="@{/comments}"
-                       th:object="${commentDto}" method="post" th:id="comment">
+                <form th:action="@{/comments}" th:object="${commentDto}" method="post" th:id="comment">
                     <input type="hidden" th:value="${post.id}" id="postId" name="postId"/>
                     <div class="well" sec:authorize="hasRole('ROLE_USER')">
                         <input type="text" class="form-control input-lg" id="content" name="content"
