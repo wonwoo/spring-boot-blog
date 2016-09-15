@@ -2,20 +2,13 @@ package me.wonwoo.github;
 
 import me.wonwoo.client.Client;
 import me.wonwoo.github.asciidoc.GitHubRepo;
-import me.wonwoo.github.page.GithubPage;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.http.MediaType;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
-
-import static me.wonwoo.web.Section.GITHUB;
 
 /**
  * Created by wonwoo on 2016. 8. 23..

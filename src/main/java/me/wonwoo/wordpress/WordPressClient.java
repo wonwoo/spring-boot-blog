@@ -30,7 +30,7 @@ public class WordPressClient extends Client {
       String url;
       try {
           url = String.format(
-            WP_API + MY_SITE + "posts?number=%s&page=%s&search=%s&fields=ID,content,title",
+            WP_API + MY_SITE + "posts?number=%s&page=%s&search=%s&fields=ID,content,title,date,author",
             pageable.getPageSize(), pageable.getPageNumber() + 1, UriUtils.encode(q, "UTF-8"));
       } catch (UnsupportedEncodingException e) {
            return new PageImpl<>(Collections.emptyList(), pageable, 0);
