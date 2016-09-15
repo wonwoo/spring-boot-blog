@@ -125,7 +125,7 @@ public class PostController {
 
   @GetMapping("/category/{id}")
   public String categotyPost(Model model, @PathVariable Long id, @PageableDefault(size = 5, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable){
-    model.addAttribute("posts", postRepository.findByCategory(new Category(id), pageable));
+    model.addAttribute("posts", postRepository.findByCategoryAndYn(new Category(id), "Y", pageable));
     model.addAttribute("show", postProperties.isFull());
     return "index";
   }
