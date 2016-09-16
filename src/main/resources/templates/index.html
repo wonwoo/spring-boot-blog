@@ -9,7 +9,7 @@
     <style>
         @media (min-width: 1200px) {
             .container {
-                width: 970px;
+                width: 1100px;
             }
         }
         .blog-main {
@@ -69,7 +69,7 @@
                 </a>
                 <p class="post-meta" style="margin: 10px 0px;">Posted by <strong th:text="${post.user.name}"></strong> on <strong th:text="${#temporals.format(post.regDate, 'yyyy-MM-dd')}"> </strong> category <strong th:text="${post.category.name}"></strong></p>
                 <div class="row" th:if="${show}">
-                    <div style="margin-bottom:30px" th:utext="${post.content}">
+                    <div class="col-lg-10 col-lg-offset-0 col-md-10 col-md-offset-1" style="margin-bottom:30px" th:utext="${post.content}">
 
                     </div>
                 </div>
