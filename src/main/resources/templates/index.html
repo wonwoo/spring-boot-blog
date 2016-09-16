@@ -4,7 +4,8 @@
       layout:decorator="layouts/main" xmlns:sd="http://www.thymeleaf.org/spring-data">
 <head>
     <title>HOME</title>
-    <link rel="stylesheet" th:href="@{'/markdown/css/' + ${theme} + '.css'}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/gsguide.css}"/>
     <style>
         @media (min-width: 1200px) {
             .container {
@@ -33,7 +34,7 @@
         }
     </style>
 </head>
-<body>
+<body th:onload="'initPrettify()'">
 <!-- Main Content
 -->
 <div class="container" layout:fragment="content">

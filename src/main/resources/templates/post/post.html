@@ -4,7 +4,8 @@
 
 <head>
     <title>포스트</title>
-    <link rel="stylesheet" th:href="@{'/markdown/css/' + ${theme} + '.css'}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/gsguide.css}"/>
 <style>
     .comments .media-heading {
         margin-top: 25px;
@@ -56,7 +57,7 @@
     /*]]>*/
 </script>
 </head>
-<body>
+<body th:onload="'initPrettify()'">
 
 <!-- Post Content -->
 <article>
