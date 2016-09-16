@@ -78,6 +78,8 @@
                        placeholder="title"/>
                 <input type="button" class="btn btn-secondary" value="search" th:onclick="'postSearch()'"/>
             </div>
+            <div class="sidebar-module" style="padding:5px; margin:0 -5px 0px" th:text="카테고리">
+            </div>
             <div class="sidebar-module">
                 <ul class="list-group" th:each="category : ${categories}">
                     <li class="list-group-item"><a th:text="${category.name}" th:href="@{'/posts/category/' + ${category.id}}"></a></li>
