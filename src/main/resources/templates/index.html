@@ -33,6 +33,20 @@
             margin-bottom: 0;
         }
     </style>
+    <script type="text/javascript" th:inline="javascript">
+        $(function() {
+            $("img").each(function() {
+                var oImgWidth = $(this).width();
+                var oImgHeight = $(this).height();
+                $(this).css({
+                    'max-width':oImgWidth+'px',
+                    'max-height':oImgHeight+'px',
+                    'width':'100%',
+                    'height':'100%'
+                });
+            });
+        });
+    </script>
 </head>
 <body th:onload="'initPrettify()'">
 <!-- Main Content
@@ -55,7 +69,7 @@
                 </a>
                 <p class="post-meta" style="margin: 10px 0px;">Posted by <strong th:text="${post.user.name}"></strong> on <strong th:text="${#temporals.format(post.regDate, 'yyyy-MM-dd')}"> </strong> category <strong th:text="${post.category.name}"></strong></p>
                 <div class="row" th:if="${show}">
-                    <div class="col-lg-10 col-lg-offset-0 col-md-10 col-md-offset-1" style="margin-bottom:30px" th:utext="${post.content}">
+                    <div style="margin-bottom:30px" th:utext="${post.content}">
 
                     </div>
                 </div>
