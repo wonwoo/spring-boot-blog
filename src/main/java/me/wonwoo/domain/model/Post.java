@@ -76,4 +76,8 @@ public class Post {
     this.user = user;
     this.tags = tags.stream().map(tag -> new Tag(this, tag)).collect(toList());
   }
+
+  public void delete(){
+    this.yn = "N";
+  }
 }

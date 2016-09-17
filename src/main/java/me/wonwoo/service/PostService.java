@@ -1,19 +1,12 @@
 package me.wonwoo.service;
 
 import lombok.RequiredArgsConstructor;
-import me.wonwoo.domain.model.Category;
 import me.wonwoo.domain.model.Post;
-import me.wonwoo.domain.model.Tag;
-import me.wonwoo.domain.model.User;
 import me.wonwoo.domain.repository.PostRepository;
 import me.wonwoo.domain.repository.TagRepository;
-import me.wonwoo.dto.PostDto;
 import me.wonwoo.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by wonwoo on 2016. 8. 22..
@@ -46,6 +39,6 @@ public class PostService {
     if(oldPost == null){
       throw new NotFoundException(id + " not found");
     }
-    oldPost.setYn("N");
+    oldPost.delete();
   }
 }
