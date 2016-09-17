@@ -99,8 +99,8 @@ public class PostController {
       createPost.getCode(),
       "Y",
       new Category(createPost.getCategoryId() == null ? 1L : createPost.getCategoryId()),
-      user);
-    post.setTags(createPost.tags().stream().map(tag -> new Tag(post, tag)).collect(Collectors.toList()));
+      user,
+      createPost.tags());
     Post newPost = postService.createPost(post);
     model.addAttribute("post", newPost);
     return "redirect:/posts/" +  newPost.getId();
@@ -117,9 +117,9 @@ public class PostController {
       createPost.getCode(),
       "Y",
       new Category(createPost.getCategoryId()),
-      user
+      user,
+      createPost.tags()
     );
-    post.setTags(createPost.tags().stream().map(tag -> new Tag(post, tag)).collect(Collectors.toList()));
     postService.updatePost(id, post);
     return "redirect:/posts/" +  id;
   }

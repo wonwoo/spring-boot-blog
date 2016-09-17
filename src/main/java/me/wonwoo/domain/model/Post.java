@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 /**
  * Created by wonwoo on 2016. 8. 15..
  */
@@ -65,12 +67,13 @@ public class Post {
     this.yn = yn;
   }
 
-  public Post(String title, String content, String code, String yn, Category category, User user) {
+  public Post(String title, String content, String code, String yn, Category category, User user, List<String> tags) {
     this.title = title;
     this.content = content;
     this.code = code;
     this.yn = yn;
     this.category = category;
     this.user = user;
+    this.tags = tags.stream().map(tag -> new Tag(this, tag)).collect(toList());
   }
 }

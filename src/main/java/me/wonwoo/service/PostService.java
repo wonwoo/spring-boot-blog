@@ -35,18 +35,10 @@ public class PostService {
       throw new NotFoundException(id + " not found");
     }
 
-
-//    oldPost.setContent(post.getContent());
-//    oldPost.setCode(post.getCode());
-//    oldPost.setTitle(post.getTitle());
-//    oldPost.setCategory(post.getCategory());
     tagRepository.delete(oldPost.getTags());
     post.setId(id);
     post.setRegDate(oldPost.getRegDate());
     postRepository.save(post);
-//    tagRepository.save(post.getTags());
-//    oldPost.setTags(post.getTags());
-//    return oldPost;
   }
 
   public void deletePost(Long id) {
