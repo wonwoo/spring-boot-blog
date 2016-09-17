@@ -86,7 +86,9 @@
             </div>
         </div>
         <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" style="padding-top: 30px;">
-            <span class="label label-info" th:each="tag : ${post.tags}" th:text="${tag.tag}">Default Label</span>
+            <span class="label label-info" th:each="tag : ${post.tags}" style="border-radius:1.25em;">
+                <a th:text="${tag.tag}" th:href="@{'/posts/tags/' + ${tag.tag}}"></a>
+            </span>
         </div>
         <div class="row" style="padding-top: 100px;">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">

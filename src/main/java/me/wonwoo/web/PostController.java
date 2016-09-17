@@ -12,6 +12,8 @@ import me.wonwoo.dto.PostDto;
 import me.wonwoo.exception.NotFoundException;
 import me.wonwoo.service.CategoryService;
 import me.wonwoo.service.PostService;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -26,6 +28,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.joining;
+import static org.springframework.data.domain.ExampleMatcher.matching;
 
 /**
  * Created by wonwoo on 2016. 8. 15..
@@ -133,6 +136,13 @@ public class PostController {
   @GetMapping("/category/{id}")
   public String categotyPost(Model model, @PathVariable Long id, @PageableDefault(size = 5, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable){
     model.addAttribute("posts", postRepository.findByCategoryAndYn(new Category(id), "Y", pageable));
+    model.addAttribute("show", postProperties.isFull());
+    return "index";
+  }
+
+  @GetMapping("/tags/{name}")
+  public String getTags(@PathVariable String name, Model model, @PageableDefault(size = 5, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable){
+    model.addAttribute("posts", postRepository.findByTagAndYn(name, "Y", pageable));
     model.addAttribute("show", postProperties.isFull());
     return "index";
   }
