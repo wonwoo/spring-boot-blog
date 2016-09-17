@@ -4,6 +4,8 @@ import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by wonwoo on 2016. 8. 22..
@@ -23,4 +25,12 @@ public class PostDto {
 
   private String code;
 
+  private String tags;
+
+  public List<String> tags(){
+    if(tags != null){
+      return Arrays.asList(tags.split(","));
+    }
+    return null;
+  }
 }

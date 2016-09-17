@@ -1,6 +1,8 @@
 package me.wonwoo.domain.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,6 +14,8 @@ import java.util.List;
  */
 @Entity
 @Getter
+@ToString(exclude = {"comments", "post"})
+@EqualsAndHashCode(exclude = {"comments", "post"})
 public class User implements Serializable {
   @GeneratedValue
   @Id
@@ -35,12 +39,13 @@ public class User implements Serializable {
   @Lob
   private String bio;
 
-  public User(String email, String name, String github, String avatarUrl){
+  public User(String email, String name, String github, String avatarUrl) {
     this.email = email;
     this.name = name;
     this.github = github;
     this.avatarUrl = avatarUrl;
   }
-  User(){
+
+  User() {
   }
 }

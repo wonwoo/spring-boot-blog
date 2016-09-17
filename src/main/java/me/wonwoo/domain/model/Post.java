@@ -1,14 +1,13 @@
 package me.wonwoo.domain.model;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +16,8 @@ import java.util.List;
 @Entity
 @Data
 @EntityListeners(value = AuditingEntityListener.class)
+@ToString(exclude = {"comments", "tags", "user", "category"})
+@EqualsAndHashCode(exclude = {"comments", "tags", "user", "category"})
 public class Post {
 
   @Id
@@ -41,6 +42,9 @@ public class Post {
   @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
   private List<Comment> comments;
 
+  @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  private List<Tag> tags = new ArrayList<>();
+
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "USER_ID")
   private User user;
@@ -49,18 +53,19 @@ public class Post {
   @JoinColumn(name = "CATEGORY_ID")
   private Category category;
 
-  Post(){
+  Post() {
   }
 
-  public Post(Long id){
+  public Post(Long id) {
     this.id = id;
   }
-  public Post(String title,String yn){
+
+  public Post(String title, String yn) {
     this.title = title;
     this.yn = yn;
   }
 
-  public Post(String title, String content, String code, String yn, Category category, User user){
+  public Post(String title, String content, String code, String yn, Category category, User user) {
     this.title = title;
     this.content = content;
     this.code = code;

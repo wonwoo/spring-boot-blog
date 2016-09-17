@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.wonwoo.config.PostProperties;
 import me.wonwoo.domain.model.Category;
 import me.wonwoo.domain.model.Post;
+import me.wonwoo.domain.model.Tag;
 import me.wonwoo.domain.model.User;
 import me.wonwoo.domain.repository.PostRepository;
 import me.wonwoo.dto.CommentDto;
@@ -22,8 +23,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+import static java.util.stream.Collectors.joining;
 
 /**
  * Created by wonwoo on 2016. 8. 15..
@@ -82,6 +84,7 @@ public class PostController {
     createPost.setCode(post.getCode());
     createPost.setContent(post.getContent());
     createPost.setId(id);
+    createPost.setTags(post.getTags().stream().map(Tag::getTag).collect(joining(",")));
     model.addAttribute("editPost", createPost);
     return "post/edit";
   }
@@ -95,7 +98,9 @@ public class PostController {
       createPost.getContent(),
       createPost.getCode(),
       "Y",
-      new Category(createPost.getCategoryId() == null ? 1L : createPost.getCategoryId()),user);
+      new Category(createPost.getCategoryId() == null ? 1L : createPost.getCategoryId()),
+      user);
+    post.setTags(createPost.tags().stream().map(tag -> new Tag(post, tag)).collect(Collectors.toList()));
     Post newPost = postService.createPost(post);
     model.addAttribute("post", newPost);
     return "redirect:/posts/" +  newPost.getId();
@@ -106,14 +111,16 @@ public class PostController {
     if(bindingResult.hasErrors()){
       return "post/edit";
     }
-    postService.udpatePost(id, new Post(
+    final Post post = new Post(
       createPost.getTitle(),
-        createPost.getContent(),
-        createPost.getCode(),
+      createPost.getContent(),
+      createPost.getCode(),
       "Y",
       new Category(createPost.getCategoryId()),
       user
-    ));
+    );
+    post.setTags(createPost.tags().stream().map(tag -> new Tag(post, tag)).collect(Collectors.toList()));
+    postService.updatePost(id, post);
     return "redirect:/posts/" +  id;
   }
 

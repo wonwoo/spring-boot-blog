@@ -1,6 +1,8 @@
 package me.wonwoo.domain.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -10,6 +12,8 @@ import java.time.LocalDateTime;
 @Entity
 @EntityListeners(value = AuditingEntityListener.class)
 @Getter
+@ToString(exclude = {"user", "post"})
+@EqualsAndHashCode(exclude = {"user", "post"})
 public class Comment {
     @Id @GeneratedValue
     private Long id;
