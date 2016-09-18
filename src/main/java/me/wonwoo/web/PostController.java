@@ -68,7 +68,7 @@ public class PostController {
     return "post/post";
   }
 
-  @GetMapping("/new")
+  @GetMapping("/new/form")
   public String newPost(PostDto postDto) {
     return "post/new";
   }

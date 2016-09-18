@@ -95,7 +95,7 @@
                 <h4 id="addComment">Leave a Comment:</h4>
                 <form th:action="@{/comments}" th:object="${commentDto}" method="post" th:id="comment">
                     <input type="hidden" th:value="${post.id}" id="postId" name="postId"/>
-                    <div class="well" sec:authorize="hasRole('ROLE_USER')">
+                    <div class="well" sec:authorize="hasRole('ROLE_USER')" th:classappend="(${#fields.hasErrors('content')}? ' has-error')">
                         <input type="text" class="form-control input-lg" id="content" name="content"
                                placeholder="content"/>
                         <span class="help-block" th:if="${#fields.hasErrors('content')}"
@@ -117,9 +117,9 @@
                             <div class="media-body">
                                 <h5 class="media-heading pull-left" th:text="${comment.user.github}">loneswan</h5>
                                 <div class="comment-info pull-left">
-                                    <div class="btn-default btn-xs" th:text="${#temporals.format(comment.regDate, 'yyyy-MM-dd')}"><i class="fa fa-clock-o"></i> Posted 3 weeks ago</div>
+                                    <div class="btn-xs" th:text="${#temporals.format(comment.regDate, 'yyyy-MM-dd')}"><i class="fa fa-clock-o"></i> Posted 3 weeks ago</div>
                                 </div>
-                                <span style="top: 18px;" th:onclick="'deleteComment(\'' + ${comment.post.id} + '\', \'' + ${comment.id} + '\');'" sec:authorize="hasRole('ROLE_USER')" th:if="${#authentication.principal.github == comment.user.github}"  class="glyphicon glyphicon-remove" ></span>
+                                <span style="top: 22px;" th:onclick="'deleteComment(\'' + ${comment.post.id} + '\', \'' + ${comment.id} + '\');'" sec:authorize="hasRole('ROLE_USER')" th:if="${#authentication.principal.github == comment.user.github}" class="glyphicon glyphicon-remove" ></span>
                                 <p class="well" th:text="${comment.content}">This is really awesome snippet!</p>
                             </div>
                         </li>

@@ -56,7 +56,7 @@
         <div class="col-sm-9 blog-main">
             <ul class="pager" sec:authorize="hasRole('ROLE_ADMIN')">
                 <li class="next">
-                    <a th:href="@{/posts/new}">write</a>
+                    <a th:href="@{/posts/new/form}">write</a>
                 </li>
             </ul>
             <div class="post-preview" th:each="post : ${posts.content}">
