@@ -12,8 +12,6 @@ import me.wonwoo.dto.PostDto;
 import me.wonwoo.exception.NotFoundException;
 import me.wonwoo.service.CategoryService;
 import me.wonwoo.service.PostService;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -25,10 +23,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.joining;
-import static org.springframework.data.domain.ExampleMatcher.matching;
+import static java.util.stream.Collectors.*;
 
 /**
  * Created by wonwoo on 2016. 8. 15..
@@ -68,7 +64,7 @@ public class PostController {
     return "post/post";
   }
 
-  @GetMapping("/new/form")
+  @GetMapping("/new")
   public String newPost(PostDto postDto) {
     return "post/new";
   }

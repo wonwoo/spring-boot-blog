@@ -1,6 +1,8 @@
 package me.wonwoo.web;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import me.wonwoo.config.PostProperties;
 import me.wonwoo.domain.model.Category;
 import me.wonwoo.domain.model.Post;
@@ -27,11 +29,12 @@ import static org.springframework.data.domain.ExampleMatcher.matching;
 @Controller
 @RequiredArgsConstructor
 @Navigation(Section.HOME)
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class IndexController {
 
-  private final PostRepository postRepository;
-  private final PostProperties postProperties;
-  private final CategoryRepository categoryRepository;
+  PostRepository postRepository;
+  PostProperties postProperties;
+  CategoryRepository categoryRepository;
 
   @ModelAttribute("theme")
   public String theme(){
