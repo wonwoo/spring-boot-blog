@@ -1,9 +1,12 @@
 package me.wonwoo.client;
 
 import lombok.RequiredArgsConstructor;
+import me.wonwoo.exception.NotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -21,7 +24,10 @@ public class Client {
   protected  <T> ResponseEntity<T> invoke(RequestEntity<?> request, Class<T> type) {
     try {
       return this.restTemplate.exchange(request, type);
-    } catch (RestClientException ex) {
+    } catch (HttpClientErrorException ex) {
+      if(ex.getStatusCode() == HttpStatus.NOT_FOUND){
+        throw new NotFoundException("not found");
+      }
       throw ex;
     }
   }
