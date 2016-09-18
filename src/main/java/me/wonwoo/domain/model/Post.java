@@ -44,7 +44,7 @@ public class Post {
   @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
   private List<Comment> comments;
 
-  @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private List<Tag> tags = new ArrayList<>();
 
   @ManyToOne(fetch = FetchType.LAZY)
