@@ -54,7 +54,7 @@
 <div class="container" layout:fragment="content">
     <div class="row">
         <div class="col-sm-9 blog-main">
-            <ul class="pager" sec:authorize="hasRole('ROLE_ADMIN')">
+            <ul class="pager" style="margin-top: -3%; margin-bottom: 3%" sec:authorize="hasRole('ROLE_ADMIN')">
                 <li class="next">
                     <a th:href="@{/posts/new/form}">write</a>
                 </li>
