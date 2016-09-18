@@ -33,6 +33,10 @@
         <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" th:utext="${wordPress.content}">
 
         </div>
+        <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" style="padding-top: 30px;">
+            <span class="label label-info" th:each="tag : ${wordPress.tags}" style="border-radius:1.25em;" th:text="${tag.key}">
+            </span>
+        </div>
     </div>
 </div>
 </body>
