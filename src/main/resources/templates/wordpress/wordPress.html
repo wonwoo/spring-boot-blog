@@ -23,36 +23,15 @@
 <body th:onload="'initPrettify(),initHideShowGuide()'">
 <!-- Main Content -->
 <div class="container" layout:fragment="content">
-    <div class="col-lg-3 col-lg-offset-9">
-        <input type="text" class="form-control" id="q" name="q"/>
-        <input type="button" class="btn btn-secondary" value="search" onclick="location.href='/wordPress?q=' + document.getElementById('q').value" />
-    </div>
-    <div class="row" th:each="wordPress : ${wordPresses.content}">
-        <a class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" th:href="@{'/wordPress/' + ${wordPress.id}}">
-            <h1 class="post-title" th:text="${wordPress.title}">
-            </h1>
-        </a>
+    <div class="row">
+        <h1 class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" th:text="${wordPress.title}">
+        </h1>
         <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
             <p style="margin: 10px 0px;">Posted by <strong th:text="${wordPress.author.name}"></strong> on <strong th:text="${#temporals.format(wordPress.date, 'yyyy-MM-dd')}"> </strong> </p>
         </div>
 
         <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" th:utext="${wordPress.content}">
 
-        </div>
-    </div>
-
-    <div class="row" style="margin-top: 5%">
-        <div class="col-lg-3 col-lg-offset-1 col-md-10 col-md-offset-1">
-            <div sd:pagination-summary="">info</div>
-        </div>
-        <div class="col-lg-5 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <nav class="pull-right">
-                <ul class="pagination" sd:pagination="full">
-                    <!-- Pagination created by SpringDataDialect, this content is just for mockup -->
-                    <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-                    <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                </ul>
-            </nav>
         </div>
     </div>
 </div>

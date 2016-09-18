@@ -21,17 +21,18 @@ import java.util.stream.Stream;
 @Navigation(Section.NEWS)
 public class NewController {
 
-    private final GithubClient githubClient;
+  private final GithubClient githubClient;
 
-    @GetMapping
-    public String home(Model model) {
-        model.addAttribute("latestSpringBlogCommits",
-                getRecentCommits("wonwoo", "spring-boot-blog"));
-        return "news";
-    }
-    private List<Commit> getRecentCommits(String organization, String project) {
-        return this.githubClient
-                .getRecentCommits(organization, project)
-                .stream().limit(5).collect(Collectors.toList());
-    }
+  @GetMapping
+  public String home(Model model) {
+    model.addAttribute("latestSpringBlogCommits",
+      getRecentCommits("wonwoo", "spring-boot-blog"));
+    return "news";
+  }
+
+  private List<Commit> getRecentCommits(String organization, String project) {
+    return this.githubClient
+      .getRecentCommits(organization, project)
+      .stream().limit(5).collect(Collectors.toList());
+  }
 }

@@ -8,10 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by wonwoo on 2016. 9. 6..
@@ -30,10 +27,9 @@ public class WordPressController {
     return "wordpress/wordPresses";
   }
 
-  //TODO 검새 추가 및 단건? 단건은 일단 보류
-//  @GetMapping("test")
-//  @ResponseBody
-//  public Page<WordPress> findAll(@PageableDefault(size = 3) Pageable pageable) {
-//    return wordPressClient.findAll(pageable);
-//  }
+  @GetMapping("/{id}")
+  public String findAll(@PathVariable Long id, Model model) {
+    model.addAttribute("wordPress", wordPressClient.findOne(id));
+    return "wordpress/wordPress";
+  }
 }

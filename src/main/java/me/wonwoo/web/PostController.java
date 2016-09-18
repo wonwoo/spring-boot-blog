@@ -48,20 +48,20 @@ public class PostController {
   private final PostProperties postProperties;
 
   @ModelAttribute("categories")
-  public List<Category> categories(){
+  public List<Category> categories() {
     return categoryService.findAll();
   }
 
   @ModelAttribute("theme")
-  public String theme(){
+  public String theme() {
     return postProperties.getTheme();
   }
 
 
   @GetMapping("/{id}")
-  public String findByPost(@PathVariable Long id, Model model , @ModelAttribute CommentDto commentDto) {
+  public String findByPost(@PathVariable Long id, Model model, @ModelAttribute CommentDto commentDto) {
     Post post = postRepository.findByIdAndYn(id, "Y");
-    if(post == null){
+    if (post == null) {
       throw new NotFoundException(id + " not found");
     }
     model.addAttribute("post", post);
@@ -76,7 +76,7 @@ public class PostController {
   @GetMapping("/edit/{id}")
   public String editPost(@PathVariable Long id, Model model) {
     Post post = postRepository.findByIdAndYn(id, "Y");
-    if(post == null){
+    if (post == null) {
       throw new NotFoundException(id + " not found");
     }
     PostDto createPost = new PostDto();
@@ -94,7 +94,7 @@ public class PostController {
 
   @PostMapping
   public String createPost(@ModelAttribute @Valid PostDto createPost, BindingResult bindingResult, @AuthenticationPrincipal User user, Model model) {
-    if(bindingResult.hasErrors()){
+    if (bindingResult.hasErrors()) {
       return "post/new";
     }
     Post post = new Post(createPost.getTitle(),
@@ -106,12 +106,12 @@ public class PostController {
       createPost.tags());
     Post newPost = postService.createPost(post);
     model.addAttribute("post", newPost);
-    return "redirect:/posts/" +  newPost.getId();
+    return "redirect:/posts/" + newPost.getId();
   }
 
   @PostMapping("/{id}/edit")
-  public String modifyPost(@PathVariable Long id, @ModelAttribute("editPost") @Valid PostDto createPost, BindingResult bindingResult,@AuthenticationPrincipal User user) {
-    if(bindingResult.hasErrors()){
+  public String modifyPost(@PathVariable Long id, @ModelAttribute("editPost") @Valid PostDto createPost, BindingResult bindingResult, @AuthenticationPrincipal User user) {
+    if (bindingResult.hasErrors()) {
       return "post/edit";
     }
     final Post post = new Post(
@@ -124,24 +124,24 @@ public class PostController {
       createPost.tags()
     );
     postService.updatePost(id, post);
-    return "redirect:/posts/" +  id;
+    return "redirect:/posts/" + id;
   }
 
   @PostMapping("/{id}/delete")
-  public String deletePost(@PathVariable Long id){
+  public String deletePost(@PathVariable Long id) {
     postService.deletePost(id);
     return "redirect:/#/";
   }
 
   @GetMapping("/category/{id}")
-  public String categotyPost(Model model, @PathVariable Long id, @PageableDefault(size = 5, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable){
+  public String categotyPost(Model model, @PathVariable Long id, @PageableDefault(size = 5, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
     model.addAttribute("posts", postRepository.findByCategoryAndYn(new Category(id), "Y", pageable));
     model.addAttribute("show", postProperties.isFull());
     return "index";
   }
 
   @GetMapping("/tags/{name}")
-  public String getTags(@PathVariable String name, Model model, @PageableDefault(size = 5, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable){
+  public String getTags(@PathVariable String name, Model model, @PageableDefault(size = 5, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
     model.addAttribute("posts", postRepository.findByTagAndYn(name, "Y", pageable));
     model.addAttribute("show", postProperties.isFull());
     return "index";

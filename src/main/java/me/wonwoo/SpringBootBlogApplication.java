@@ -44,6 +44,7 @@ public class SpringBootBlogApplication {
   public JCacheManagerCustomizer cacheManagerCustomizer() {
     return cm -> {
       cm.createCache("wp.posts", initConfiguration(Duration.ONE_DAY));
+      cm.createCache("wp.post", initConfiguration(Duration.ONE_DAY));
       cm.createCache("spring.gss", initConfiguration(Duration.ONE_DAY));
       cm.createCache("spring.gs", initConfiguration(Duration.ONE_DAY));
       cm.createCache("spring.tuts", initConfiguration(Duration.ONE_DAY));

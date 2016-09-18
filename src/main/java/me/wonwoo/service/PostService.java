@@ -18,13 +18,13 @@ public class PostService {
   private final PostRepository postRepository;
   private final TagRepository tagRepository;
 
-  public Post createPost(Post post){
+  public Post createPost(Post post) {
     return postRepository.save(post);
   }
 
   public void updatePost(Long id, Post post) {
     Post oldPost = postRepository.findByIdAndYn(id, "Y");
-    if(oldPost == null){
+    if (oldPost == null) {
       throw new NotFoundException(id + " not found");
     }
 
@@ -36,7 +36,7 @@ public class PostService {
 
   public void deletePost(Long id) {
     Post oldPost = postRepository.findByIdAndYn(id, "Y");
-    if(oldPost == null){
+    if (oldPost == null) {
       throw new NotFoundException(id + " not found");
     }
     oldPost.delete();

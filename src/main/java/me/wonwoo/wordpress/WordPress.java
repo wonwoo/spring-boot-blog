@@ -1,5 +1,6 @@
 package me.wonwoo.wordpress;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.time.OffsetDateTime;
@@ -9,7 +10,9 @@ import java.time.OffsetDateTime;
  */
 @Data
 public class WordPress {
-  private Long ID;
+
+  @JsonProperty("ID")
+  private Long id;
   private String title;
   private String content;
   private OffsetDateTime date;
