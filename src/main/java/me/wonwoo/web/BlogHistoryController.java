@@ -19,7 +19,7 @@ import static me.wonwoo.web.Section.HISTORY;
 @RequiredArgsConstructor
 @Controller
 @Navigation(HISTORY)
-@RequestMapping("/history")
+@RequestMapping("/histories")
 public class BlogHistoryController {
 
   private final BlogHistoryService blogHistoryService;
