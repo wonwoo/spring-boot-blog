@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -28,9 +29,9 @@ public class PostDto {
   private String tags;
 
   public List<String> tags(){
-    if(tags != null){
+    if(tags != null && !tags.isEmpty()){
       return Arrays.asList(tags.split(","));
     }
-    return null;
+    return Collections.emptyList();
   }
 }

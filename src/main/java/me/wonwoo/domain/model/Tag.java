@@ -2,6 +2,7 @@ package me.wonwoo.domain.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -9,25 +10,18 @@ import javax.persistence.*;
 /**
  * Created by wonwoo on 2016. 9. 17..
  */
-@Entity
-@Data
-@ToString(exclude = "post")
-@EqualsAndHashCode(exclude = "post")
+@ToString
+@EqualsAndHashCode
+@Embeddable
+@Getter
 public class Tag {
-  @Id @GeneratedValue
-  private Long id;
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "POST_ID")
-  private Post post;
 
   private String tag;
 
   Tag(){
   }
 
-  public Tag(Post post, String tag){
-    this.post = post;
+  public Tag(String tag){
     this.tag = tag;
   }
 }

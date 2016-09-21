@@ -44,7 +44,11 @@ public class Post {
   @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
   private List<Comment> comments;
 
-  @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//  @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//  private List<Tag> tags = new ArrayList<>();
+
+  @ElementCollection
+  @CollectionTable(name = "tag", joinColumns = @JoinColumn(name = "post_id"))
   private List<Tag> tags = new ArrayList<>();
 
   @ManyToOne(fetch = FetchType.LAZY)
@@ -74,7 +78,7 @@ public class Post {
     this.yn = yn;
     this.category = category;
     this.user = user;
-    this.tags = tags.stream().map(tag -> new Tag(this, tag)).collect(toList());
+    this.tags = tags.stream().map(Tag::new).collect(toList());
   }
 
   public void delete(){

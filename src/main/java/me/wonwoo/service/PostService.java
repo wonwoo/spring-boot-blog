@@ -3,7 +3,6 @@ package me.wonwoo.service;
 import lombok.RequiredArgsConstructor;
 import me.wonwoo.domain.model.Post;
 import me.wonwoo.domain.repository.PostRepository;
-import me.wonwoo.domain.repository.TagRepository;
 import me.wonwoo.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PostService {
   private final PostRepository postRepository;
-  private final TagRepository tagRepository;
 
   public Post createPost(Post post) {
     return postRepository.save(post);
@@ -27,11 +25,11 @@ public class PostService {
     if (oldPost == null) {
       throw new NotFoundException(id + " not found");
     }
-
-    tagRepository.delete(oldPost.getTags());
-    post.setId(id);
-    post.setRegDate(oldPost.getRegDate());
-    postRepository.save(post);
+    oldPost.setTitle(post.getTitle());
+    oldPost.setTags(post.getTags());
+    oldPost.setCode(post.getCode());
+    oldPost.setContent(post.getContent());
+    oldPost.setCategory(post.getCategory());
   }
 
   public void deletePost(Long id) {
