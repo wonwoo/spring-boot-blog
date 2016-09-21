@@ -26,7 +26,7 @@ class ElasticService (val elasticsearchTemplate : ElasticsearchTemplate) {
     })
 
     val value: StringTerms = aggregations.get("groupByState")
-    val buckets :util.List[Bucket]= value.getBuckets
+    val buckets : util.List[Bucket]= value.getBuckets
     buckets.map(bucket => ElasticBuckets(bucket.getKeyAsString, bucket.getDocCount))
   }
 }
