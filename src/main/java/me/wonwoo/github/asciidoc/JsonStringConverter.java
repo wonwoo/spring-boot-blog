@@ -13,13 +13,6 @@
 //import java.util.Collections;
 //import java.util.List;
 //
-///**
-// * Created by Helloworld
-// * User : wonwoo
-// * Date : 2016-09-05
-// * Time : 오후 2:42
-// * desc :
-// */
 //public class JsonStringConverter implements HttpMessageConverter<String> {
 //
 //    public List<MediaType> getSupportedMediaTypes() {
