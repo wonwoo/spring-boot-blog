@@ -11,7 +11,6 @@ import org.pegdown.PegDownProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -21,7 +20,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.security.Principal;
+import java.time.LocalDateTime;
 
 import static org.pegdown.Extensions.ALL;
 
@@ -65,7 +64,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         String referer = request.getHeader("REFERER");
         String navigation = (String) request.getSession().getAttribute(NAV_SECTION);
         try {
-          blogHistoryService.save(new BlogHistory(requestURI, requestURL, ip, navigation, referer));
+          blogHistoryService.save(new BlogHistory(requestURI, requestURL, ip, navigation, referer, LocalDateTime.now()));
         } catch (Exception ignored) {
         }
       }

@@ -30,11 +30,12 @@ public class BlogHistory {
 
   BlogHistory(){
   }
-  public BlogHistory(String url , String fullUrl, String ip, String navigation, String referer){
+  public BlogHistory(String url , String fullUrl, String ip, String navigation, String referer, LocalDateTime date){
     this.url = url;
     this.fullUrl = fullUrl;
     this.ip = ip;
     this.navigation = navigation;
     this.referer = referer;
+    this.date = date;
   }
 }
