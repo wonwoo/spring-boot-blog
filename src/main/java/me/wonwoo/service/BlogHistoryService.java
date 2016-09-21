@@ -8,9 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+
 
 /**
  * Created by wonwoo on 2016. 9. 20..
@@ -27,8 +26,6 @@ public class BlogHistoryService {
   }
 
   public Page<BlogHistory> findByDateBetween(Pageable pageable) {
-    LocalDateTime start = LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0, 0));
-    LocalDateTime end = LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59));
-    return blogHistoryRepository.findByDateBetweenOrderByDateDesc(start, end, pageable);
+    return blogHistoryRepository.findAll(pageable);
   }
 }

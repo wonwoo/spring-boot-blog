@@ -1,20 +1,19 @@
 package me.wonwoo.domain.model;
 
 import lombok.Data;
+import org.springframework.data.elasticsearch.annotations.Document;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 /**
  * Created by wonwoo on 2016. 9. 20..
  */
-@Entity
+@Document(indexName = "blog", type = "history", shards = 1, replicas = 0, refreshInterval = "-1")
 @Data
 public class BlogHistory {
 
-  @Id @GeneratedValue
+  @Id
   private Long id;
 
   private String fullUrl;
