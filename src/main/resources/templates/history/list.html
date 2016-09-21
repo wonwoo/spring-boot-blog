@@ -20,6 +20,11 @@
 <body>
 <!-- Main Content -->
 <div class="container" layout:fragment="content">
+    <h3>메뉴별 카운트</h3>
+    <div class="form-group" th:each="group : ${grouping}" style="float:left;">
+        <label class="col-xs-10 col-form-label" th:text="${group.key}">Text</label>
+        <label class="col-xs-5 col-form-label" th:text="${group.value}"></label>
+    </div>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -57,6 +62,7 @@
             </nav>
         </div>
     </div>
+
 </div>
 </body>
 </html>

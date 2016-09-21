@@ -2,7 +2,9 @@ package me.wonwoo.web;
 
 import lombok.RequiredArgsConstructor;
 import me.wonwoo.domain.model.BlogHistory;
+import me.wonwoo.elasticsearch.ElasticService;
 import me.wonwoo.service.BlogHistoryService;
+import org.elasticsearch.bootstrap.Elasticsearch;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -25,10 +27,14 @@ import static me.wonwoo.web.Section.HISTORY;
 public class BlogHistoryController {
 
   private final BlogHistoryService blogHistoryService;
+  private final ElasticService elasticService;
 
+
+  //TODO public?
   @GetMapping
   public String findByDateBetween(Model model, @PageableDefault(sort = "date", direction = Sort.Direction.DESC) Pageable pageable){
     model.addAttribute("histories", blogHistoryService.findByDateBetween(pageable));
+    model.addAttribute("grouping", elasticService.findByGroupByNavigation());
     return "history/list";
   }
 }

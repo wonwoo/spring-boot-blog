@@ -3,6 +3,7 @@ package me.wonwoo.security;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -44,7 +45,7 @@ public class GitProperties {
     /**
      * Github users that have admin rights.
      */
-    private List<String> admins = Arrays.asList("wonwoo", "bclozel");
+    private List<String> admins = Collections.singletonList("wonwoo");
 
     public List<String> getAdmins() {
       return admins;

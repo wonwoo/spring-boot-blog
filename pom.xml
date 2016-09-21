@@ -22,11 +22,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <scala.version>2.11.8</scala.version>
         <!--<thymeleaf.version>3.0.0.RELEASE</thymeleaf.version>-->
         <!--<thymeleaf-layout-dialect.version>2.0.0</thymeleaf-layout-dialect.version>-->
         <root.dir>${basedir}</root.dir>
         <gem.home>${root.dir}/target/rubygems</gem.home>
         <gem.path>${root.dir}/target/rubygems</gem.path>
+        <maven.test.skip>true</maven.test.skip>
     </properties>
 
     <dependencies>
@@ -173,6 +175,17 @@
             <scope>runtime</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>${scala.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-compiler</artifactId>
+            <version>${scala.version}</version>
+        </dependency>
         <!--<dependency>-->
         <!--<groupId>com.github.ben-manes.caffeine</groupId>-->
         <!--<artifactId>caffeine</artifactId>-->
