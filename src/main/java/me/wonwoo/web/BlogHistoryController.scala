@@ -18,8 +18,8 @@ class BlogHistoryController(val blogHistoryService: BlogHistoryService, val elas
 
   @GetMapping
   def findByDateBetween(model: Model, @PageableDefault(sort = Array("date"), direction = Sort.Direction.DESC) pageable: Pageable) = {
-    model.addAttribute("histories", blogHistoryService.findByDateBetween(pageable))
-    model.addAttribute("grouping", elasticService.findByGroupByNavigation)
+    model addAttribute("histories", blogHistoryService findByDateBetween pageable )
+    model addAttribute("grouping", elasticService findByGroupByNavigation)
     "history/list"
   }
 }

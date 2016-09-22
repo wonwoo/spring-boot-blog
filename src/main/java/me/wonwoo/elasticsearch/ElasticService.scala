@@ -21,12 +21,12 @@ class ElasticService (val elasticsearchTemplate : ElasticsearchTemplate) {
 
   def findByGroupByNavigation: util.List[ElasticBuckets] = {
     val searchQuery = new NativeSearchQueryBuilder().withQuery(matchAllQuery).withIndices(INDEX).withTypes(TYPE).addAggregation(terms("groupByState").field("navigation")).build
-    val aggregations: Aggregations = elasticsearchTemplate.query(searchQuery, new ResultsExtractor[Aggregations] {
-      def extract(response: SearchResponse): Aggregations = response.getAggregations
+    val aggregations: Aggregations = elasticsearchTemplate query(searchQuery, new ResultsExtractor[Aggregations] {
+      def extract(response: SearchResponse): Aggregations = response getAggregations
     })
 
-    val value: StringTerms = aggregations.get("groupByState")
-    val buckets : util.List[Bucket]= value.getBuckets
+    val value: StringTerms = aggregations get "groupByState"
+    val buckets = value.getBuckets
     buckets.map(bucket => ElasticBuckets(bucket.getKeyAsString, bucket.getDocCount))
   }
 }
