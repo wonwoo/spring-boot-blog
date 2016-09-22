@@ -1,8 +1,7 @@
 package me.wonwoo.elasticsearch
 
-case class ElasticBuckets(key: String, value: Long){
+import scala.beans.BeanProperty
 
-  def getKey = key
-  def getValue = value
+case class ElasticBuckets(@BeanProperty key: String, @BeanProperty value: Long){
 
 }
