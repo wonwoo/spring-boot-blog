@@ -39,6 +39,7 @@ public class Post {
   private String yn;
 
   @CreatedDate
+  @Column(name = "reg_date")
   private LocalDateTime regDate;
 
   @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)

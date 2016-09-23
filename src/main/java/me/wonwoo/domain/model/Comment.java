@@ -21,6 +21,7 @@ public class Comment {
     private String content;
 
     @CreatedDate
+    @Column(name = "reg_date")
     private LocalDateTime regDate;
 
     @ManyToOne(fetch = FetchType.LAZY)

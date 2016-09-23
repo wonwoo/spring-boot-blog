@@ -5,7 +5,6 @@ import me.wonwoo.domain.model.BlogHistory;
 import me.wonwoo.domain.model.User;
 import me.wonwoo.security.GitProperties;
 import me.wonwoo.service.BlogHistoryService;
-import me.wonwoo.testing.RequestCountInterceptor;
 import me.wonwoo.web.Navigation;
 import org.pegdown.PegDownProcessor;
 import org.springframework.context.annotation.Bean;
@@ -19,10 +18,10 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.time.LocalDateTime;
 
 import static org.pegdown.Extensions.ALL;
+import static org.pegdown.Extensions.ATXHEADERSPACE;
 
 /**
  * Created by wonwoo on 2016. 9. 2..
@@ -30,8 +29,6 @@ import static org.pegdown.Extensions.ALL;
 @Configuration
 @RequiredArgsConstructor
 public class WebConfig extends WebMvcConfigurerAdapter {
-
-  private final RequestCountInterceptor requestCountInterceptor;
 
   private final BlogHistoryService blogHistoryService;
   private final GitProperties gitProperties;
@@ -43,9 +40,13 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     return new PegDownProcessor(ALL);
   }
 
+  @Bean
+  public PegDownProcessor wordPressDownProcessor() {
+    return new PegDownProcessor(ATXHEADERSPACE);
+  }
+
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
-    registry.addInterceptor(requestCountInterceptor).addPathPatterns("/**");
     registry.addInterceptor(new HandlerInterceptorAdapter() {
 
       @Override

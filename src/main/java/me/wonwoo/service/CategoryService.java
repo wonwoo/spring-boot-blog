@@ -16,7 +16,7 @@ import java.util.List;
  * Created by wonwoo on 2016. 8. 24..
  */
 @Service
-@Transactional
+@Transactional(transactionManager = "transactionManager")
 @RequiredArgsConstructor
 public class CategoryService {
 

@@ -30,6 +30,7 @@ public class Category {
   private String name;
 
   @CreatedDate
+  @Column(name = "reg_date")
   private LocalDateTime regDate;
 
   @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
