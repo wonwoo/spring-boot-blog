@@ -10,12 +10,12 @@ import org.springframework.transaction.annotation.Transactional
   * Created by wonwoo on 2016. 9. 21..
   */
 @Service
-@Transactional
+@Transactional(transactionManager = "transactionManager")
 class BlogHistoryService(val blogHistoryRepository: BlogHistoryRepository) {
   def save(blogHistory: BlogHistory) {
     blogHistoryRepository save blogHistory
   }
 
-  @Transactional(readOnly = true)
+  @Transactional(readOnly = true, transactionManager = "transactionManager")
   def findByDateBetween(pageable: Pageable) = blogHistoryRepository findAll pageable
 }
