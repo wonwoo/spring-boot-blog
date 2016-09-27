@@ -40,11 +40,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     return new PegDownProcessor(ALL);
   }
 
-  @Bean
-  public PegDownProcessor wordPressDownProcessor() {
-    return new PegDownProcessor(ATXHEADERSPACE);
-  }
-
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(new HandlerInterceptorAdapter() {
