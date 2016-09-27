@@ -5,7 +5,8 @@ package me.wonwoo.wordpress.service;
 import lombok.RequiredArgsConstructor;
 import me.wonwoo.wordpress.domain.WpPosts;
 import me.wonwoo.wordpress.repostiry.WpPostsRepository;
-import org.apache.lucene.search.Query;
+import org.apache.lucene.search.*;
+import org.apache.lucene.search.Sort;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
@@ -40,12 +41,9 @@ public class WpPostsService {
                         .buildQueryBuilder().forEntity(WpPosts.class).get();
 
         final BooleanJunction<BooleanJunction> outer = queryBuilder.bool();
-        outer.must(queryBuilder
-                .keyword()
-                .onFields("postTitle", "postContent")
-                .matching(q)
-                .createQuery());
-
+        Optional.ofNullable(q)
+                .map(f -> queryBuilder.keyword().onFields("postTitle", "postContent").matching(f).createQuery())
+                .ifPresent(outer::must);
         Optional.of("publish")
                 .map(f -> queryBuilder.range().onField("postStatus").above(f).createQuery())
                 .ifPresent(outer::must);
@@ -56,6 +54,9 @@ public class WpPostsService {
 
         FullTextQuery jpaQuery =
                 fullTextEntityManager.createFullTextQuery(outer.createQuery(), WpPosts.class);
+        jpaQuery.setFirstResult(pageable.getOffset());
+        jpaQuery.setMaxResults(pageable.getPageSize());
+        jpaQuery.setSort(new Sort(new SortField("postDate", SortField.Type.STRING, true)));
         List results = jpaQuery.getResultList();
         return new PageImpl<>(results,pageable, jpaQuery.getResultSize());
 
