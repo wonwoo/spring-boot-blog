@@ -50,7 +50,7 @@ public class WordPressController {
 
     @GetMapping
     public String findAll(Model model, @PageableDefault(size = 3, sort = "postDate", direction = Sort.Direction.DESC) Pageable pageable, @RequestParam(required = false, defaultValue = "") String q) {
-        Page<WpPosts> wpPostses = wpPostsService.findByPosts(pageable);
+        Page<WpPosts> wpPostses = wpPostsService.findByPosts(q, pageable);
         List<WpPosts> wpPosts = wpPostses.getContent().stream().peek(content -> content.setPostContent(pegDownProcessor.markdownToHtml(unescapeHtml(content.getPostContentFiltered())))).collect(toList());
         model.addAttribute("wordPresses", new PageImpl<>(wpPosts, pageable, wpPostses.getTotalElements()));
         return "wordpress/wordPresses";
