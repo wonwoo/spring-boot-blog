@@ -16,7 +16,7 @@ import java.util.List;
  * Created by wonwoo on 2016. 8. 24..
  */
 @Service
-@Transactional(transactionManager = "transactionManager")
+@Transactional
 @RequiredArgsConstructor
 public class CategoryService {
 
@@ -37,13 +37,13 @@ public class CategoryService {
     }
   }
 
-  @Transactional(readOnly = true, transactionManager = "transactionManager")
+  @Transactional(readOnly = true)
   @Cacheable("spring.blog.category")
   public Page<Category> findAll(Pageable pageable) {
     return categoryRepository.findAll(pageable);
   }
 
-  @Transactional(readOnly = true, transactionManager = "transactionManager")
+  @Transactional(readOnly = true)
   @Cacheable("spring.blog.category")
   public List<Category> findAll() {
     return categoryRepository.findAll();

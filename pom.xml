@@ -153,12 +153,6 @@
             <version>1.17</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-search-orm -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-search-orm</artifactId>
-            <version>5.6.0.Beta2</version>
-        </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.pegdown/pegdown -->
         <dependency>

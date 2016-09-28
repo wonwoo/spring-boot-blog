@@ -44,10 +44,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 
-@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class,
-        DataSourceTransactionManagerAutoConfiguration.class })
-@EnableTransactionManagement
-//@EntityScan(basePackageClasses = {SpringBootBlogApplication.class, Jsr310JpaConverters.class})
+@SpringBootApplication
 @EnableConfigurationProperties({GitProperties.class, PostProperties.class, WordPressProperties.class, BlogProperties.class})
 @EnableJpaAuditing
 @EnableCaching

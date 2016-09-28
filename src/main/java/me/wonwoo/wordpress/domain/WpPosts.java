@@ -1,47 +1,42 @@
 package me.wonwoo.wordpress.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import lombok.Data;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.SortableField;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 @Data
-@Entity
-@Indexed
+@Document(indexName = "metawiki", type = "jdbc", shards = 1, replicas = 0, refreshInterval = "-1")
 public class WpPosts {
-    @Id @GeneratedValue
-    @Column(name = "ID")
+    @Id
+    @JsonProperty("ID")
     private Long id;
-    @Field
-    @Column(name = "post_title")
+
+    @JsonProperty("post_title")
     private String postTitle;
 
-    @Column(name = "post_author")
+    @JsonProperty("post_author")
     private String postAuthor;
 
-    @Column(name = "post_content")
-    @Field
+    @JsonProperty("post_content")
     private String postContent;
-    @Column(name = "post_date")
 
-    @Field
-    @SortableField
+    @JsonProperty("post_date")
+    @JsonDeserialize(using=LocalDateTimeDeserializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSz")
     private LocalDateTime postDate;
 
-    @Column(name = "post_type")
-    @Field
+    @JsonProperty("post_type")
     private String postType;
 
-    @Field
-    @Column(name = "post_status")
+    @JsonProperty("post_status")
     private String postStatus;
 
-    @Column(name ="post_content_filtered")
+    @JsonProperty("post_content_filtered")
     private String postContentFiltered;
 }

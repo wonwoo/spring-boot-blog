@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Created by wonwoo on 2016. 8. 22..
  */
 @Service
-@Transactional(transactionManager = "transactionManager")
+@Transactional
 @RequiredArgsConstructor
 public class PostService {
   private final PostRepository postRepository;
