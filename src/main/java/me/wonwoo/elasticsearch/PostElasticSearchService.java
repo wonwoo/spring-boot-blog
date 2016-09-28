@@ -8,9 +8,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
-import org.springframework.data.elasticsearch.core.query.SearchQuery;
-import org.springframework.data.elasticsearch.core.query.StringQuery;
+import org.springframework.data.elasticsearch.core.query.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -40,16 +38,9 @@ public class PostElasticSearchService {
     }
 
     public WpPosts findOne(Long id) {
-        final QueryBuilder builder = boolQuery()
-                .must(termQuery("post_type", "post"))
-                .must(termQuery("post_status", "publish"))
-                .must(termQuery("ID", id));
-        final SearchQuery searchQuery = new NativeSearchQueryBuilder()
-                .withQuery(builder).build();
-//        StringQuery stringQuery = new StringQuery();
-
-        return null;
-//        return elasticsearchTemplate.queryForObject(searchQuery, WpPosts.class);
+        CriteriaQuery criteriaQuery = new CriteriaQuery(new Criteria("post_type").is("post").and("post_status")
+          .is("publish").and("ID").is(id));
+        return elasticsearchTemplate.queryForObject(criteriaQuery, WpPosts.class);
 
     }
 }
