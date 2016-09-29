@@ -11,7 +11,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import java.time.LocalDateTime;
 
 @Data
-@Document(indexName = "metawiki", type = "jdbc", shards = 1, replicas = 0, refreshInterval = "-1")
+@Document(indexName = "wordpress", type = "post", shards = 1, replicas = 0, refreshInterval = "-1")
 public class WpPosts {
     @Id
     @JsonProperty("ID")
