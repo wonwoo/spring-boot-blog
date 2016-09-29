@@ -47,7 +47,7 @@ public class IndexController {
   }
 
   @GetMapping({"/", "index"})
-  public String home(@RequestParam(required = false) String q, Model model, @PageableDefault(size = 5, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
+  public String home(@RequestParam(required = false) String q, Model model, @PageableDefault(size = 3, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
 
     Example<Post> post = Example.of(new Post(q, "Y"),
       matching()
