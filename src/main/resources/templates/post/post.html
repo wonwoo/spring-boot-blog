@@ -50,19 +50,6 @@
 </style>
 <script type="text/javascript" th:inline="javascript">
 
-    $(function() {
-        $("img").each(function() {
-            var oImgWidth = $(this).width();
-            var oImgHeight = $(this).height();
-            $(this).css({
-                'max-width':oImgWidth+'px',
-                'max-height':oImgHeight+'px',
-                'width':'100%',
-                'height':'100%'
-            });
-        });
-    });
-
     function deleteComment(postId, commentId){
         document.getElementById("deleteComment").action = "/comments/"+postId + "/" + commentId;
         document.getElementById("deleteComment").submit();
