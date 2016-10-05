@@ -34,7 +34,7 @@ public class Category {
   private LocalDateTime regDate;
 
   @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
-  private List<Post> post = new ArrayList<>();
+  private List<CategoryPost> post = new ArrayList<>();
 
   Category(){
   }

@@ -2,10 +2,7 @@ package me.wonwoo.web;
 
 import lombok.RequiredArgsConstructor;
 import me.wonwoo.config.PostProperties;
-import me.wonwoo.domain.model.Category;
-import me.wonwoo.domain.model.Post;
-import me.wonwoo.domain.model.Tag;
-import me.wonwoo.domain.model.User;
+import me.wonwoo.domain.model.*;
 import me.wonwoo.domain.repository.PostRepository;
 import me.wonwoo.dto.CommentDto;
 import me.wonwoo.dto.PostDto;
@@ -22,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
 
 import static java.util.stream.Collectors.*;
@@ -77,8 +75,8 @@ public class PostController {
     }
     PostDto createPost = new PostDto();
 
-    createPost.setCategoryId(post.getCategory().getId());
-    createPost.setCategoryName(post.getCategory().getName());
+    createPost.setCategoryId(post.getCategoryPost().stream().map(mapper -> mapper.getCategory().getId()).collect(toList()));
+    createPost.setCategoryName(post.getCategoryPost().stream().map(mapper -> mapper.getCategory().getName()).collect(toList()));
     createPost.setTitle(post.getTitle());
     createPost.setCode(post.getCode());
     createPost.setContent(post.getContent());
@@ -93,13 +91,15 @@ public class PostController {
     if (bindingResult.hasErrors()) {
       return "post/new";
     }
+
     Post post = new Post(createPost.getTitle(),
       createPost.getContent(),
       createPost.getCode(),
       "Y",
-      new Category(createPost.getCategoryId() == null ? 1L : createPost.getCategoryId()),
+      createPost.getCategoryId().stream().map(Category::new).collect(toList()),
       user,
       createPost.tags());
+
     Post newPost = postService.createPost(post);
     model.addAttribute("post", newPost);
     return "redirect:/posts/" + newPost.getId();
@@ -115,7 +115,7 @@ public class PostController {
       createPost.getContent(),
       createPost.getCode(),
       "Y",
-      new Category(createPost.getCategoryId()),
+      createPost.getCategoryId().stream().map(Category::new).collect(toList()),
       user,
       createPost.tags()
     );
@@ -131,7 +131,7 @@ public class PostController {
 
   @GetMapping("/category/{id}")
   public String categotyPost(Model model, @PathVariable Long id, @PageableDefault(size = 5, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
-    model.addAttribute("posts", postRepository.findByCategoryAndYn(new Category(id), "Y", pageable));
+    model.addAttribute("posts", postRepository.findByCategoryPostAndYn(id, "Y", pageable));
     model.addAttribute("show", postProperties.isFull());
     return "index";
   }

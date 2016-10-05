@@ -1,8 +1,20 @@
 /**
  * Created by wonwoo on 2016. 9. 13..
  */
-function changeCategory(name){
-    document.getElementById("categoryName").value = name;
+function changeCategory(){
+    var categoryId = document.getElementsByName("categoryId");
+    document.getElementById("categoryName").value="";
+    var text = "";
+    for(var i = 0; i < categoryId.length; i++) {
+        if(categoryId[i].checked){
+            if(text == ""){
+                text = categoryId[i].alt;
+            }else{
+                text += ", " + categoryId[i].alt;
+            }
+        }
+    }
+    document.getElementById("categoryName").value = text;
 }
 
 var URL = window.URL || window.webkitURL || window.mozURL || window.msURL;

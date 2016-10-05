@@ -34,8 +34,8 @@
         <div class="form-group" th:classappend="(${#fields.hasErrors('categoryId')}? ' has-error')">
             <label class="col-lg-2 control-label">categories</label>
             <div class="btn-group" data-toggle="buttons" th:each="category : ${categories}">
-                <label class="btn btn-primary active">
-                    <input th:onclick="'changeCategory(\'' + ${category.name} + '\')'" name="categoryId" type="radio" th:checked="checked" th:text="${category.name}" th:value="${category.id}" />
+                <label class="btn btn-primary " >
+                    <input th:field="*{categoryId}" th:onclick="'changeCategory()'" name="categoryId" th:alt="${category.name}" type="checkbox"  th:text="${category.name}" th:value="${category.id}" />
 
                 </label>
             </div>

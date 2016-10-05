@@ -20,9 +20,9 @@ public class PostDto {
   @NotBlank
   private String content;
   @NotNull
-  private Long categoryId;
+  private List<Long> categoryId;
 
-  private String categoryName;
+  private List<String> categoryName;
 
   private String code;
 

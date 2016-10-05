@@ -18,8 +18,8 @@ import static java.util.stream.Collectors.toList;
 @Entity
 @Data
 @EntityListeners(value = AuditingEntityListener.class)
-@ToString(exclude = {"comments", "tags", "user", "category"})
-@EqualsAndHashCode(exclude = {"comments", "tags", "user", "category"})
+@ToString(exclude = {"comments", "tags", "user", "categoryPost"})
+@EqualsAndHashCode(exclude = {"comments", "tags", "user", "categoryPost"})
 public class Post {
 
   @Id
@@ -56,9 +56,8 @@ public class Post {
   @JoinColumn(name = "USER_ID")
   private User user;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "CATEGORY_ID")
-  private Category category;
+  @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
+  private List<CategoryPost> categoryPost;
 
   Post() {
   }
@@ -72,12 +71,21 @@ public class Post {
     this.yn = yn;
   }
 
-  public Post(String title, String content, String code, String yn, Category category, User user, List<String> tags) {
+  public Post(String title, String content, String code, String yn, List<Category> categories, User user, List<String> tags) {
     this.title = title;
     this.content = content;
     this.code = code;
     this.yn = yn;
-    this.category = category;
+    this.user = user;
+    this.categoryPost = categories.stream().map(category -> new CategoryPost(category, this)).collect(toList());
+    this.tags = tags.stream().map(Tag::new).collect(toList());
+  }
+
+  public Post(String title, String content, String code, String yn,  User user, List<String> tags) {
+    this.title = title;
+    this.content = content;
+    this.code = code;
+    this.yn = yn;
     this.user = user;
     this.tags = tags.stream().map(Tag::new).collect(toList());
   }
