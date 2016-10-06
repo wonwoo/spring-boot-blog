@@ -27,15 +27,19 @@ public class Post {
   private Long id;
 
   @NotNull
+  @Column(name="title")
   private String title;
 
   @Lob
   @NotNull
+  @Column(name = "content")
   private String content;
 
   @Lob
+  @Column(name = "code")
   private String code;
 
+  @Column(name = "yn")
   private String yn;
 
   @CreatedDate
@@ -50,7 +54,7 @@ public class Post {
 
   @ElementCollection
   @CollectionTable(name = "tag", joinColumns = @JoinColumn(name = "post_id"))
-  private List<Tag> tags = new ArrayList<>();
+  private List<Tag> tags;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "USER_ID")

@@ -10,12 +10,13 @@ import me.wonwoo.domain.repository.PostRepository;
 import me.wonwoo.dto.CommentDto;
 import me.wonwoo.dto.PostDto;
 import me.wonwoo.exception.NotFoundException;
+import me.wonwoo.jinq.JinqSource;
 import me.wonwoo.service.CategoryService;
 import me.wonwoo.service.PostService;
-import org.jooq.DSLContext;
-import org.jooq.Record;
-import org.jooq.Record1;
-import org.jooq.Result;
+import org.jinq.jpa.JPAJinqStream;
+import org.jinq.jpa.JinqJPAStreamProvider;
+import org.jinq.tuples.Pair;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -26,13 +27,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 import java.util.List;
 
-import static java.util.stream.Collectors.*;
-import static sample.jooq.domain.Category.CATEGORY;
-import static sample.jooq.domain.CategoryPost.CATEGORY_POST;
-import static sample.jooq.domain.Post.POST;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
 
 /**
  * Created by wonwoo on 2016. 8. 15..
@@ -51,7 +53,10 @@ public class PostController {
 
   private final PostProperties postProperties;
 
-  private final DSLContext dsl;
+  @PersistenceContext
+  private final EntityManager em;
+
+  private final JinqSource jinqSource;
 
   @ModelAttribute("categories")
   public List<Category> categories() {
@@ -143,52 +148,39 @@ public class PostController {
 
   @GetMapping("/category/{id}")
   public String categotyPost(Model model, @PathVariable Long id, @PageableDefault(size = 5, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
-//    select p from Post p
-// inner join p.categoryPost cp
-// inner join cp.category c
-// where cp.category.id = :id and p.yn = :y
-    final Result<Record> records = dsl.select()
-      .from(POST)
-      .join(CATEGORY_POST)
-      .on(POST.ID.equal(CATEGORY_POST.POST_ID))
-      .innerJoin(CATEGORY)
-      .on(CATEGORY_POST.CATEGORY_ID.equal(CATEGORY.ID))
-      .where(CATEGORY_POST.ID.equal(id))
-      .and(POST.YN.equal("Y"))
-      .fetch();
 
-    final List<Post> collect = records.stream().map(record -> {
-      Post dto = new Post(
-        record.get(POST.TITLE),
-        record.get(POST.YN)
-      );
-      dto.setId(record.get(POST.ID));
-      dto.setCode(record.get(POST.CODE));
-      dto.setContent(record.get(POST.CONTENT));
-      return dto;
-    }).collect(toList());
+    JPAJinqStream<Post> posts = jinqSource.posts(em)
+            .where(post -> post.getYn().equals("Y"))
+            .joinList(Post::getCategoryPost)
+            .where(categoryPost -> categoryPost.getTwo().getId().equals(id))
+            .select(Pair::getOne);
 
-
-    final long count = dsl.fetchCount(
-      dsl.select(POST.ID)
-        .from(POST)
-        .innerJoin(CATEGORY_POST)
-        .on(POST.ID.equal(CATEGORY_POST.POST_ID))
-        .innerJoin(CATEGORY)
-        .on(CATEGORY_POST.CATEGORY_ID.equal(CATEGORY.ID))
-        .where(CATEGORY_POST.ID.equal(id))
-        .and(POST.YN.equal("Y"))
-    );
-
-    model.addAttribute("posts", new PageImpl<>(null, pageable, count));
+    model.addAttribute("posts", asPaged(posts, pageable));
     model.addAttribute("show", postProperties.isFull());
     return "index";
   }
+
 
   @GetMapping("/tags/{name}")
   public String getTags(@PathVariable String name, Model model, @PageableDefault(size = 5, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
-    model.addAttribute("posts", postRepository.findByTagAndYn(name, "Y", pageable));
+    JPAJinqStream<Post> posts = jinqSource.posts(em)
+            .where(post -> post.getYn().equals("Y"))
+            .joinList(Post::getTags)
+            .where(tags -> tags.getTwo().getTag().equals(name))
+            .select(Pair::getOne);
+    model.addAttribute("posts", asPaged(posts, pageable));
     model.addAttribute("show", postProperties.isFull());
     return "index";
   }
+
+  protected <T> Page<T> asPaged(JPAJinqStream<T> source, Pageable pageable) {
+    long total = source.count();
+    if (pageable != null && pageable.getPageSize() > 0) {
+      source = source.skip(pageable.getPageNumber() * pageable.getPageSize())
+              .limit(pageable.getPageSize());
+    }
+    List<T> result = source.toList();
+    return new PageImpl<>(result, pageable, total);
+  }
+
 }
