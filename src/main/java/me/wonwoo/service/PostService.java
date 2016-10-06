@@ -37,8 +37,10 @@ public class PostService {
     oldPost.setTags(post.getTags());
     oldPost.setCode(post.getCode());
     oldPost.setContent(post.getContent());
-//    categoryPostRepository.delete(oldPost.getCategoryPost());
-//    categoryPostRepository.save(post.getCategoryPost());
+    //흠.
+    post.setId(oldPost.getId());
+    categoryPostRepository.delete(oldPost.getCategoryPost());
+    categoryPostRepository.save(post.getCategoryPost());
   }
 
   public void deletePost(Long id) {
