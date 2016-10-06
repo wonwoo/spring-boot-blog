@@ -1,15 +1,3 @@
-/*
- * ****************************************************************************
- *
- *
- *  Copyright(c) 2015 Helloworld. All rights reserved.
- *
- *  This software is the proprietary information of Helloworld.
- *
- *
- * ***************************************************************************
- */
-
 package me.wonwoo.web;
 
 import me.wonwoo.elasticsearch.ElasticBuckets;
@@ -32,13 +20,6 @@ import static java.util.stream.Collectors.toList;
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 import static org.elasticsearch.search.aggregations.AggregationBuilders.terms;
 
-/**
- * Created by Helloworld
- * User : wonwoo
- * Date : 2016-09-21
- * Time : 오후 2:34
- * desc :
- */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ElasticTemplateTest {
