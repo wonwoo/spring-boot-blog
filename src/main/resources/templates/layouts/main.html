@@ -64,7 +64,6 @@
                 <span class="sr-only">Toggle navigation</span>
                 Menu <i class="fa fa-bars"></i>
             </button>
-            <a class="navbar-brand" href="/">Start Bootstrap</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -103,7 +102,7 @@
                 </li>
                 <li sec:authorize="hasRole('ROLE_USER')">
                     <form th:action="@{/logout}" method="post" role="logout">
-                        <button type="submit" class="btn" style=" padding:18px; color: #fff; background-color: rgba( 255, 255, 255, 0.0 );">Sign Out</button>
+                        <button type="submit" class="btn" style=" padding:18px; color: #000; background-color: rgba( 255, 255, 255, 0.0 );">Sign Out</button>
                     </form>
                 </li>
             </ul>
@@ -115,13 +114,13 @@
 
 <!-- Page Header -->
 <!-- Set your background image for this header on the line below. -->
-<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+<header class="intro-header" >
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <div class="site-heading" >
-                    <h1 th:if="${navSection}" style="color:#ffffff" th:text="${navSection}">Clean Blog</h1>
-                    <h1 th:unless ="${navSection}" style="color:#ffffff" th:text="${error}">Error</h1>
+                    <h1 th:if="${navSection}" th:text="${navSection}">Clean Blog</h1>
+                    <h1 th:unless ="${navSection}" th:text="${error}">Error</h1>
                     <!--<hr class="small" />-->
                     <!--<span class="subheading">A Clean Blog Theme by Start Bootstrap</span>-->
                 </div>
