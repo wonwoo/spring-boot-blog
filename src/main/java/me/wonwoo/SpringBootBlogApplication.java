@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import me.wonwoo.config.PostProperties;
 import me.wonwoo.security.GitProperties;
+import me.wonwoo.weather.WeatherAppProperties;
 import org.elasticsearch.client.Client;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -37,7 +38,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 
 @SpringBootApplication
-@EnableConfigurationProperties({GitProperties.class, PostProperties.class})
+@EnableConfigurationProperties({GitProperties.class, PostProperties.class, WeatherAppProperties.class})
 @EnableJpaAuditing
 @EnableCaching
 public class SpringBootBlogApplication {
@@ -59,6 +60,8 @@ public class SpringBootBlogApplication {
       cm.createCache("spring.blog.category", initConfiguration(Duration.ONE_MINUTE));
       cm.createCache("github.commits", initConfiguration(Duration.ONE_MINUTE));
       cm.createCache("github.page", initConfiguration(Duration.ONE_DAY));
+      cm.createCache("weather", initConfiguration(Duration.THIRTY_MINUTES));
+      cm.createCache("forecast", initConfiguration(Duration.THIRTY_MINUTES));
       cm.createCache("github.user", initConfiguration(Duration.ONE_HOUR));
     };
   }

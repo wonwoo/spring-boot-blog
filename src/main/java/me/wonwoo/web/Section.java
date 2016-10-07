@@ -12,7 +12,8 @@ public enum Section {
   HISTORY("Blog History"),
   GITHUB("GitHub Page"),
   WORDPRESS("WordPress"),
-  CATEGORY("Category");
+  CATEGORY("Category"),
+  WEATHER("weather");
 
   private String value;
 
