@@ -61,7 +61,6 @@ public class SpringBootBlogApplication {
       cm.createCache("github.commits", initConfiguration(Duration.ONE_MINUTE));
       cm.createCache("github.page", initConfiguration(Duration.ONE_DAY));
       cm.createCache("weather", initConfiguration(Duration.THIRTY_MINUTES));
-      cm.createCache("forecast", initConfiguration(Duration.THIRTY_MINUTES));
       cm.createCache("github.user", initConfiguration(Duration.ONE_HOUR));
     };
   }

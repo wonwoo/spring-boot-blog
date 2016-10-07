@@ -20,9 +20,6 @@ public class WeatherService {
   private static final String WEATHER_URL =
     "http://api.openweathermap.org/data/2.5/weather?q={city},{country}&APPID={key}";
 
-  private static final String FORECAST_URL =
-    "http://api.openweathermap.org/data/2.5/forecast?q={city},{country}&APPID={key}";
-
   private final RestTemplate restTemplate;
 
   private final String apiKey;
@@ -39,11 +36,6 @@ public class WeatherService {
     return invoke(url, Weather.class);
   }
 
-  @Cacheable("forecast")
-  public WeatherForecast getWeatherForecast(String country, String city) {
-    URI url = new UriTemplate(FORECAST_URL).expand(city, country, this.apiKey);
-    return invoke(url, WeatherForecast.class);
-  }
 
   private <T> T invoke(URI url, Class<T> responseType) {
     RequestEntity<?> request = RequestEntity.get(url)

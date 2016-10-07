@@ -7,7 +7,7 @@
     <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
     <title>Weather Summary</title>
 </head>
-<div class="container" layout:fragment="content">
+<div class="container weather" layout:fragment="content">
 <h1>Weather Summary</h1>
 <ul th:each="summary: ${summary}">
     <li>
@@ -15,7 +15,7 @@
 
         <div>
             <i th:class="'owf owf-' + ${summary.code} + ' owf-4x'" style="opacity: 0.4" ></i>
-            <span class="temp" th:text="${summary.fahrenheitTemperature}"></span><sup>°F</sup> / <span th:text="${summary.celsiusTemperature}"></span><sup>°C</sup>
+            <div class="temp"><span th:text="${summary.fahrenheitTemperature}"></span><sup>°F</sup> / <span th:text="${summary.celsiusTemperature}"></span> <sup>°C</sup></div>
         </div>
         <div style="clear: both;"></div>
     </li>

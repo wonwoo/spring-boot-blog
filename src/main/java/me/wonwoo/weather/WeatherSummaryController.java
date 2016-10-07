@@ -36,7 +36,7 @@ public class WeatherSummaryController {
     return "summary/summary";
   }
 
-  private Object getSummary() {
+  private List<WeatherSummary> getSummary() {
     List<WeatherSummary> summary = new ArrayList<>();
     for (String location : this.properties.getLocations()) {
       String country = location.split("/")[0];
