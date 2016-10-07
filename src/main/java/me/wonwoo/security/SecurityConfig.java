@@ -17,8 +17,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.authority.AuthorityUtils;
 
-import static com.sun.imageio.plugins.jpeg.JPEG.vendor;
-
 /**
  * Created by wonwoo on 2016. 8. 23..
  */

@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import me.wonwoo.elasticsearch.PostElasticSearchService;
 import me.wonwoo.wordpress.WordPressClient;
 import me.wonwoo.wordpress.domain.WpPosts;
-import me.wonwoo.wordpress.repository.WpPostsRepository;
 import org.pegdown.PegDownProcessor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -33,7 +32,6 @@ import static org.apache.commons.lang.StringEscapeUtils.unescapeHtml;
 public class WordPressController {
 
     private final WordPressClient wordPressClient;
-    private final WpPostsRepository wpPostsRepository;
     private final PegDownProcessor pegDownProcessor;
     private final PostElasticSearchService postElasticSearchService;
 
@@ -69,9 +67,7 @@ public class WordPressController {
     public String findOne(@PathVariable Long id, Model model) {
         WpPosts wpPosts = postElasticSearchService.findOne(id);
         wpPosts.setPostContent(pegDownProcessor.markdownToHtml(unescapeHtml(wpPosts.getPostContentFiltered())));
-//        List<String> tags = wpPostsRepository.findByTags(id, "post_tag");
         model.addAttribute("wordPress", wpPosts);
-//        model.addAttribute("tags", tags);
         return "wordpress/wordPress";
     }
 }
