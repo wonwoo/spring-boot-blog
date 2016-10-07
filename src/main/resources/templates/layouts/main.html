@@ -101,9 +101,7 @@
                        role="button">Login</a>
                 </li>
                 <li sec:authorize="hasRole('ROLE_USER')">
-                    <form th:action="@{/logout}" method="post" role="logout">
-                        <button type="submit" class="btn" style=" padding:18px; color: #000; background-color: rgba( 255, 255, 255, 0.0 );">Sign Out</button>
-                    </form>
+                    <a href="#" role="button" onclick="document.getElementById('logoutForm').submit()">Sign Out</a>
                 </li>
             </ul>
         </div>
@@ -111,7 +109,8 @@
     </div>
     <!-- /.container -->
 </nav>
-
+<form th:action="@{/logout}" method="post" id="logoutForm" >
+</form>
 <!-- Page Header -->
 <!-- Set your background image for this header on the line below. -->
 <header class="intro-header" >
