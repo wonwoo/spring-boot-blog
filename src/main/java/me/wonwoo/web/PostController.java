@@ -147,7 +147,7 @@ public class PostController {
   }
 
   @GetMapping("/category/{id}")
-  public String categotyPost(Model model, @PathVariable Long id, @PageableDefault(size = 5, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
+  public String categotyPost(Model model, @PathVariable Long id, @PageableDefault(size = 3, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
 
     JPAJinqStream<Post> posts = jinqSource.posts(em)
             .where(post -> post.getYn().equals("Y"))
@@ -162,7 +162,7 @@ public class PostController {
 
 
   @GetMapping("/tags/{name}")
-  public String getTags(@PathVariable String name, Model model, @PageableDefault(size = 5, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
+  public String getTags(@PathVariable String name, Model model, @PageableDefault(size = 3, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
     JPAJinqStream<Post> posts = jinqSource.posts(em)
             .where(post -> post.getYn().equals("Y"))
             .joinList(Post::getTags)
@@ -179,8 +179,6 @@ public class PostController {
       source = source.skip(pageable.getPageNumber() * pageable.getPageSize())
               .limit(pageable.getPageSize());
     }
-    List<T> result = source.toList();
-    return new PageImpl<>(result, pageable, total);
+    return new PageImpl<>(source.toList(), pageable, total);
   }
-
 }
