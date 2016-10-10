@@ -3,40 +3,95 @@
       layout:decorate="~{layouts/main}"  xmlns:sd="http://www.thymeleaf.org/spring-data">
 <head>
     <title>워드프레스</title>
+    <head>
+        <title>HOME</title>
+        <style>
+            @media (min-width: 1200px) {
+                .container {
+                    width: 1100px;
+                }
+            }
+            .blog-main {
+                font-size: 18px;
+                line-height: 1.5;
+            }
+
+            /* Sidebar modules for boxing content */
+            .sidebar-module {
+                padding: 15px;
+                margin: 0 -15px 15px;
+            }
+            .sidebar-module-inset {
+                padding: 15px;
+                background-color: #f5f5f5;
+                border-radius: 4px;
+            }
+            .sidebar-module-inset p:last-child,
+            .sidebar-module-inset ul:last-child,
+            .sidebar-module-inset ol:last-child {
+                margin-bottom: 0;
+            }
+        </style>
+        <script type="text/javascript" th:inline="javascript">
+            $(function() {
+                $("img").each(function() {
+                    var oImgWidth = $(this).width();
+                    var oImgHeight = $(this).height();
+                    $(this).css({
+                        'max-width':oImgWidth+'px',
+                        'max-height':oImgHeight+'px',
+                        'width':'100%',
+                        'height':'100%'
+                    });
+                });
+            });
+        </script>
+    </head>
 </head>
 <body th:onload="'initPrettify(),initHideShowGuide()'">
 <!-- Main Content -->
 <div class="container" layout:fragment="content">
-    <div class="col-lg-3 col-lg-offset-9">
-        <input type="text" class="form-control" id="q" name="q"/>
-        <input type="button" class="btn btn-secondary" value="search" onclick="location.href='/wordPress?q=' + document.getElementById('q').value" />
-    </div>
-    <div class="row" th:each="wordPress : ${wordPresses.content}">
-        <a th:href="@{'/wordPress/' + ${wordPress.id}}">
-            <h1 class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" style="margin-bottom:1%" th:text="${wordPress.postTitle}">
-            </h1>
-        </a>
-        <p class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" style="margin-bottom:3%;">Posted by <strong>wonwoo</strong> on <strong th:text="${#temporals.format(wordPress.postDate, 'yyyy-MM-dd')}"> </strong> </p>
-        <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" th:utext="${wordPress.postContent}">
-        </div>
-        <!--<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" style="padding: 3%">-->
-            <!--<span class="label label-info" th:each="tag : ${wordPress.tags}" style="border-radius:1.25em;" th:text="${tag.key}">-->
-            <!--</span>-->
-        <!--</div>-->
-    </div>
+    <!--<div class="col-lg-3 col-lg-offset-9">-->
+        <!--<input type="text" class="form-control" id="q" name="q"/>-->
+        <!--<input type="button" class="btn btn-secondary" value="search" onclick="location.href='/wordPress?q=' + document.getElementById('q').value" />-->
+    <!--</div>-->
+    <div class="row">
+        <div class="col-sm-9 blog-main">
+            <div class="row" th:each="wordPress : ${wordPresses.content}">
+                <a th:href="@{'/wordPress/' + ${wordPress.id}}">
+                    <h1 class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" style="margin-bottom:1%" th:text="${wordPress.postTitle}">
+                    </h1>
+                </a>
+                <p class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" style="margin-bottom:3%;">Posted by <strong>wonwoo</strong> on <strong th:text="${#temporals.format(wordPress.postDate, 'yyyy-MM-dd')}"> </strong> </p>
+                <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" th:utext="${wordPress.postContent}">
+                </div>
+                <!--<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" style="padding: 3%">-->
+                    <!--<span class="label label-info" th:each="tag : ${wordPress.tags}" style="border-radius:1.25em;" th:text="${tag.key}">-->
+                    <!--</span>-->
+                <!--</div>-->
+            </div>
 
-    <div class="row" style="margin-top: 5%">
-        <div class="col-lg-3 col-lg-offset-1 col-md-10 col-md-offset-1">
-            <div sd:pagination-summary="">info</div>
+            <div class="row" style="margin-top: 5%">
+                <div class="col-lg-3 col-lg-offset-1 col-md-10 col-md-offset-1">
+                    <div sd:pagination-summary="">info</div>
+                </div>
+                <div class="col-lg-5 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <nav class="pull-right">
+                        <ul class="pagination" sd:pagination="full">
+                            <!-- Pagination created by SpringDataDialect, this content is just for mockup -->
+                            <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                            <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
         </div>
-        <div class="col-lg-5 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <nav class="pull-right">
-                <ul class="pagination" sd:pagination="full">
-                    <!-- Pagination created by SpringDataDialect, this content is just for mockup -->
-                    <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-                    <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                </ul>
-            </nav>
+        <div class="col-sm-3 col-sm-offset-0 blog-sidebar">
+            <div class="sidebar-module sidebar-module-inset">
+                <input type="text" class="form-control" id="q" name="q"
+                       placeholder="title"/>
+                <input type="button" class="btn btn-secondary" value="search" onclick="location.href='/wordPress?q=' + document.getElementById('q').value" />
+            </div>
         </div>
     </div>
 </div>
