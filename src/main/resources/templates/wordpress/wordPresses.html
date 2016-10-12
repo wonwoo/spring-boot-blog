@@ -58,13 +58,19 @@
     <div class="row">
         <div class="col-sm-9 blog-main">
             <div class="row" th:each="wordPress : ${wordPresses.content}">
+
                 <a th:href="@{'/wordPress/' + ${wordPress.id}}">
-                    <h1 class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" style="margin-bottom:1%" th:text="${wordPress.postTitle}">
+                    <h1 class="post-title" th:text="${wordPress.postTitle}">
                     </h1>
                 </a>
-                <p class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" style="margin-bottom:3%;">Posted by <strong>wonwoo</strong> on <strong th:text="${#temporals.format(wordPress.postDate, 'yyyy-MM-dd')}"> </strong> </p>
-                <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" th:utext="${wordPress.postContent}">
+                <div>
+                    <p style="margin: 10px 0px;">Posted by <strong>wonwoo</strong> on <strong th:text="${#temporals.format(wordPress.postDate, 'yyyy-MM-dd')}"> </strong> </p>
                 </div>
+                <div th:if="${show}" style="margin-bottom:30px" th:utext="${wordPress.postContent}">
+
+                </div>
+
+
                 <!--<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" style="padding: 3%">-->
                     <!--<span class="label label-info" th:each="tag : ${wordPress.tags}" style="border-radius:1.25em;" th:text="${tag.key}">-->
                     <!--</span>-->
@@ -72,10 +78,7 @@
             </div>
 
             <div class="row" style="margin-top: 5%">
-                <div class="col-lg-3 col-lg-offset-1 col-md-10 col-md-offset-1">
-                    <div sd:pagination-summary="">info</div>
-                </div>
-                <div class="col-lg-5 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="col-lg-5 col-lg-offset-3 col-md-10 col-md-offset-1">
                     <nav class="pull-right">
                         <ul class="pagination" sd:pagination="full">
                             <!-- Pagination created by SpringDataDialect, this content is just for mockup -->

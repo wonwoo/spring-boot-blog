@@ -63,6 +63,13 @@ public class WordPressController {
         return "wordpress/wordPresses";
     }
 
+//    WpPosts wpPosts1 = new WpPosts();
+//    wpPosts1.setPostTitle("test");
+//    wpPosts1.setPostContent("11111");
+//    wpPosts1.setId(1L);
+//    wpPosts1.setPostDate(LocalDateTime.now());
+//    List<WpPosts> list = Arrays.asList(wpPosts1);
+
     @GetMapping("/{id}")
     public String findOne(@PathVariable Long id, Model model) {
         WpPosts wpPosts = postElasticSearchService.findOne(id);
