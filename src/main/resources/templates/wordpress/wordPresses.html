@@ -66,7 +66,7 @@
                 <div>
                     <p style="margin: 10px 0px;">Posted by <strong>wonwoo</strong> on <strong th:text="${#temporals.format(wordPress.postDate, 'yyyy-MM-dd')}"> </strong> </p>
                 </div>
-                <div th:if="${show}" style="margin-bottom:30px" th:utext="${wordPress.postContent}">
+                <div style="margin-bottom:30px" th:utext="${wordPress.postContent}">
 
                 </div>
 
@@ -78,7 +78,7 @@
             </div>
 
             <div class="row" style="margin-top: 5%">
-                <div class="col-lg-5 col-lg-offset-3 col-md-10 col-md-offset-1">
+                <div class="col-lg-6 col-lg-offset-3 col-md-10 col-md-offset-1">
                     <nav class="pull-right">
                         <ul class="pagination" sd:pagination="full">
                             <!-- Pagination created by SpringDataDialect, this content is just for mockup -->
