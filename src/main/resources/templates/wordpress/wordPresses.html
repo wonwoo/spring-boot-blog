@@ -3,52 +3,49 @@
       layout:decorate="~{layouts/main}"  xmlns:sd="http://www.thymeleaf.org/spring-data">
 <head>
     <title>워드프레스</title>
-    <head>
-        <title>HOME</title>
-        <style>
-            @media (min-width: 1200px) {
-                .container {
-                    width: 1100px;
-                }
+    <style>
+        @media (min-width: 1200px) {
+            .container {
+                width: 1100px;
             }
-            .blog-main {
-                font-size: 18px;
-                line-height: 1.5;
-            }
+        }
+        .blog-main {
+            font-size: 18px;
+            line-height: 1.5;
+        }
 
-            /* Sidebar modules for boxing content */
-            .sidebar-module {
-                padding: 15px;
-                margin: 0 -15px 15px;
-            }
-            .sidebar-module-inset {
-                padding: 15px;
-                background-color: #f5f5f5;
-                border-radius: 4px;
-            }
-            .sidebar-module-inset p:last-child,
-            .sidebar-module-inset ul:last-child,
-            .sidebar-module-inset ol:last-child {
-                margin-bottom: 0;
-            }
-        </style>
-        <script type="text/javascript" th:inline="javascript">
-            $(function() {
-                $("img").each(function() {
-                    var oImgWidth = $(this).width();
-                    var oImgHeight = $(this).height();
-                    $(this).css({
-                        'max-width':oImgWidth+'px',
-                        'max-height':oImgHeight+'px',
-                        'width':'100%',
-                        'height':'100%'
-                    });
+        /* Sidebar modules for boxing content */
+        .sidebar-module {
+            padding: 15px;
+            margin: 0 -15px 15px;
+        }
+        .sidebar-module-inset {
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+        }
+        .sidebar-module-inset p:last-child,
+        .sidebar-module-inset ul:last-child,
+        .sidebar-module-inset ol:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+    <script type="text/javascript" th:inline="javascript">
+        $(function() {
+            $("img").each(function() {
+                var oImgWidth = $(this).width();
+                var oImgHeight = $(this).height();
+                $(this).css({
+                    'max-width':oImgWidth+'px',
+                    'max-height':oImgHeight+'px',
+                    'width':'100%',
+                    'height':'100%'
                 });
             });
-        </script>
-    </head>
+        });
+    </script>
 </head>
-<body th:onload="'initPrettify(),initHideShowGuide()'">
+<body th:onload="'initPrettify()'">
 <!-- Main Content -->
 <div class="container" layout:fragment="content">
     <!--<div class="col-lg-3 col-lg-offset-9">-->
@@ -57,7 +54,7 @@
     <!--</div>-->
     <div class="row">
         <div class="col-sm-9 blog-main">
-            <div class="row" th:each="wordPress : ${wordPresses.content}">
+            <div th:each="wordPress : ${wordPresses.content}">
 
                 <a th:href="@{'/wordPress/' + ${wordPress.id}}">
                     <h1 class="post-title" th:text="${wordPress.postTitle}">
