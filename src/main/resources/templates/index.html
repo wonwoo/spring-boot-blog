@@ -30,6 +30,10 @@
         .sidebar-module-inset ol:last-child {
             margin-bottom: 0;
         }
+        .pagination-centered {
+            text-align: center;
+        }
+
     </style>
     <script type="text/javascript" th:inline="javascript">
         $(function() {
@@ -72,8 +76,8 @@
             </div>
 
             <div class="row" style="margin-top: 5%">
-                <div class="col-lg-8 col-lg-offset-3 col-md-10 col-md-offset-1">
-                    <nav class="pull-right">
+                <div class="pagination-centered">
+                    <nav>
                         <ul class="pagination" sd:pagination="full">
                             <!-- Pagination created by SpringDataDialect, this content is just for mockup -->
                             <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>

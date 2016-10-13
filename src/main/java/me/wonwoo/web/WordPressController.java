@@ -55,10 +55,14 @@ public class WordPressController {
 //        return "wordpress/wordPresses";
 //    }
 
+
     @GetMapping
-    public String findAll(Model model, @PageableDefault(size = 3, sort = "post_date", direction = Sort.Direction.DESC) Pageable pageable) {
+    public String findAll(@ModelAttribute SearchForm searchForm, Model model, @PageableDefault(size = 3, sort = "post_date", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<WpPosts> wpPostses = postElasticSearchService.wpPosts(pageable);
-        List<WpPosts> wpPosts = wpPostses.getContent().stream().peek(content -> content.setPostContent(pegDownProcessor.markdownToHtml(unescapeHtml(content.getPostContentFiltered())))).collect(toList());
+        List<WpPosts> wpPosts = wpPostses.getContent()
+                .stream()
+                .peek(content -> content.setPostContent(pegDownProcessor.markdownToHtml(unescapeHtml(content.getPostContentFiltered()))))
+                .collect(toList());
         model.addAttribute("wordPresses", new PageImpl<>(wpPosts, pageable, wpPostses.getTotalElements()));
         return "wordpress/wordPresses";
     }
@@ -67,15 +71,27 @@ public class WordPressController {
     @GetMapping("/search")
     public String search(Model model, @PageableDefault(size = 3) Pageable pageable, @ModelAttribute SearchForm searchForm) {
         Page<WpPosts> wpPostses = postElasticSearchService.searchWpPosts(searchForm.getQ(), pageable);
-        List<WpPosts> wpPosts = wpPostses.getContent().stream().peek(content -> content.setPostContent(pegDownProcessor.markdownToHtml(unescapeHtml(content.getPostContentFiltered())))).collect(toList());
-//
+        List<WpPosts> wpPosts = wpPostses.getContent().stream().peek(content -> {
+            String postContent = pegDownProcessor.markdownToHtml(unescapeHtml(content.getHighlightedContent()));
+            String em1 = postContent.replace("&lt;highlight&gt;", "<highlight>");
+            String em2 = em1.replace("&lt;/highlight&gt;", "</highlight>");
+            content.setPostContent(em2);
+        }).collect(toList());
 //    WpPosts wpPosts1 = new WpPosts();
 //    wpPosts1.setPostTitle("test");
-//    wpPosts1.setPostContent("11111");
+//    wpPosts1.setPostContent(text);
 //    wpPosts1.setId(1);
 //    wpPosts1.setPostDate(LocalDateTime.now());
 //    List<WpPosts> list = Arrays.asList(wpPosts1);
-        model.addAttribute("wordPresses", new PageImpl<>(wpPosts, pageable, wpPostses.getTotalElements()));
+//        //test 일단
+//        List<WpPosts> temp = list.stream().peek(content -> {
+//            String postContent = pegDownProcessor.markdownToHtml(unescapeHtml(content.getPostContent()));
+//            String em1 = postContent.replace("&lt;highlight&gt;", "<highlight>");
+//            String em2 = em1.replace("&lt;/highlight&gt;", "</highlight>");
+//            content.setPostContent(em2);
+//        }).collect(toList());
+
+        model.addAttribute("wordPresses",new PageImpl<>(wpPosts, pageable, wpPostses.getTotalElements()));
         return "wordpress/search";
     }
 

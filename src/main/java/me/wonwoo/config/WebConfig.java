@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 
 import static org.pegdown.Extensions.ALL;
-import static org.pegdown.Extensions.ATXHEADERSPACE;
 
 /**
  * Created by wonwoo on 2016. 9. 2..

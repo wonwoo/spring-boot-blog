@@ -29,9 +29,14 @@
         .sidebar-module-inset ol:last-child {
             margin-bottom: 0;
         }
-        em{
+
+        .pagination-centered {
+            text-align: center;
+        }
+
+        highlight{
             font-weight: bold;
-            background-color:#ffff00;
+            background-color:yellow;
         }
     </style>
     <script type="text/javascript" th:inline="javascript">
@@ -67,8 +72,7 @@
                 <div>
                     <p style="margin: 10px 0px;">Posted by <strong>wonwoo</strong> on <strong th:text="${#temporals.format(wordPress.postDate, 'yyyy-MM-dd')}"> </strong> </p>
                 </div>
-                <div style="margin-bottom:30px" th:utext="${wordPress.highlightedContent}">
-
+                <div style="margin-bottom:30px" th:utext="${wordPress.postContent}">
                 </div>
 
 
@@ -79,8 +83,8 @@
             </div>
 
             <div class="row" style="margin-top: 5%">
-                <div class="col-lg-8 col-lg-offset-3 col-md-10 col-md-offset-1">
-                    <nav class="pull-right">
+                <div class="pagination-centered">
+                    <nav>
                         <ul class="pagination" sd:pagination="full">
                             <!-- Pagination created by SpringDataDialect, this content is just for mockup -->
                             <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>

@@ -55,10 +55,10 @@ public class PostElasticSearchService {
     if (StringUtils.hasText(q)) {
       final MatchQueryBuilder postTitle = matchQuery("post_title", q);
       queryStringQueryBuilder.should(postTitle);
-      final MatchQueryBuilder postContent = matchQuery("post_content", q);
-      queryStringQueryBuilder.should(postContent);
 //      final MatchQueryBuilder postContent = matchQuery("post_content", q);
 //      queryStringQueryBuilder.should(postContent);
+      final MatchQueryBuilder postContentFiltered = matchQuery("post_content_filtered", q);
+      queryStringQueryBuilder.should(postContentFiltered);
     }
 
     final QueryBuilder builder = boolQuery()
@@ -69,8 +69,16 @@ public class PostElasticSearchService {
       .withPageable(pageable)
       .withSearchType(SearchType.DEFAULT)
       .withSort(SortBuilders.scoreSort())
-      .withHighlightFields(new HighlightBuilder.Field("post_content").fragmentSize(Integer.MAX_VALUE).numOfFragments(1),
-        new HighlightBuilder.Field("post_title").fragmentSize(Integer.MAX_VALUE).numOfFragments(1))
+      .withHighlightFields(new HighlightBuilder.Field("post_content_filtered")
+                      .preTags("<highlight>")
+                      .postTags("</highlight>")
+                      .fragmentSize(Integer.MAX_VALUE)
+                      .numOfFragments(1),
+        new HighlightBuilder.Field("post_title")
+                .preTags("<highlight>")
+                .postTags("</highlight>")
+                .fragmentSize(Integer.MAX_VALUE)
+                .numOfFragments(1))
       .withQuery(builder).build();
     return elasticsearchTemplate.queryForPage(searchQuery, WpPosts.class, new SearchResultMapper() {
       public <T> AggregatedPage<T> mapResults(SearchResponse response, Class<T> clazz, Pageable pageable) {
@@ -80,11 +88,11 @@ public class PostElasticSearchService {
             return new AggregatedPageImpl<>(Collections.emptyList());
           }
           final WpPosts wpPosts = objectMapper.convertValue(searchHit.getSource(), WpPosts.class);
-          final HighlightField postContent = searchHit.getHighlightFields().get("post_content");
-          if(postContent != null){
-            wpPosts.setHighlightedContent(postContent.fragments()[0].toString());
+          final HighlightField postContentFiltered = searchHit.getHighlightFields().get("post_content_filtered");
+          if(postContentFiltered != null){
+            wpPosts.setHighlightedContent(postContentFiltered.fragments()[0].toString());
           }else{
-            wpPosts.setHighlightedContent(wpPosts.getPostContent());
+            wpPosts.setHighlightedContent(wpPosts.getPostContentFiltered());
           }
           HighlightField postTitle = searchHit.getHighlightFields().get("post_title");
           if(postTitle != null){
