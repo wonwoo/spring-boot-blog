@@ -9,6 +9,7 @@ import me.wonwoo.domain.model.User;
 import me.wonwoo.domain.repository.PostRepository;
 import me.wonwoo.dto.CommentDto;
 import me.wonwoo.dto.PostDto;
+import me.wonwoo.dto.SearchForm;
 import me.wonwoo.exception.NotFoundException;
 import me.wonwoo.jinq.JinqSource;
 import me.wonwoo.service.CategoryService;
@@ -147,7 +148,7 @@ public class PostController {
   }
 
   @GetMapping("/category/{id}")
-  public String categotyPost(Model model, @PathVariable Long id, @PageableDefault(size = 3, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
+  public String categotyPost(Model model, @PathVariable Long id, @ModelAttribute SearchForm searchForm, @PageableDefault(size = 3, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
 
     JPAJinqStream<Post> posts = jinqSource.posts(em)
             .where(post -> post.getYn().equals("Y"))
@@ -162,7 +163,7 @@ public class PostController {
 
 
   @GetMapping("/tags/{name}")
-  public String getTags(@PathVariable String name, Model model, @PageableDefault(size = 3, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
+  public String getTags(@PathVariable String name, @ModelAttribute SearchForm searchForm,  Model model, @PageableDefault(size = 3, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
     JPAJinqStream<Post> posts = jinqSource.posts(em)
             .where(post -> post.getYn().equals("Y"))
             .joinList(Post::getTags)
