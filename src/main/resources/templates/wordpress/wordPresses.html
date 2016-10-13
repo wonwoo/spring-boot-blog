@@ -87,11 +87,12 @@
             </div>
         </div>
         <div class="col-sm-3 col-sm-offset-0 blog-sidebar">
-            <div class="sidebar-module sidebar-module-inset">
-                <input type="text" class="form-control" id="q" name="q"
-                       placeholder="title"/>
-                <input type="button" class="btn btn-secondary" value="search" onclick="location.href='/wordPress/search?q=' + document.getElementById('q').value" />
-            </div>
+            <form th:action="@{/wordPress/search}" method="get" th:object="${searchForm}">
+                <div class="sidebar-module sidebar-module-inset">
+                    <input type="text" class="form-control" th:field="*{q}" placeholder="search"/>
+                    <input type="submit" class="btn btn-secondary" value="search" />
+                </div>
+            </form>
         </div>
     </div>
 </div>

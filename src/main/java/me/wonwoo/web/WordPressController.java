@@ -1,6 +1,7 @@
 package me.wonwoo.web;
 
 import lombok.RequiredArgsConstructor;
+import me.wonwoo.dto.SearchForm;
 import me.wonwoo.elasticsearch.PostElasticSearchService;
 import me.wonwoo.wordpress.WordPressClient;
 import me.wonwoo.wordpress.domain.WpPosts;
@@ -12,11 +13,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -56,27 +56,32 @@ public class WordPressController {
 //    }
 
     @GetMapping
-    public String findAll(Model model, @PageableDefault(size = 3, sort = "post_date", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<WpPosts> wpPostses = postElasticSearchService.wpPosts(pageable);
-        List<WpPosts> wpPosts = wpPostses.getContent().stream().peek(content -> content.setPostContent(pegDownProcessor.markdownToHtml(unescapeHtml(content.getPostContentFiltered())))).collect(toList());
-        model.addAttribute("wordPresses", new PageImpl<>(wpPosts, pageable, wpPostses.getTotalElements()));
+    public String findAll(@ModelAttribute SearchForm searchForm, Model model, @PageableDefault(size = 3, sort = "post_date", direction = Sort.Direction.DESC) Pageable pageable) {
+        WpPosts wpPosts1 = new WpPosts();
+        wpPosts1.setPostTitle("test");
+        wpPosts1.setPostContent("11111");
+        wpPosts1.setId(1);
+        wpPosts1.setPostDate(LocalDateTime.now());
+        List<WpPosts> list = Arrays.asList(wpPosts1);
+        model.addAttribute("wordPresses", new PageImpl<>(list, pageable, list.size()));
         return "wordpress/wordPresses";
     }
 
     @GetMapping("/search")
-    public String search(Model model, @PageableDefault(size = 3) Pageable pageable, @RequestParam(required = false, defaultValue = "") String q) {
-        Page<WpPosts> wpPostses = postElasticSearchService.searchWpPosts(q, pageable);
-        List<WpPosts> wpPosts = wpPostses.getContent().stream().peek(content -> content.setPostContent(pegDownProcessor.markdownToHtml(unescapeHtml(content.getPostContentFiltered())))).collect(toList());
-        model.addAttribute("wordPresses", new PageImpl<>(wpPosts, pageable, wpPostses.getTotalElements()));
+    public String search(Model model, @PageableDefault(size = 3) Pageable pageable, @ModelAttribute SearchForm searchForm) {
+//        Page<WpPosts> wpPostses = postElasticSearchService.searchWpPosts(searchForm.getQ(), pageable);
+//        List<WpPosts> wpPosts = wpPostses.getContent().stream().peek(content -> content.setPostContent(pegDownProcessor.markdownToHtml(unescapeHtml(content.getPostContentFiltered())))).collect(toList());
+
+    WpPosts wpPosts1 = new WpPosts();
+    wpPosts1.setPostTitle("test");
+    wpPosts1.setPostContent("11111");
+    wpPosts1.setId(1);
+    wpPosts1.setPostDate(LocalDateTime.now());
+    List<WpPosts> list = Arrays.asList(wpPosts1);
+        model.addAttribute("wordPresses", new PageImpl<>(list, pageable, list.size()));
         return "wordpress/search";
     }
 
-//    WpPosts wpPosts1 = new WpPosts();
-//    wpPosts1.setPostTitle("test");
-//    wpPosts1.setPostContent("11111");
-//    wpPosts1.setId(1L);
-//    wpPosts1.setPostDate(LocalDateTime.now());
-//    List<WpPosts> list = Arrays.asList(wpPosts1);
 
     @GetMapping("/{id}")
     public String findOne(@PathVariable Long id, Model model) {

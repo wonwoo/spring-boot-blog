@@ -84,11 +84,12 @@
             </div>
         </div>
         <div class="col-sm-3 col-sm-offset-0 blog-sidebar">
-            <div class="sidebar-module sidebar-module-inset">
-                <input type="text" class="form-control" id="q" name="q"
-                       placeholder="title"/>
-                <input type="button" class="btn btn-secondary" value="search" th:onclick="'postSearch()'"/>
-            </div>
+            <form action="/" method="get" th:object="${searchForm}">
+                <div class="sidebar-module sidebar-module-inset">
+                    <input type="text" class="form-control" th:field="*{q}" placeholder="search"/>
+                    <input type="submit" class="btn btn-secondary" value="search" />
+                </div>
+            </form>
             <div class="sidebar-module" style="padding:5px; margin:0 -5px 0px" th:text="카테고리">
             </div>
             <div class="sidebar-module">
@@ -98,14 +99,6 @@
             </div>
         </div>
     </div>
-    <th:block layout:fragment="script">
-        <script type="text/javascript" th:inline="javascript">
-            function postSearch(){
-                location.href='/?q='+ document.getElementById("q").value;
-            }
-        </script>
-    </th:block>
-
 </div>
 </body>
 </html>

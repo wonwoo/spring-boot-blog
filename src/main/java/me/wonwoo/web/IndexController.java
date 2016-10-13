@@ -8,6 +8,7 @@ import me.wonwoo.domain.model.Category;
 import me.wonwoo.domain.model.Post;
 import me.wonwoo.domain.repository.CategoryRepository;
 import me.wonwoo.domain.repository.PostRepository;
+import me.wonwoo.dto.SearchForm;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Pageable;
@@ -47,9 +48,9 @@ public class IndexController {
   }
 
   @GetMapping({"/", "index"})
-  public String home(@RequestParam(required = false) String q, Model model, @PageableDefault(size = 3, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
+  public String home(SearchForm searchForm, Model model, @PageableDefault(size = 3, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
 
-    Example<Post> post = Example.of(new Post(q, "Y"),
+    Example<Post> post = Example.of(new Post(searchForm.getQ(), "Y"),
       matching()
         .withMatcher("title", ExampleMatcher.GenericPropertyMatcher::contains));
     model.addAttribute("posts", postRepository.findAll(post, pageable));
