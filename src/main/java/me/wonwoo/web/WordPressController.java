@@ -56,29 +56,26 @@ public class WordPressController {
 //    }
 
     @GetMapping
-    public String findAll(@ModelAttribute SearchForm searchForm, Model model, @PageableDefault(size = 3, sort = "post_date", direction = Sort.Direction.DESC) Pageable pageable) {
-        WpPosts wpPosts1 = new WpPosts();
-        wpPosts1.setPostTitle("test");
-        wpPosts1.setPostContent("11111");
-        wpPosts1.setId(1);
-        wpPosts1.setPostDate(LocalDateTime.now());
-        List<WpPosts> list = Arrays.asList(wpPosts1);
-        model.addAttribute("wordPresses", new PageImpl<>(list, pageable, list.size()));
+    public String findAll(Model model, @PageableDefault(size = 3, sort = "post_date", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<WpPosts> wpPostses = postElasticSearchService.wpPosts(pageable);
+        List<WpPosts> wpPosts = wpPostses.getContent().stream().peek(content -> content.setPostContent(pegDownProcessor.markdownToHtml(unescapeHtml(content.getPostContentFiltered())))).collect(toList());
+        model.addAttribute("wordPresses", new PageImpl<>(wpPosts, pageable, wpPostses.getTotalElements()));
         return "wordpress/wordPresses";
     }
 
+
     @GetMapping("/search")
     public String search(Model model, @PageableDefault(size = 3) Pageable pageable, @ModelAttribute SearchForm searchForm) {
-//        Page<WpPosts> wpPostses = postElasticSearchService.searchWpPosts(searchForm.getQ(), pageable);
-//        List<WpPosts> wpPosts = wpPostses.getContent().stream().peek(content -> content.setPostContent(pegDownProcessor.markdownToHtml(unescapeHtml(content.getPostContentFiltered())))).collect(toList());
-
-    WpPosts wpPosts1 = new WpPosts();
-    wpPosts1.setPostTitle("test");
-    wpPosts1.setPostContent("11111");
-    wpPosts1.setId(1);
-    wpPosts1.setPostDate(LocalDateTime.now());
-    List<WpPosts> list = Arrays.asList(wpPosts1);
-        model.addAttribute("wordPresses", new PageImpl<>(list, pageable, list.size()));
+        Page<WpPosts> wpPostses = postElasticSearchService.searchWpPosts(searchForm.getQ(), pageable);
+        List<WpPosts> wpPosts = wpPostses.getContent().stream().peek(content -> content.setPostContent(pegDownProcessor.markdownToHtml(unescapeHtml(content.getPostContentFiltered())))).collect(toList());
+//
+//    WpPosts wpPosts1 = new WpPosts();
+//    wpPosts1.setPostTitle("test");
+//    wpPosts1.setPostContent("11111");
+//    wpPosts1.setId(1);
+//    wpPosts1.setPostDate(LocalDateTime.now());
+//    List<WpPosts> list = Arrays.asList(wpPosts1);
+        model.addAttribute("wordPresses", new PageImpl<>(wpPosts, pageable, wpPostses.getTotalElements()));
         return "wordpress/search";
     }
 
