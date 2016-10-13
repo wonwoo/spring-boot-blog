@@ -15,13 +15,13 @@ import java.time.LocalDateTime;
 public class WpPosts {
     @Id
     @JsonProperty("ID")
-    private Long id;
+    private Integer id;
 
     @JsonProperty("post_title")
     private String postTitle;
 
     @JsonProperty("post_author")
-    private String postAuthor;
+    private Integer postAuthor;
 
     @JsonProperty("post_content")
     private String postContent;
@@ -39,4 +39,6 @@ public class WpPosts {
 
     @JsonProperty("post_content_filtered")
     private String postContentFiltered;
+
+    private String highlightedContent;
 }

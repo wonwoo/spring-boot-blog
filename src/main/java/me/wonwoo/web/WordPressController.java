@@ -56,11 +56,19 @@ public class WordPressController {
 //    }
 
     @GetMapping
-    public String findAll(Model model, @PageableDefault(size = 3, sort = "post_date", direction = Sort.Direction.DESC) Pageable pageable, @RequestParam(required = false, defaultValue = "") String q) {
-        Page<WpPosts> wpPostses = postElasticSearchService.wpPosts(q, pageable);
+    public String findAll(Model model, @PageableDefault(size = 3, sort = "post_date", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<WpPosts> wpPostses = postElasticSearchService.wpPosts(pageable);
         List<WpPosts> wpPosts = wpPostses.getContent().stream().peek(content -> content.setPostContent(pegDownProcessor.markdownToHtml(unescapeHtml(content.getPostContentFiltered())))).collect(toList());
         model.addAttribute("wordPresses", new PageImpl<>(wpPosts, pageable, wpPostses.getTotalElements()));
         return "wordpress/wordPresses";
+    }
+
+    @GetMapping("/search")
+    public String search(Model model, @PageableDefault(size = 3) Pageable pageable, @RequestParam(required = false, defaultValue = "") String q) {
+        Page<WpPosts> wpPostses = postElasticSearchService.searchWpPosts(q, pageable);
+        List<WpPosts> wpPosts = wpPostses.getContent().stream().peek(content -> content.setPostContent(pegDownProcessor.markdownToHtml(unescapeHtml(content.getPostContentFiltered())))).collect(toList());
+        model.addAttribute("wordPresses", new PageImpl<>(wpPosts, pageable, wpPostses.getTotalElements()));
+        return "wordpress/search";
     }
 
 //    WpPosts wpPosts1 = new WpPosts();

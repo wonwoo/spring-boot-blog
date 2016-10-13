@@ -29,6 +29,10 @@
         .sidebar-module-inset ol:last-child {
             margin-bottom: 0;
         }
+        em{
+            font-weight: bold;
+            background-color:#ffff00;
+        }
     </style>
     <script type="text/javascript" th:inline="javascript">
         $(function() {
@@ -57,13 +61,13 @@
             <div th:each="wordPress : ${wordPresses.content}">
 
                 <a th:href="@{'/wordPress/' + ${wordPress.id}}">
-                    <h1 class="post-title" th:text="${wordPress.postTitle}">
+                    <h1 class="post-title" th:utext="${wordPress.postTitle}">
                     </h1>
                 </a>
                 <div>
                     <p style="margin: 10px 0px;">Posted by <strong>wonwoo</strong> on <strong th:text="${#temporals.format(wordPress.postDate, 'yyyy-MM-dd')}"> </strong> </p>
                 </div>
-                <div style="margin-bottom:30px" th:utext="${wordPress.postContent}">
+                <div style="margin-bottom:30px" th:utext="${wordPress.highlightedContent}">
 
                 </div>
 
