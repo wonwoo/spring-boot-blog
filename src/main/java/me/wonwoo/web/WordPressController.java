@@ -67,7 +67,6 @@ public class WordPressController {
         return "wordpress/wordPresses";
     }
 
-
     @GetMapping("/search")
     public String search(Model model, @PageableDefault(size = 3) Pageable pageable, @ModelAttribute SearchForm searchForm) {
         Page<WpPosts> wpPostses = postElasticSearchService.searchWpPosts(searchForm.getQ(), pageable);
@@ -77,7 +76,10 @@ public class WordPressController {
             String em2 = em1.replace("&lt;/highlight&gt;", "</highlight>");
             content.setPostContent(em2);
         }).collect(toList());
-//    WpPosts wpPosts1 = new WpPosts();
+        model.addAttribute("wordPresses",new PageImpl<>(wpPosts, pageable, wpPostses.getTotalElements()));
+        return "wordpress/search";
+    }
+    //    WpPosts wpPosts1 = new WpPosts();
 //    wpPosts1.setPostTitle("test");
 //    wpPosts1.setPostContent(text);
 //    wpPosts1.setId(1);
@@ -90,11 +92,6 @@ public class WordPressController {
 //            String em2 = em1.replace("&lt;/highlight&gt;", "</highlight>");
 //            content.setPostContent(em2);
 //        }).collect(toList());
-
-        model.addAttribute("wordPresses",new PageImpl<>(wpPosts, pageable, wpPostses.getTotalElements()));
-        return "wordpress/search";
-    }
-
 
     @GetMapping("/{id}")
     public String findOne(@PathVariable Long id, Model model) {
