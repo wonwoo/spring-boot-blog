@@ -7,27 +7,40 @@ import me.wonwoo.github.GithubClient;
 import me.wonwoo.github.GithubUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.AuthoritiesExtractor;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.PrincipalExtractor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
+import org.springframework.security.access.vote.RoleHierarchyVoter;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * Created by wonwoo on 2016. 8. 23..
  */
 @Configuration
-@EnableOAuth2Sso
 @RequiredArgsConstructor
+@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-  private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
+  private final UserDetailsService userDetailsService;
+  private final PasswordEncoder passwordEncoder;
 
-  private final GitProperties gitProperties;
+  @Override
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+//    auth.userDetailsService(userDetailsService);
+  }
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
@@ -51,6 +64,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       .loginPage("/login")
       .permitAll()
       .and()
+      .httpBasic()
+      .and()
       .logout()
       .logoutSuccessUrl("/")
       .permitAll()
@@ -59,30 +74,38 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       .frameOptions().sameOrigin();
   }
 
-  @Bean
-  public AuthoritiesExtractor authoritiesExtractor() {
-    return map -> {
-      String username = (String) map.get("login");
-      if (this.gitProperties.getSecurity().getAdmins().contains(username)) {
-        return AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER,ROLE_ADMIN");
-      } else {
-        return AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER");
-      }
-    };
-  }
+//  @Autowired
+//  public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//    auth
+//      .inMemoryAuthentication()
+//      .withUser("wonwoo").password("test").roles("ADMIN");
+//  }
 
-  @Bean
-  public PrincipalExtractor principalExtractor(GithubClient githubClient, UserRepository userRepository) {
-    return map -> {
-      String githubLogin = (String) map.get("login");
-      User speaker = userRepository.findByGithub(githubLogin);
-      if (speaker == null) {
-        logger.info("Initialize user with githubId {}", githubLogin);
-        GithubUser user = githubClient.getUser(githubLogin);
-        speaker = new User(user.getEmail(), user.getName(), githubLogin, user.getAvatar());
-        userRepository.save(speaker);
-      }
-      return speaker;
-    };
-  }
+
+//  @Bean
+//  public AuthoritiesExtractor authoritiesExtractor() {
+//    return map -> {
+//      String username = (String) map.get("login");
+//      if (this.gitProperties.getSecurity().getAdmins().contains(username)) {
+//        return AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER,ROLE_ADMIN");
+//      } else {
+//        return AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER");
+//      }
+//    };
+//  }
+//
+//  @Bean
+//  public PrincipalExtractor principalExtractor(GithubClient githubClient, UserRepository userRepository) {
+//    return map -> {
+//      String githubLogin = (String) map.get("login");
+//      User speaker = userRepository.findByGithub(githubLogin);
+//      if (speaker == null) {
+//        logger.info("Initialize user with githubId {}", githubLogin);
+//        GithubUser user = githubClient.getUser(githubLogin);
+//        speaker = new User(user.getEmail(), user.getName(), githubLogin, user.getAvatar());
+//        userRepository.save(speaker);
+//      }
+//      return speaker;
+//    };
+//  }
 }

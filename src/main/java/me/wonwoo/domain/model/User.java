@@ -29,6 +29,10 @@ public class User implements Serializable {
 
   private String avatarUrl;
 
+  private String password;
+
+  private boolean isAdmin;
+
   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
   private List<Post> post = new ArrayList<>();
 
@@ -39,11 +43,13 @@ public class User implements Serializable {
   @Lob
   private String bio;
 
-  public User(String email, String name, String github, String avatarUrl) {
+  public User(String email, String name, String github, String avatarUrl, String password, boolean isAdmin) {
     this.email = email;
     this.name = name;
     this.github = github;
     this.avatarUrl = avatarUrl;
+    this.password = password;
+    this.isAdmin = isAdmin;
   }
 
   User() {
