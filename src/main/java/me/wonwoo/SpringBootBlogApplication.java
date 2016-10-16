@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import me.wonwoo.config.PostProperties;
+import me.wonwoo.redis.JdkSerializationRedisSerializer;
 import me.wonwoo.security.GitProperties;
 import me.wonwoo.weather.WeatherAppProperties;
 import org.elasticsearch.client.Client;
@@ -15,16 +16,21 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.EntityMapper;
 import org.springframework.data.elasticsearch.core.geo.CustomGeoModule;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.util.Base64Utils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
@@ -41,12 +47,12 @@ import java.util.Collections;
 @EnableConfigurationProperties({GitProperties.class, PostProperties.class, WeatherAppProperties.class})
 @EnableJpaAuditing
 @EnableCaching
+@EnableRedisHttpSession
 public class SpringBootBlogApplication {
 
   public static void main(String[] args) {
     SpringApplication.run(SpringBootBlogApplication.class, args);
   }
-
 
   @Bean
   public JCacheManagerCustomizer cacheManagerCustomizer() {
@@ -71,6 +77,19 @@ public class SpringBootBlogApplication {
       .setStatisticsEnabled(true)
       .setExpiryPolicyFactory(CreatedExpiryPolicy.factoryOf(duration));
   }
+
+  @Bean
+  @Primary
+  public RedisTemplate<Object, Object> sessionRedisTemplate(
+    RedisConnectionFactory connectionFactory) {
+    RedisTemplate<Object, Object> template = new RedisTemplate<>();
+    template.setKeySerializer(new StringRedisSerializer());
+    template.setHashKeySerializer(new StringRedisSerializer());
+    template.setDefaultSerializer(new JdkSerializationRedisSerializer());
+    template.setConnectionFactory(connectionFactory);
+    return template;
+  }
+
 
   @Bean
   public RestTemplate restTemplate(GitProperties gitProperties) {
@@ -100,13 +119,30 @@ public class SpringBootBlogApplication {
     }
   }
 
+//  @Bean
+//  @Primary
+//  @Order(Integer.MIN_VALUE)
+//  public JsonRedisTemplate redisTemplate(RedisConnectionFactory connectionFactory, ObjectMapper objectMapper){
+//    return new JsonRedisTemplate(connectionFactory, objectMapper, GithubUser.class);
+//  }
+//
+//  @Bean
+//  @ConditionalOnMissingBean(StringRedisTemplate.class)
+//  public StringRedisTemplate stringRedisTemplate(
+//    RedisConnectionFactory redisConnectionFactory)
+//    throws UnknownHostException {
+//    StringRedisTemplate template = new StringRedisTemplate();
+//    template.setConnectionFactory(redisConnectionFactory);
+//    return template;
+//  }
+
   @Bean
   public SpringDataDialect springDataDialect() {
     return new SpringDataDialect();
   }
 
   @Bean
-  public ElasticsearchTemplate elasticsearchTemplate(Client client, LocalDatetimeEntityMapper localDatetimeEntityMapper){
+  public ElasticsearchTemplate elasticsearchTemplate(Client client, LocalDatetimeEntityMapper localDatetimeEntityMapper) {
     return new ElasticsearchTemplate(client, localDatetimeEntityMapper);
   }
 
@@ -117,10 +153,10 @@ public class SpringBootBlogApplication {
 
     public LocalDatetimeEntityMapper() {
       objectMapper = Jackson2ObjectMapperBuilder
-              .json()
-              .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-              .modules(new JavaTimeModule(),new CustomGeoModule())
-              .build();
+        .json()
+        .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+        .modules(new JavaTimeModule(), new CustomGeoModule())
+        .build();
       objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
       objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
     }
