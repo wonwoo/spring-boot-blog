@@ -230,8 +230,8 @@
         </dependency>
 
         <!--<dependency>-->
-            <!--<groupId>com.hazelcast</groupId>-->
-            <!--<artifactId>hazelcast</artifactId>-->
+        <!--<groupId>com.hazelcast</groupId>-->
+        <!--<artifactId>hazelcast</artifactId>-->
         <!--</dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -241,9 +241,19 @@
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session</artifactId>
         </dependency>
-    </dependencies>
 
+        <!--<dependency>-->
+            <!--<groupId>me.wonwoo</groupId>-->
+            <!--<artifactId>logback-flume-kafka-appender</artifactId>-->
+            <!--<version>0.9.0-SNAPSHOT</version>-->
+        <!--</dependency>-->
+    </dependencies>
     <repositories>
+        <!--<repository>-->
+            <!--<id>spring-boot-gcm-mvn-repo</id>-->
+            <!--<url>https://raw.github.com/wonwoo/logback-flume-kafka-appender/mvn-repo/</url>-->
+        <!--</repository>-->
+
         <repository>
             <id>spring-snapshots</id>
             <name>Spring Snapshots</name>

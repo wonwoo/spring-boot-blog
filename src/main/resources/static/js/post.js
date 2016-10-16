@@ -3,6 +3,7 @@
  */
 function changeCategory(){
     var categoryId = document.getElementsByName("categoryId");
+
     document.getElementById("categoryName").value="";
     var text = "";
     for(var i = 0; i < categoryId.length; i++) {
