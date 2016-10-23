@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 /**
  * Created by wonwoo on 2016. 10. 15..
  */
@@ -19,10 +21,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String username) {
-    User user = userRepository.findByGithub(username);
-    if(user == null){
-      throw new UserNotFoundException(username);
-    }
-    return new UserDetailsImpl(user);
+    Optional<User> user = userRepository.findByGithub(username);
+    return user.orElseThrow(() -> new UserNotFoundException(username));
   }
 }

@@ -3,10 +3,15 @@ package me.wonwoo.domain.model;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -16,7 +21,7 @@ import java.util.List;
 @Getter
 @ToString(exclude = {"comments", "post"})
 @EqualsAndHashCode(exclude = {"comments", "post"})
-public class User implements Serializable {
+public class User implements Serializable ,UserDetails {
   @GeneratedValue
   @Id
   private Long id;
@@ -39,11 +44,21 @@ public class User implements Serializable {
   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
   private List<Comment> comments = new ArrayList<>();
 
+  private static Collection<? extends GrantedAuthority> authorities(User user) {
+    List<GrantedAuthority> authorities = new ArrayList<>();
+    authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+    if (user.isAdmin()) {
+      authorities.addAll(AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER, ROLE_ADMIN"));
+    }
+    return authorities;
+  }
+
   @Column
   @Lob
   private String bio;
 
   public User(String email, String name, String github, String avatarUrl, String password, boolean isAdmin) {
+    super();
     this.email = email;
     this.name = name;
     this.github = github;
@@ -52,6 +67,37 @@ public class User implements Serializable {
     this.isAdmin = isAdmin;
   }
 
-  User() {
+  public User() {
+
+  }
+
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return authorities(this);
+  }
+
+  @Override
+  public String getUsername() {
+    return this.github;
+  }
+
+  @Override
+  public boolean isAccountNonExpired() {
+    return true;
+  }
+
+  @Override
+  public boolean isAccountNonLocked() {
+    return true;
+  }
+
+  @Override
+  public boolean isCredentialsNonExpired() {
+    return true;
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return true;
   }
 }
