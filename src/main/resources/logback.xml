@@ -47,7 +47,7 @@
     <logger name="org.apache.flume" level="ERROR"/>
     <root level="INFO">
         <appender-ref ref="console"/>
-        <appender-ref ref="flume"/>
+        <!--<appender-ref ref="flume"/>-->
     </root>
 
 </configuration>
