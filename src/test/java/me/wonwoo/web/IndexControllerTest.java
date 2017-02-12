@@ -26,16 +26,4 @@ public class IndexControllerTest {
     ResponseEntity<String> entity = this.restTemplate.getForEntity("/", String.class);
     assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
   }
-
-  @Test
-  public void aboutTest() {
-    ResponseEntity<String> entity = this.restTemplate.getForEntity("/about", String.class);
-    assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
-  }
-
-  @Test
-  public void contactTest() {
-    ResponseEntity<String> entity = this.restTemplate.getForEntity("/contact", String.class);
-    assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
-  }
 }
