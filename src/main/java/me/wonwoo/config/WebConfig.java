@@ -6,6 +6,7 @@ import me.wonwoo.web.Navigation;
 import org.pegdown.PegDownProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.method.HandlerMethod;
@@ -26,6 +27,7 @@ import static org.pegdown.Extensions.ALL;
 @Configuration
 @RequiredArgsConstructor
 @Slf4j
+@EnableJpaAuditing
 public class WebConfig extends WebMvcConfigurerAdapter {
 
   private final static String NAV_SECTION = "navSection";

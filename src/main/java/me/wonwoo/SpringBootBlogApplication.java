@@ -1,30 +1,19 @@
 package me.wonwoo;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import me.wonwoo.config.PostProperties;
 import me.wonwoo.security.GitProperties;
 import me.wonwoo.weather.WeatherAppProperties;
-import org.elasticsearch.client.Client;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.cache.JCacheManagerCustomizer;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
-import org.springframework.data.elasticsearch.core.EntityMapper;
-import org.springframework.data.elasticsearch.core.geo.CustomGeoModule;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Base64Utils;
@@ -41,7 +30,6 @@ import java.util.Collections;
 
 @SpringBootApplication
 @EnableConfigurationProperties({GitProperties.class, PostProperties.class, WeatherAppProperties.class})
-@EnableJpaAuditing
 @EnableCaching
 public class SpringBootBlogApplication {
 
@@ -109,36 +97,5 @@ public class SpringBootBlogApplication {
   @Bean
   public SpringDataDialect springDataDialect() {
     return new SpringDataDialect();
-  }
-
-  @Bean
-  public ElasticsearchTemplate elasticsearchTemplate(Client client, LocalDatetimeEntityMapper localDatetimeEntityMapper) {
-    return new ElasticsearchTemplate(client, localDatetimeEntityMapper);
-  }
-
-  @Configuration
-  public class LocalDatetimeEntityMapper implements EntityMapper {
-
-    private final ObjectMapper objectMapper;
-
-    public LocalDatetimeEntityMapper() {
-      objectMapper = Jackson2ObjectMapperBuilder
-        .json()
-        .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-        .modules(new JavaTimeModule(), new CustomGeoModule())
-        .build();
-      objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-      objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
-    }
-
-    @Override
-    public String mapToString(Object object) throws IOException {
-      return objectMapper.writeValueAsString(object);
-    }
-
-    @Override
-    public <T> T mapToObject(String source, Class<T> clazz) throws IOException {
-      return objectMapper.readValue(source, clazz);
-    }
   }
 }
