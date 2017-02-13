@@ -28,7 +28,7 @@
         <root.dir>${basedir}</root.dir>
         <gem.home>${root.dir}/target/rubygems</gem.home>
         <gem.path>${root.dir}/target/rubygems</gem.path>
-        <maven.test.skip>true</maven.test.skip>
+        <!--<maven.test.skip>true</maven.test.skip>-->
     </properties>
 
     <dependencies>
