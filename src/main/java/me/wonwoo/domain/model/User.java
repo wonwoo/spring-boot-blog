@@ -48,7 +48,7 @@ public class User implements Serializable ,UserDetails {
     List<GrantedAuthority> authorities = new ArrayList<>();
     authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
     if (user.isAdmin()) {
-      authorities.addAll(AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER, ROLE_ADMIN"));
+      authorities.addAll(AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER, ROLE_ADMIN, ROLE_ACTUATOR"));
     }
     return authorities;
   }
