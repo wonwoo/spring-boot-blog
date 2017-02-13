@@ -1,6 +1,5 @@
 package me.wonwoo.weather;
 
-import org.assertj.core.data.Offset;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +17,9 @@ import java.time.Instant;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 /**
  * Created by wonwoo on 2017. 2. 13..
@@ -71,6 +67,7 @@ public class WeatherSummaryControllerTests {
 
   @Configuration
   @ComponentScan(basePackageClasses = WeatherSummaryController.class)
+  @EnableConfigurationProperties(WeatherAppProperties.class)
   public static class TestConfig {
 
   }

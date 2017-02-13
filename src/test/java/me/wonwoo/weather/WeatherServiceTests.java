@@ -22,7 +22,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
  * Created by wonwoo on 2017. 2. 13..
  */
 @RunWith(SpringRunner.class)
-@RestClientTest({WeatherService.class, WeatherServiceTests.TestConfig.class})
+@RestClientTest(WeatherService.class)
 @TestPropertySource(properties = "app.weather.api.key=test-ABC")
 public class WeatherServiceTests {
 
@@ -47,12 +47,5 @@ public class WeatherServiceTests {
     assertThat(forecast.getWeatherId()).isEqualTo(800);
     assertThat(forecast.getWeatherIcon()).isEqualTo("01d");
     this.server.verify();
-  }
-
-  @Configuration
-  @ComponentScan(basePackageClasses = WeatherService.class)
-  @EnableConfigurationProperties(WeatherAppProperties.class)
-  public static class TestConfig {
-
   }
 }
