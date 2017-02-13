@@ -1,6 +1,7 @@
 package me.wonwoo.weather;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -11,6 +12,7 @@ import java.util.List;
  * Created by wonwoo on 2016. 10. 7..
  */
 @ConfigurationProperties("app.weather")
+@Validated
 public class WeatherAppProperties {
 
   @Valid
