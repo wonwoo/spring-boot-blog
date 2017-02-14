@@ -1,6 +1,6 @@
 //package me.wonwoo.web;
 //
-//import me.wonwoo.elasticsearch.ElasticBuckets;
+//import me.wonwoo.support.elasticsearch.ElasticBuckets;
 //import org.elasticsearch.action.search.SearchResponse;
 //import org.elasticsearch.search.aggregations.Aggregations;
 //import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;

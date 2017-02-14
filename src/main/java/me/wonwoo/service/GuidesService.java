@@ -1,7 +1,7 @@
 package me.wonwoo.service;
 
 import lombok.RequiredArgsConstructor;
-import me.wonwoo.github.asciidoc.*;
+import me.wonwoo.support.github.asciidoc.*;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;

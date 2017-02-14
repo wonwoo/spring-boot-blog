@@ -1,6 +1,6 @@
 package me.wonwoo.wordpress;
 
-import me.wonwoo.client.Client;
+import me.wonwoo.support.client.Client;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

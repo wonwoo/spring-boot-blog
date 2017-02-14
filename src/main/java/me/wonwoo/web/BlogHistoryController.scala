@@ -1,6 +1,6 @@
 package me.wonwoo.web
 
-import me.wonwoo.elasticsearch.ElasticService
+import me.wonwoo.support.elasticsearch.ElasticService
 import me.wonwoo.service.BlogHistoryService
 import org.springframework.data.domain.{Pageable, Sort}
 import org.springframework.data.web.PageableDefault

@@ -1,8 +1,8 @@
 package me.wonwoo.web;
 
 import lombok.RequiredArgsConstructor;
-import me.wonwoo.github.Commit;
-import me.wonwoo.github.GithubClient;
+import me.wonwoo.support.github.Commit;
+import me.wonwoo.support.github.GithubClient;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

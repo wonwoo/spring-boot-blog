@@ -2,7 +2,7 @@ package me.wonwoo;
 
 import me.wonwoo.config.PostProperties;
 import me.wonwoo.security.GitProperties;
-import me.wonwoo.weather.WeatherAppProperties;
+import me.wonwoo.support.weather.WeatherAppProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.cache.JCacheManagerCustomizer;

@@ -1,7 +1,7 @@
 package me.wonwoo.web;
 
 import lombok.RequiredArgsConstructor;
-import me.wonwoo.github.asciidoc.GettingStartedGuide;
+import me.wonwoo.support.github.asciidoc.GettingStartedGuide;
 import me.wonwoo.service.GuidesService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

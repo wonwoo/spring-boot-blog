@@ -2,20 +2,14 @@ package me.wonwoo.web;
 
 import lombok.RequiredArgsConstructor;
 import me.wonwoo.config.PostProperties;
-import me.wonwoo.github.asciidoc.*;
+import me.wonwoo.support.github.asciidoc.*;
 import me.wonwoo.service.GuidesService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.client.RestClientException;
-
-import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/guides")

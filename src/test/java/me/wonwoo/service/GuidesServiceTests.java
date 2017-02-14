@@ -1,14 +1,13 @@
 package me.wonwoo.service;
 
-import me.wonwoo.github.asciidoc.GitHubRepo;
-import me.wonwoo.github.asciidoc.GuideMetadata;
-import me.wonwoo.github.asciidoc.GuideOrganization;
+import me.wonwoo.support.github.asciidoc.GitHubRepo;
+import me.wonwoo.support.github.asciidoc.GuideMetadata;
+import me.wonwoo.support.github.asciidoc.GuideOrganization;
 import me.wonwoo.junit.MockitoJsonJUnitRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.springframework.http.HttpMethod;
 
 import java.util.Collections;
 import java.util.List;

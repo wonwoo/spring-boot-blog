@@ -1,8 +1,8 @@
 package me.wonwoo.web;
 
 import lombok.RequiredArgsConstructor;
-import me.wonwoo.github.GithubClient;
-import me.wonwoo.github.page.GithubPage;
+import me.wonwoo.support.github.GithubClient;
+import me.wonwoo.support.github.page.GithubPage;
 import org.apache.commons.codec.binary.Base64;
 import org.pegdown.PegDownProcessor;
 import org.springframework.stereotype.Controller;
