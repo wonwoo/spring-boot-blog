@@ -38,30 +38,6 @@ public class SpringBootBlogApplication {
   }
 
   @Bean
-  public JCacheManagerCustomizer cacheManagerCustomizer() {
-    return cm -> {
-      cm.createCache("wp.posts", initConfiguration(Duration.ONE_DAY));
-      cm.createCache("wp.post", initConfiguration(Duration.ONE_DAY));
-      cm.createCache("spring.gss", initConfiguration(Duration.ONE_DAY));
-      cm.createCache("spring.gs", initConfiguration(Duration.ONE_DAY));
-      cm.createCache("spring.tuts", initConfiguration(Duration.ONE_DAY));
-      cm.createCache("spring.tut", initConfiguration(Duration.ONE_DAY));
-      cm.createCache("spring.blog.category", initConfiguration(Duration.ONE_MINUTE));
-      cm.createCache("github.commits", initConfiguration(Duration.ONE_MINUTE));
-      cm.createCache("github.page", initConfiguration(Duration.ONE_DAY));
-      cm.createCache("weather", initConfiguration(Duration.THIRTY_MINUTES));
-      cm.createCache("github.user", initConfiguration(Duration.ONE_HOUR));
-    };
-  }
-
-  private MutableConfiguration<Object, Object> initConfiguration(Duration duration) {
-    return new MutableConfiguration<>()
-      .setStoreByValue(false)
-      .setStatisticsEnabled(true)
-      .setExpiryPolicyFactory(CreatedExpiryPolicy.factoryOf(duration));
-  }
-
-  @Bean
   public RestTemplate restTemplate(GitProperties gitProperties) {
     RestTemplate restTemplate = new RestTemplate();
     restTemplate.setInterceptors(Collections.singletonList(
@@ -87,15 +63,5 @@ public class SpringBootBlogApplication {
       }
       return clientHttpRequestExecution.execute(httpRequest, bytes);
     }
-  }
-
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
-
-  @Bean
-  public SpringDataDialect springDataDialect() {
-    return new SpringDataDialect();
   }
 }
