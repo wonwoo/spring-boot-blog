@@ -22,7 +22,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <scala.version>2.10.6</scala.version>
         <thymeleaf.version>3.0.0.RELEASE</thymeleaf.version>
         <thymeleaf-layout-dialect.version>2.0.3</thymeleaf-layout-dialect.version>
         <root.dir>${basedir}</root.dir>
@@ -242,18 +241,19 @@
             <artifactId>spring-session</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>me.wonwoo</groupId>
-            <artifactId>logback-flume-kafka-appender</artifactId>
-            <version>0.9.0-SNAPSHOT</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.mortbay.jetty</groupId>
-                    <artifactId>servlet-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>me.wonwoo</groupId>-->
+            <!--<artifactId>logback-flume-kafka-appender</artifactId>-->
+            <!--<version>0.9.0-SNAPSHOT</version>-->
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.mortbay.jetty</groupId>-->
+                    <!--<artifactId>servlet-api</artifactId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
+        <!--</dependency>-->
     </dependencies>
+
     <repositories>
         <repository>
             <id>spring-boot-gcm-mvn-repo</id>

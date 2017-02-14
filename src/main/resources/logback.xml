@@ -17,33 +17,33 @@
         </encoder>
     </appender>
 
-    <appender name="flume" class="me.wonwoo.appender.FlumeKafkaAppender">
-        <sinkName>kafkaSink</sinkName>
-        <channelName>kafkaChannel</channelName>
-        <mode>INFO</mode>
-        <!--https://flume.apache.org/FlumeUserGuide.html#file-channel -->
-        <channelAttr>
-            <capacity>100000</capacity>
-            <transactionCapacity>1000</transactionCapacity>
-            <dataDirs>/home/wonwoo/flume</dataDirs>
-            <checkpointDir>/home/wonwoo/flume/checkout</checkpointDir>
-        </channelAttr>
-        <!-- topic ,brokerList, batchSize -->
-        <KafkaAttr>
-            <topic>logs</topic>
-            <brokerList>localhost:9092</brokerList>
-            <!--<brokerList>localhost:9092,localhost:9093,localhost:9094</brokerList>-->
-            <batchSize>100</batchSize>
-        </KafkaAttr>
-        <encoder class="me.wonwoo.encoding.DefaultFlumeMessageEncoder">
-            <layout class="me.wonwoo.layout.JsonLayout">
-                <jsonFormatter class="me.wonwoo.layout.JacksonJsonFormatter">
-                    <prettyPrint>false</prettyPrint>
-                </jsonFormatter>
-                <includeContextName>false</includeContextName>
-            </layout>
-        </encoder>
-    </appender>
+    <!--<appender name="flume" class="me.wonwoo.appender.FlumeKafkaAppender">-->
+        <!--<sinkName>kafkaSink</sinkName>-->
+        <!--<channelName>kafkaChannel</channelName>-->
+        <!--<mode>INFO</mode>-->
+        <!--&lt;!&ndash;https://flume.apache.org/FlumeUserGuide.html#file-channel &ndash;&gt;-->
+        <!--<channelAttr>-->
+            <!--<capacity>100000</capacity>-->
+            <!--<transactionCapacity>1000</transactionCapacity>-->
+            <!--<dataDirs>/home/wonwoo/flume</dataDirs>-->
+            <!--<checkpointDir>/home/wonwoo/flume/checkout</checkpointDir>-->
+        <!--</channelAttr>-->
+        <!--&lt;!&ndash; topic ,brokerList, batchSize &ndash;&gt;-->
+        <!--<KafkaAttr>-->
+            <!--<topic>logs</topic>-->
+            <!--<brokerList>localhost:9092</brokerList>-->
+            <!--&lt;!&ndash;<brokerList>localhost:9092,localhost:9093,localhost:9094</brokerList>&ndash;&gt;-->
+            <!--<batchSize>100</batchSize>-->
+        <!--</KafkaAttr>-->
+        <!--<encoder class="me.wonwoo.encoding.DefaultFlumeMessageEncoder">-->
+            <!--<layout class="me.wonwoo.layout.JsonLayout">-->
+                <!--<jsonFormatter class="me.wonwoo.layout.JacksonJsonFormatter">-->
+                    <!--<prettyPrint>false</prettyPrint>-->
+                <!--</jsonFormatter>-->
+                <!--<includeContextName>false</includeContextName>-->
+            <!--</layout>-->
+        <!--</encoder>-->
+    <!--</appender>-->
     <logger name="org.apache.flume" level="ERROR"/>
     <root level="INFO">
         <appender-ref ref="console"/>
