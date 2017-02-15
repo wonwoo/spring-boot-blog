@@ -48,7 +48,14 @@ public class Category {
     this.id = id;
   }
 
+  public Category(Long id, String name,LocalDateTime regDate){
+    this.name = name;
+    this.id = id;
+    this.regDate = regDate;
+  }
+
   public void setName(String name) {
     this.name = name;
   }
+
 }

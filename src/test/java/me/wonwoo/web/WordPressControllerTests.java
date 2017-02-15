@@ -1,7 +1,6 @@
 package me.wonwoo.web;
 
 import me.wonwoo.support.elasticsearch.PostElasticSearchService;
-import me.wonwoo.support.github.Commit;
 import me.wonwoo.wordpress.WordPressClient;
 import me.wonwoo.wordpress.domain.WpPosts;
 import org.junit.Before;
@@ -18,15 +17,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.atLeastOnce;
