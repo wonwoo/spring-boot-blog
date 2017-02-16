@@ -71,11 +71,11 @@
             <artifactId>HikariCP</artifactId>
         </dependency>
 
-        <!--<dependency>-->
-        <!--<groupId>com.h2database</groupId>-->
-        <!--<artifactId>h2</artifactId>-->
-        <!--<scope>runtime</scope>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
         <dependency>
             <groupId>mysql</groupId>
@@ -185,15 +185,15 @@
         </dependency>
 
         <!--<dependency>-->
-            <!--<groupId>org.scala-lang</groupId>-->
-            <!--<artifactId>scala-library</artifactId>-->
-            <!--<version>${scala.version}</version>-->
+        <!--<groupId>org.scala-lang</groupId>-->
+        <!--<artifactId>scala-library</artifactId>-->
+        <!--<version>${scala.version}</version>-->
         <!--</dependency>-->
 
         <!--<dependency>-->
-            <!--<groupId>org.scala-lang</groupId>-->
-            <!--<artifactId>scala-compiler</artifactId>-->
-            <!--<version>${scala.version}</version>-->
+        <!--<groupId>org.scala-lang</groupId>-->
+        <!--<artifactId>scala-compiler</artifactId>-->
+        <!--<version>${scala.version}</version>-->
         <!--</dependency>-->
         <!--<dependency>-->
         <!--<groupId>com.github.ben-manes.caffeine</groupId>-->
@@ -247,15 +247,15 @@
         </dependency>
 
         <!--<dependency>-->
-            <!--<groupId>me.wonwoo</groupId>-->
-            <!--<artifactId>logback-flume-kafka-appender</artifactId>-->
-            <!--<version>0.9.0-SNAPSHOT</version>-->
-            <!--<exclusions>-->
-                <!--<exclusion>-->
-                    <!--<groupId>org.mortbay.jetty</groupId>-->
-                    <!--<artifactId>servlet-api</artifactId>-->
-                <!--</exclusion>-->
-            <!--</exclusions>-->
+        <!--<groupId>me.wonwoo</groupId>-->
+        <!--<artifactId>logback-flume-kafka-appender</artifactId>-->
+        <!--<version>0.9.0-SNAPSHOT</version>-->
+        <!--<exclusions>-->
+        <!--<exclusion>-->
+        <!--<groupId>org.mortbay.jetty</groupId>-->
+        <!--<artifactId>servlet-api</artifactId>-->
+        <!--</exclusion>-->
+        <!--</exclusions>-->
         <!--</dependency>-->
     </dependencies>
 
