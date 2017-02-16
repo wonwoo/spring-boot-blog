@@ -99,8 +99,8 @@
                 <li sec:authorize="hasRole('ROLE_ADMIN')">
                     <a href="/news">news</a>
                 </li>
-                <li>
-                    <a sec:authorize="!hasRole('ROLE_USER')" th:href="@{/login}"
+                <li sec:authorize="!hasRole('ROLE_USER')">
+                    <a th:href="@{/login}"
                        role="button">Login</a>
                 </li>
                 <li sec:authorize="hasRole('ROLE_USER')">
