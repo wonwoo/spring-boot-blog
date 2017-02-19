@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  me.wonwoo.autoconfigure.SlackMessageAutoConfiguration
+  me.wonwoo.autoconfigure.slack.SlackMessageAutoConfiguration,\
+  me.wonwoo.autoconfigure.json.JsonParserAutoConfiguration

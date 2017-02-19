@@ -1,4 +1,4 @@
-package me.wonwoo.autoconfigure;
+package me.wonwoo.autoconfigure.slack;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

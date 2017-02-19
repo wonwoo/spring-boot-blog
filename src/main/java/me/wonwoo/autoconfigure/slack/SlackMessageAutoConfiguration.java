@@ -1,4 +1,4 @@
-package me.wonwoo.autoconfigure;
+package me.wonwoo.autoconfigure.slack;
 
 import me.wonwoo.support.slack.SlackMessageService;
 import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
@@ -15,7 +15,7 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.AsyncRestTemplate;
 
-import static me.wonwoo.autoconfigure.SlackMessageAutoConfiguration.SlackCondition;
+import static me.wonwoo.autoconfigure.slack.SlackMessageAutoConfiguration.SlackCondition;
 
 /**
  * Created by wonwoo on 2017. 2. 14..

@@ -1,6 +1,6 @@
 package me.wonwoo.support.slack;
 
-import me.wonwoo.autoconfigure.SlackMessageProperties;
+import me.wonwoo.autoconfigure.slack.SlackMessageProperties;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.junit.Before;
 import org.junit.Test;

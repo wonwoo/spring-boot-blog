@@ -1,5 +1,6 @@
 package me.wonwoo.autoconfigure;
 
+import me.wonwoo.autoconfigure.slack.SlackMessageAutoConfiguration;
 import me.wonwoo.support.slack.SlackMessageService;
 import org.junit.After;
 import org.junit.Test;
