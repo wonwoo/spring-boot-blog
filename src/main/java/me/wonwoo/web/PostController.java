@@ -147,7 +147,7 @@ public class PostController {
   }
 
   @GetMapping("/category/{id}")
-  public String categotyPost(Model model, @PathVariable Long id, @ModelAttribute SearchForm searchForm, @PageableDefault(size = 3, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
+  public String categoryPost(Model model, @PathVariable Long id, @ModelAttribute SearchForm searchForm, @PageableDefault(size = 3, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
 
     JPAJinqStream<Post> posts = jinqSource.posts(em)
             .where(post -> post.getYn().equals("Y"))
