@@ -38,7 +38,7 @@ public class DeserializingConverter implements Converter<byte[], Object> {
       return deserialize;
     }
     catch (Throwable ex) {
-      log.debug("Failed to deserialize payload.");
+      logger.debug("Failed to deserialize payload.");
       return "";
 //      throw new SerializationFailedException("Failed to deserialize payload. " +
 //        "Is the byte array a result of corresponding serialization for " +

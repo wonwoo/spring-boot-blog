@@ -24,7 +24,7 @@ public class CommonHandlerInterceptor extends HandlerInterceptorAdapter  {
 
     try {
       HandlerMethod handlerMethod = (HandlerMethod) handler;
-      log.info("Current Request Handler : {}.{}() , uri : {}, query : {}, ip : {}",
+      logger.info("Current Request Handler : {}.{}() , uri : {}, query : {}, ip : {}",
         handlerMethod.getBeanType().getCanonicalName(),
         handlerMethod.getMethod().getName(),
         request.getRequestURI(),
