@@ -1,6 +1,7 @@
 package me.wonwoo.config;
 
 import me.wonwoo.config.interceptor.CommonHandlerInterceptor;
+import me.wonwoo.domain.repository.BlogHistoryRepository;
 import org.pegdown.PegDownProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,12 +32,12 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
-    registry.addInterceptor(commonHandlerInterceptor());
+    registry.addInterceptor(commonHandlerInterceptor(null));
   }
 
   @Bean
-  public CommonHandlerInterceptor commonHandlerInterceptor() {
-    return new CommonHandlerInterceptor();
+  public CommonHandlerInterceptor commonHandlerInterceptor(BlogHistoryRepository blogHistoryRepository) {
+    return new CommonHandlerInterceptor(blogHistoryRepository);
   }
 
   @Bean
