@@ -152,7 +152,7 @@ public class PostController {
     JPAJinqStream<Post> posts = jinqSource.posts(em)
             .where(post -> post.getYn().equals("Y"))
             .joinList(Post::getCategoryPost)
-            .where(categoryPost -> categoryPost.getTwo().getId().equals(id))
+            .where(categoryPost -> categoryPost.getTwo().getCategory().getId().equals(id))
             .select(Pair::getOne);
 
     model.addAttribute("posts", asPaged(posts, pageable));
