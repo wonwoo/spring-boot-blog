@@ -11,6 +11,19 @@
 
     <property name="FILE_LOG_PATTERN" value="[%d{HH:mm:ss.SSS}] [%-5level] [%logger{36}:%L] ### %msg%n"/>
 
+
+    <appender name="dailyRolling" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_FILE}.txt</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.txt</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <Pattern>${CONSOLE_LOG_PATTERN}</Pattern>
@@ -47,6 +60,7 @@
     <logger name="org.apache.flume" level="ERROR"/>
     <root level="INFO">
         <appender-ref ref="console"/>
+        <appender-ref ref="dailyRolling" />
         <!--<appender-ref ref="flume"/>-->
     </root>
 

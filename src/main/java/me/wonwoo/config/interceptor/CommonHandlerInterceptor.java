@@ -33,23 +33,23 @@ public class CommonHandlerInterceptor extends HandlerInterceptorAdapter {
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
     try {
-//      HandlerMethod handlerMethod = (HandlerMethod) handler;
-      final String requestURL = request.getRequestURL().toString();
-      final String requestURI = request.getRequestURI();
-      String referer = request.getHeader("REFERER");
-      String navigation = (String) request.getSession().getAttribute(NAV_SECTION);
-      try {
-        blogHistoryRepository.save(new BlogHistory(requestURI, requestURL, requestIP(), navigation, referer, LocalDateTime.now()));
-      } catch (Exception ignored) {
-        System.out.println(ignored);
-      }
-//      logger.info("Current Request Handler : {}.{}() , uri : {}, query : {}, ip : {}",
-//        handlerMethod.getBeanType().getCanonicalName(),
-//        handlerMethod.getMethod().getName(),
-//        request.getRequestURI(),
-//        request.getQueryString(),
-//        requestIP()
-//      );
+      HandlerMethod handlerMethod = (HandlerMethod) handler;
+//      final String requestURL = request.getRequestURL().toString();
+//      final String requestURI = request.getRequestURI();
+//      String referer = request.getHeader("REFERER");
+//      String navigation = (String) request.getSession().getAttribute(NAV_SECTION);
+//      try {
+//        blogHistoryRepository.save(new BlogHistory(requestURI, requestURL, requestIP(), navigation, referer, LocalDateTime.now()));
+//      } catch (Exception ignored) {
+//        System.out.println(ignored);
+//      }
+      logger.info("Current Request Handler : {}.{}() , uri : {}, queryString : {}, ip : {}",
+        handlerMethod.getBeanType().getCanonicalName(),
+        handlerMethod.getMethod().getName(),
+        request.getRequestURI(),
+        request.getQueryString(),
+        requestIP()
+      );
       return true;
     } catch (Exception ignored) {
     }
