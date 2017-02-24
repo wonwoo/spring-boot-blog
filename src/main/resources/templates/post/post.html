@@ -94,6 +94,13 @@
                     </div>
                     <p class="well" sec:authorize="!hasRole('ROLE_USER')">Please <a th:href="@{/login}">sign in</a> to add comments!</p>
                 </form>
+                <ins class="adsbygoogle"
+                     style="display:inline-block;width:728px;height:90px"
+                     data-ad-client="ca-pub-4336320637630983"
+                     data-ad-slot="8026205351"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
                 <form th:object="${commentDto}" th:action="@{/}" method="post" th:id="deleteComment">
                     <ul class="media-list comments" th:each="comment : ${post.comments}">
                         <li class="media">
