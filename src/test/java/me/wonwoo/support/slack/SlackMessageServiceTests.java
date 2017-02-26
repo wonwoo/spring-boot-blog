@@ -2,7 +2,6 @@ package me.wonwoo.support.slack;
 
 import me.wonwoo.autoconfigure.slack.SlackMessageProperties;
 import org.apache.commons.lang.exception.ExceptionUtils;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -24,29 +23,20 @@ public class SlackMessageServiceTests {
   private AsyncRestTemplate asyncRestTemplate;
 
   @Spy
-  private SlackMessageProperties slackMessageProperties;
-
-  private SlackMessageService slackMessageService;
-  @Before
-  public void setup() {
-    slackMessageProperties.setIconEmoji("1");
-    slackMessageProperties.setUsername("hellowd");
-    slackMessageProperties.setChannel("alter");
-    slackMessageProperties.setWebHookUrl("http://test.com");
-    slackMessageService = new SlackMessageService(asyncRestTemplate, slackMessageProperties);
-  }
+  private SlackMessageProperties properties;
 
   @Test
   public void sendTest() {
+    properties.setIconEmoji("1");
+    properties.setUsername("wonwoo");
+    properties.setChannel("spring-boot-blog");
+    properties.setWebHookUrl("http://wonwoo.ml");
+    SlackMessageService slackMessageService = new SlackMessageService(asyncRestTemplate, properties);
     NullPointerException e = new NullPointerException();
     slackMessageService.send(e);
     String stackTrace = "```\n" + ExceptionUtils.getStackTrace(e) + "\n```";
-    Payload payload = new Payload();
-    payload.setChannel(slackMessageProperties.getChannel());
-    payload.setUsername(slackMessageProperties.getUsername());
-    payload.setIconEmoji(slackMessageProperties.getIconEmoji());
-    payload.setText(stackTrace);
+    Payload payload = new Payload(properties.getChannel(), properties.getUsername(), stackTrace, properties.getIconEmoji());
     HttpEntity<?> httpEntity = new HttpEntity<>(payload);
-    verify(asyncRestTemplate).postForEntity("http://test.com", httpEntity, String.class);
+    verify(asyncRestTemplate).postForEntity("http://wonwoo.ml", httpEntity, String.class);
   }
 }

@@ -9,12 +9,12 @@ import lombok.Data;
 @Data
 public class Payload {
 
-  private String channel;
+  private final String channel;
 
-  private String username;
+  private final String username;
 
-  private String text;
+  private final String text;
 
   @JsonProperty("icon_emoji")
-  private String iconEmoji;
+  private final String iconEmoji;
 }
