@@ -1,6 +1,7 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/main}"  xmlns:sd="http://www.thymeleaf.org/spring-data">
+      layout:decorator="layouts/main" xmlns:sd="http://www.thymeleaf.org/spring-data">
 <head>
     <title>워드프레스</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
@@ -24,18 +25,14 @@
 <!-- Main Content -->
 <div class="container" layout:fragment="content">
     <div class="row">
-        <h1 class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" th:text="${wordPress.postTitle}">
+        <h1 class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" th:text="${wordPress.title}">
         </h1>
         <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
-            <p style="margin: 10px 0px;">Posted by <strong>wonwoo</strong> on <strong th:text="${#temporals.format(wordPress.postDate, 'yyyy-MM-dd')}"> </strong> </p>
+            <p style="margin: 10px 0px;">Posted by <strong th:text="${wordPress.author.name}"></strong> on <strong th:text="${#temporals.format(wordPress.date, 'yyyy-MM-dd')}"> </strong> </p>
         </div>
 
-        <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" th:utext="${wordPress.postContent}">
+        <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" th:utext="${wordPress.content}">
 
-        </div>
-        <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" style="padding-top: 30px;">
-            <span class="label label-info" th:each="tag : ${tags}" style="border-radius:1.25em;" th:text="${tag}">
-            </span>
         </div>
         <ins class="adsbygoogle"
              style="display:inline-block;width:728px;height:90px"

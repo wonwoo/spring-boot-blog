@@ -33,16 +33,16 @@ public class WordPressController {
     private final PegDownProcessor pegDownProcessor;
     private final PostElasticSearchService postElasticSearchService;
 
-    @GetMapping("/http")
-    public String findAllHttp(Model model, @PageableDefault(size = 3) Pageable pageable, @RequestParam(required = false, defaultValue = "") String q) {
-        model.addAttribute("wordPresses", wordPressClient.findAll(pageable, q));
-        return "wordpress/wordPresses";
+    @GetMapping("/api")
+    public String findAllHttp(Model model, @PageableDefault(size = 3) Pageable pageable, @ModelAttribute SearchForm searchForm) {
+        model.addAttribute("wordPresses", wordPressClient.findAll(pageable, searchForm.getQ()));
+        return "wordpress/api/wordPresses";
     }
 
-    @GetMapping("/http/{id}")
+    @GetMapping("/api/{id}")
     public String findOneHttp(@PathVariable Long id, Model model) {
         model.addAttribute("wordPress", wordPressClient.findOne(id));
-        return "wordpress/wordPress";
+        return "wordpress/api/wordPress";
     }
 
 //    @GetMapping

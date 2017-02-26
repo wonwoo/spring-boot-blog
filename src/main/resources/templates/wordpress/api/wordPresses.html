@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}" xmlns:sd="http://www.thymeleaf.org/spring-data">
+<head>
+    <title>워드프레스</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/gsguide.css}"/>
+    <style>
+        @media (min-width: 1200px) {
+            .container {
+                width: 1100px;
+            }
+        }
+        .blog-main {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+
+        /* Sidebar modules for boxing content */
+        .sidebar-module {
+            padding: 15px;
+            margin: 0 -15px 15px;
+        }
+        .sidebar-module-inset {
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+        }
+        .sidebar-module-inset p:last-child,
+        .sidebar-module-inset ul:last-child,
+        .sidebar-module-inset ol:last-child {
+            margin-bottom: 0;
+        }
+
+        .pagination-centered {
+            text-align: center;
+        }
+    </style>
+    <script type="text/javascript" th:inline="javascript">
+        $(function() {
+            $("img").each(function() {
+                var oImgWidth = $(this).width();
+                var oImgHeight = $(this).height();
+                $(this).css({
+                    'max-width':oImgWidth+'px',
+                    'max-height':oImgHeight+'px',
+                    'width':'100%',
+                    'height':'100%'
+                });
+            });
+        });
+    </script>
+</head>
+<body th:onload="'initPrettify()'">
+<!-- Main Content -->
+<div class="container" layout:fragment="content">
+    <!--<div class="col-lg-3 col-lg-offset-9">-->
+        <!--<input type="text" class="form-control" id="q" name="q"/>-->
+        <!--<input type="button" class="btn btn-secondary" value="search" onclick="location.href='/wordPress/api?q=' + document.getElementById('q').value" />-->
+    <!--</div>-->
+    <div class="row">
+        <div class="col-sm-9 blog-main">
+            <div th:each="wordPress : ${wordPresses.content}">
+                <a th:href="@{'/wordPress/api/' + ${wordPress.id}}">
+                    <h1 class="post-title" th:text="${wordPress.title}">
+                    </h1>
+                </a>
+                <div>
+                    <p style="margin: 10px 0px;">Posted by <strong th:text="${wordPress.author.name}"></strong> on <strong th:text="${#temporals.format(wordPress.date, 'yyyy-MM-dd')}"> </strong> </p>
+                </div>
+
+                <div style="margin-bottom:30px"  th:utext="${wordPress.content}">
+
+                </div>
+            </div>
+            <div class="row" style="margin-top: 5%">
+                <div class="pagination-centered">
+                    <nav>
+                        <ul class="pagination" sd:pagination="full">
+                            <!-- Pagination created by SpringDataDialect, this content is just for mockup -->
+                            <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                            <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3 col-sm-offset-0 blog-sidebar">
+            <form th:action="@{/wordPress/api}" method="get" th:object="${searchForm}">
+                <div class="sidebar-module sidebar-module-inset">
+                    <input type="text" class="form-control" th:field="*{q}" placeholder="search"/>
+                    <input type="submit" class="btn btn-secondary" value="search" />
+                </div>
+            </form>
+            <!-- 자동 -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-4336320637630983"
+                 data-ad-slot="2119272553"
+                 data-ad-format="auto"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </div>
+</div>
+</body>
+</html>
