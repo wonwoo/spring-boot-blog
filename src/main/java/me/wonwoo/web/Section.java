@@ -12,6 +12,7 @@ public enum Section {
   HISTORY("Blog History"),
   GITHUB("GitHub Page"),
   WORDPRESS("WordPress"),
+  WORDPRESS_API("WordPress Api"),
   CATEGORY("Category"),
   WEATHER("weather");
 

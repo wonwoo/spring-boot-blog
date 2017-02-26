@@ -36,8 +36,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(WordPressController.class)
 @EnableSpringDataWebSupport
 public class WordPressControllerTests extends AbstractControllerTests{
-  @MockBean
-  private WordPressClient wordPressClient;
 
   @SpyBean
   private PegDownProcessor pegDownProcessor;
@@ -64,9 +62,6 @@ public class WordPressControllerTests extends AbstractControllerTests{
 
   @Test
   public void findAll() throws Exception {
-
-
-
     given(postElasticSearchService.wpPosts(any()))
       .willReturn(new PageImpl<>(Collections.singletonList(wpPosts)));
 

@@ -29,21 +29,9 @@ import static org.apache.commons.lang.StringEscapeUtils.unescapeHtml;
 @Navigation(Section.WORDPRESS)
 public class WordPressController {
 
-    private final WordPressClient wordPressClient;
     private final PegDownProcessor pegDownProcessor;
     private final PostElasticSearchService postElasticSearchService;
 
-    @GetMapping("/api")
-    public String findAllHttp(Model model, @PageableDefault(size = 3) Pageable pageable, @ModelAttribute SearchForm searchForm) {
-        model.addAttribute("wordPresses", wordPressClient.findAll(pageable, searchForm.getQ()));
-        return "wordpress/api/wordPresses";
-    }
-
-    @GetMapping("/api/{id}")
-    public String findOneHttp(@PathVariable Long id, Model model) {
-        model.addAttribute("wordPress", wordPressClient.findOne(id));
-        return "wordpress/api/wordPress";
-    }
 
 //    @GetMapping
 //    public String findAll(Model model, @PageableDefault(size = 3, sort = "post_date", direction = Sort.Direction.DESC) Pageable pageable, @RequestParam(required = false) String q) {
