@@ -3,22 +3,7 @@
       layout:decorate="~{layouts/main}"  xmlns:sd="http://www.thymeleaf.org/spring-data">
 <head>
     <title>워드프레스</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/gsguide.css}"/>
-    <script type="text/javascript" th:inline="javascript">
-        $(function() {
-            $("img").each(function() {
-                var oImgWidth = $(this).width();
-                var oImgHeight = $(this).height();
-                $(this).css({
-                    'max-width':oImgWidth+'px',
-                    'max-height':oImgHeight+'px',
-                    'width':'100%',
-                    'height':'100%'
-                });
-            });
-        });
-    </script>
+    <script th:src="@{/js/image-size.js}"></script>
 </head>
 <body th:onload="'initPrettify()'">
 <!-- Main Content -->
