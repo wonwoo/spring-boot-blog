@@ -211,7 +211,6 @@
         return plan;
     }
 
-    var body = $('body');
     var container = $('.container');
 
     var relatedElementMap = {
@@ -257,7 +256,7 @@
 
     function reveal(cls, e) {
         hideBuildSteps();
-        body.addClass('show-' + cls);
+        $('body').addClass('show-' + cls);
 
         if (e !== undefined) {
             for (var k in relatedElementMap) {
@@ -267,11 +266,10 @@
                 }
             }
         }
-
     }
 
     function hideBuildSteps() {
-        body.removeClass('show-gradle show-maven show-sts');
+        $('body').removeClass('show-gradle show-maven show-sts');
     }
 
     function registerBuildSwitches() {
