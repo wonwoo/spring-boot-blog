@@ -1,6 +1,10 @@
 package me.wonwoo.wordpress;
 
 import me.wonwoo.support.client.Client;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -40,10 +44,39 @@ public class WordPressClient extends Client {
     return new PageImpl<>(body.getPosts(), pageable, body.getFound());
   }
 
+  // FIXME: 2017. 2. 27. 추후 수정
   @Cacheable("wp.post")
   public WordPress findOne(Long id) {
     String url = String.format(
-      WP_API + MY_SITE + POST +"/%s??fields=ID,content,title,date,author,tags", id);
-    return invoke(createRequestEntity(url), WordPress.class).getBody();
+      WP_API + MY_SITE + POST + "/%s??fields=ID,content,title,date,author,tags", id);
+    final WordPress body = invoke(createRequestEntity(url), WordPress.class).getBody();
+    final Document parse = Jsoup.parse(body.getContent());
+    final String tableOfContents = findTableOfContents(parse);
+    body.setContent(parse.select("body").toString());
+    String sidebar = "<div class='right-pane-widget--container'>\n" +
+      "<div class='related_resources'>\n";
+
+    sidebar += "<h3>" +
+      "<a name='table-of-contents' class='anchor' href='#table-of-contents'></a>" +
+      "Table of contents</h3><ul class='sectlevel1'>\n";
+    sidebar += tableOfContents.replaceAll("h2", "li").replaceAll("h3", "li");
+    sidebar += "</ul></div></div>";
+    body.setTableOfContent(sidebar);
+    return body;
+  }
+
+  private String findTableOfContents(Document doc) {
+    Elements toc = doc.select("h2, h3");
+    toc.forEach(part -> {
+      final String text = part.text();
+      part.empty();
+      final Element a = part.appendElement("a");
+      final String s = text.toLowerCase();
+      final String replace = s.replaceAll(" ", "-");
+      final Element href = a.attr("href", "#" + replace).attr("name", replace).text(text);
+      part.removeAttr("text");
+      part.appendChild(href);
+    });
+    return toc.toString();
   }
 }

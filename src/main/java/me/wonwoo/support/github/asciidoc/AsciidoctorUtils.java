@@ -32,7 +32,6 @@ public class AsciidoctorUtils {
     /**
      * Using a project's metadata and tag info, generate a dynamic sidebar.
      *
-     * @param projectMetadataService
      * @param asciidocGuide
      * @return
      */

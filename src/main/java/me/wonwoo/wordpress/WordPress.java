@@ -19,4 +19,5 @@ public class WordPress {
   private OffsetDateTime date;
   private WordPressLogin author;
   private Map<String, Object> tags;
+  private String tableOfContent;
 }
