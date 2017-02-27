@@ -75,6 +75,7 @@ public class GuidesService {
       return new ArrayList<>(tags);
     });
     tutorial.setContent(asciidocGuide.getContent());
+    tutorial.setSidebar(asciidoctorUtils.generateDynamicSidebar(asciidocGuide));
     return tutorial;
   }
 

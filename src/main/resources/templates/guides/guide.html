@@ -2,20 +2,35 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{layouts/main}">
 
+
 <head>
     <title>Spring Guides</title>
+    <style>
+
+        .content-right-pane--container h3 {
+            border-top : 1px solid #ddd;
+            padding : 6px 6.2%;
+            margin : 0;
+
+        }
+
+        .sectlevel1 {
+            padding : 4px 11px
+        }
+
+
+    </style>
 </head>
 <body th:onload="'initPrettify(),initHideShowGuide()'">
-<!-- Main Content -->
-<div class="container" layout:fragment="content">
-    <div class="row">
-        <h1 class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" style="margin-bottom:3%" th:text="${guide.title}">
-        </h1>
-        <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" th:utext="${guide.content}">
+    <div class="container" layout:fragment="content">
+        <div class="row">
+            <h1 class="col-lg-8 col-lg-offset-0" style="margin-bottom:3%" th:text="${guide.title}">
+            </h1>
+            <div class="col-lg-8 col-lg-offset-0" th:utext="${guide.content}">
 
+            </div>
+            <div class="content-right-pane--container col-lg-3 col-lg-offset-1" th:utext="${guide.sidebar}">Container</div>
         </div>
     </div>
-</div>
 </body>
-
 </html>

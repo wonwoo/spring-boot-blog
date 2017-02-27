@@ -65,7 +65,7 @@ public class AsciidoctorUtils {
             sidebar += "</ul><h3>" +
                     "<a name='projects' class='anchor' href='#projects'></a>" +
                     "Projects</h3>\n" +
-                    "<ul>\n";
+                    "<ul class='sectlevel1'>\n";
 
             for (String project : asciidocGuide.getProjects()) {
 
@@ -82,7 +82,7 @@ public class AsciidoctorUtils {
             sidebar += "<h3>" +
                     "<a name='concepts-and-technologies' class='anchor' href='#concepts-and-technologies'></a>" +
                     "Concepts and technologies</h3>\n" +
-                    "<ul>\n";
+                    "<ul class='sectlevel1'>\n";
             for (String key : asciidocGuide.getUnderstandingDocs().keySet()) {
                 sidebar += "<li><a href='" + key + "'>" + asciidocGuide.getUnderstandingDocs().get(key) + "</a></li>\n";
             }
