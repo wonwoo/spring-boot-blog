@@ -116,7 +116,7 @@ public class WordPressControllerTests extends AbstractControllerTests{
     assertThat(wpPosts.getPostTitle()).isEqualTo("test title");
     assertThat(wpPosts.getPostType()).isEqualTo("public");
     assertThat(wpPosts.getHighlightedContent()).isEqualTo("test content");
-    assertThat(wpPosts.getPostContent()).isEqualTo("<p>test content</p>");
+    assertThat(wpPosts.getPostContent()).isEqualTo("<body>\n <p>test content</p>\n</body>");
     verify(postElasticSearchService, atLeastOnce()).findOne(1L);
 
   }
