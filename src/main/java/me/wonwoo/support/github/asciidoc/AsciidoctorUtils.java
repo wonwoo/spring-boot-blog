@@ -42,8 +42,8 @@ public class AsciidoctorUtils {
                 "<div class='related_resources'>\n";
 
         sidebar += "<h3>" +
-                "<a name='table-of-contents' class='anchor' href='#table-of-contents'></a>" +
-                "Table of contents</h3>\n";
+                "<a name='table-of-sidebar' class='anchor' href='#table-of-sidebar'></a>" +
+                "Table of sidebar</h3>\n";
         sidebar += asciidocGuide.getTableOfContents();
 
         sidebar += "</div>\n</div>\n" +

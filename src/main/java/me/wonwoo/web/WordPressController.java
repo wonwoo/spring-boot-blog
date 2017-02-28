@@ -3,8 +3,11 @@ package me.wonwoo.web;
 import lombok.RequiredArgsConstructor;
 import me.wonwoo.dto.SearchForm;
 import me.wonwoo.support.elasticsearch.PostElasticSearchService;
+import me.wonwoo.support.sidebar.SidebarContents;
 import me.wonwoo.wordpress.WordPressClient;
 import me.wonwoo.wordpress.domain.WpPosts;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.pegdown.PegDownProcessor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -82,7 +85,11 @@ public class WordPressController {
     @GetMapping("/{id}")
     public String findOne(@PathVariable Long id, Model model) {
         WpPosts wpPosts = postElasticSearchService.findOne(id);
-        wpPosts.setPostContent(pegDownProcessor.markdownToHtml(unescapeHtml(wpPosts.getPostContentFiltered())));
+        final String postContent = pegDownProcessor.markdownToHtml(unescapeHtml(wpPosts.getPostContentFiltered()));
+        final Document parse = Jsoup.parse(postContent);
+        final String sidebar = new SidebarContents().sidebar(parse);
+        wpPosts.setPostContent(parse.select("body").toString());
+        wpPosts.setTableOfContent(sidebar);
         model.addAttribute("wordPress", wpPosts);
         return "wordpress/wordPress";
     }

@@ -41,4 +41,6 @@ public class WpPosts {
     private String postContentFiltered;
 
     private String highlightedContent;
+
+    private String tableOfContent;
 }

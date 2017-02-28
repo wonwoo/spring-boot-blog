@@ -4,31 +4,50 @@
 <head>
     <title>워드프레스</title>
     <script th:src="@{/js/image-size.js}"></script>
+    <link th:href="@{/css/search.css}" rel="stylesheet" />
+    <style>
+        .content-right-pane--container h3 {
+            border-top : 1px solid #ddd;
+            padding : 6px 6.2%;
+            margin : 0;
+
+        }
+
+        .sectlevel1 {
+            padding : 4px 11px
+        }
+
+    </style>
 </head>
 <body th:onload="'initPrettify()'">
 <!-- Main Content -->
 <div class="container" layout:fragment="content">
     <div class="row">
-        <h1 class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" th:text="${wordPress.postTitle}">
-        </h1>
-        <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
-            <p style="margin: 10px 0px;">Posted by <strong>wonwoo</strong> on <strong th:text="${#temporals.format(wordPress.postDate, 'yyyy-MM-dd')}"> </strong> </p>
+        <div class="col-sm-9 blog-main">
+            <h1 class="post-title" style="margin-bottom:3%" th:text="${wordPress.postTitle}">
+            </h1>
+            <div>
+                <p style="margin: 10px 0px;">Posted by <strong>wonwoo</strong> on <strong th:text="${#temporals.format(wordPress.postDate, 'yyyy-MM-dd')}"> </strong> </p>
+            </div>
+            <div style="margin-bottom:30px" th:utext="${wordPress.postContent}">
+            </div>
+            <div style="padding: 20px;">
+                <span class="label label-info" th:each="tag : ${tags}" style="border-radius:1.25em;" th:text="${tag}">
+                </span>
+            </div>
         </div>
 
-        <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" th:utext="${wordPress.postContent}">
-
+        <div class="col-sm-3 col-sm-offset-0 blog-sidebar">
+            <div class="sidebar-module sidebar-module-inset content-right-pane--container" th:utext="${wordPress.tableOfContent}">Container</div>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-4336320637630983"
+                 data-ad-slot="2119272553"
+                 data-ad-format="auto"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
         </div>
-        <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" style="padding-top: 30px;">
-            <span class="label label-info" th:each="tag : ${tags}" style="border-radius:1.25em;" th:text="${tag}">
-            </span>
-        </div>
-        <ins class="adsbygoogle"
-             style="display:inline-block;width:728px;height:90px"
-             data-ad-client="ca-pub-4336320637630983"
-             data-ad-slot="8026205351"></ins>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
     </div>
 </div>
 </body>

@@ -28,7 +28,7 @@ import org.yaml.snakeyaml.Yaml;
 public class GuideOrganization {
 
   private static final String REPO_BASE_PATH = "/repos/{name}/{repo}";
-  private static final String REPO_CONTENTS_PATH = REPO_BASE_PATH + "/contents";
+  private static final String REPO_CONTENTS_PATH = REPO_BASE_PATH + "/sidebar";
 
   private final String type;
   private final GithubClient gitHub;

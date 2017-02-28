@@ -27,7 +27,7 @@ public class GithubPageController {
 
     @GetMapping
     public String githubPages(Model model){
-        List<GithubPage> githubPages = Arrays.asList(githubClient.sendRequest("repos/wonwoo/github/contents/_post", GithubPage[].class));
+        List<GithubPage> githubPages = Arrays.asList(githubClient.sendRequest("repos/wonwoo/github/sidebar/_post", GithubPage[].class));
         model.addAttribute("githubPages", githubPages
           .stream()
           .filter(githubPage -> githubPage.getName().contains(".md"))
@@ -38,7 +38,7 @@ public class GithubPageController {
 
     @GetMapping("/{name}")
     public String githubPage(@PathVariable String name, Model model){
-        GithubPage githubPage = githubClient.sendRequest("repos/wonwoo/github/contents/_post/" + name + ".md", GithubPage.class);
+        GithubPage githubPage = githubClient.sendRequest("repos/wonwoo/github/sidebar/_post/" + name + ".md", GithubPage.class);
         githubPage.setContent(pegDownProcessor.markdownToHtml(new String(Base64.decodeBase64(githubPage.getContent()))));
         model.addAttribute("githubPage", githubPage);
         return "github/page";
