@@ -24,9 +24,11 @@ public class WordPressClient extends Client {
   private static final String WP_API = "https://public-api.wordpress.com/rest/v1.1/sites/";
   private static final String MY_SITE = "aoruqjfu.fun25.co.kr/";
   private static final String POST = "posts";
+  private final SidebarContents sidebarContents;
 
-  public WordPressClient(RestTemplate restTemplate) {
+  public WordPressClient(RestTemplate restTemplate, SidebarContents sidebarContents) {
     super(restTemplate);
+    this.sidebarContents = sidebarContents;
   }
 
   @Cacheable("wp.posts")
@@ -50,7 +52,7 @@ public class WordPressClient extends Client {
       WP_API + MY_SITE + POST + "/%s??fields=ID,content,title,date,author,tags", id);
     final WordPress body = invoke(createRequestEntity(url), WordPress.class).getBody();
     final Document parse = Jsoup.parse(body.getContent());
-    final String sidebar = new SidebarContents().sidebar(parse);
+    final String sidebar = sidebarContents.sidebar(parse);
     body.setContent(parse.select("body").toString());
     body.setTableOfContent(sidebar);
     return body;

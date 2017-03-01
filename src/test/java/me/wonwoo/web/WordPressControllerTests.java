@@ -1,6 +1,7 @@
 package me.wonwoo.web;
 
 import me.wonwoo.support.elasticsearch.PostElasticSearchService;
+import me.wonwoo.support.sidebar.SidebarContents;
 import me.wonwoo.wordpress.WordPressClient;
 import me.wonwoo.wordpress.domain.WpPosts;
 import org.junit.Before;
@@ -35,13 +36,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(WordPressController.class)
 @EnableSpringDataWebSupport
-public class WordPressControllerTests extends AbstractControllerTests{
+public class WordPressControllerTests extends AbstractControllerTests {
 
   @SpyBean
   private PegDownProcessor pegDownProcessor;
 
   @MockBean
   private PostElasticSearchService postElasticSearchService;
+
+  @MockBean
+  private SidebarContents sidebarContents;
 
   @Autowired
   private MockMvc mockMvc;

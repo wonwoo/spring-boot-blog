@@ -34,6 +34,7 @@ public class WordPressController {
 
     private final PegDownProcessor pegDownProcessor;
     private final PostElasticSearchService postElasticSearchService;
+    private final SidebarContents sidebarContents;
 
 
 //    @GetMapping
@@ -87,7 +88,7 @@ public class WordPressController {
         WpPosts wpPosts = postElasticSearchService.findOne(id);
         final String postContent = pegDownProcessor.markdownToHtml(unescapeHtml(wpPosts.getPostContentFiltered()));
         final Document parse = Jsoup.parse(postContent);
-        final String sidebar = new SidebarContents().sidebar(parse);
+        final String sidebar = sidebarContents.sidebar(parse);
         wpPosts.setPostContent(parse.select("body").toString());
         wpPosts.setTableOfContent(sidebar);
         model.addAttribute("wordPress", wpPosts);

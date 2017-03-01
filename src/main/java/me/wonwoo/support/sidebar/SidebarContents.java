@@ -3,10 +3,12 @@ package me.wonwoo.support.sidebar;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by wonwoo on 2017. 2. 28..
  */
+@Component
 public class SidebarContents {
 
   public String sidebar(Document doc) {
