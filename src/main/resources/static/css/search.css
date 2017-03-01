@@ -23,7 +23,15 @@
 .sidebar-module-inset ol:last-child {
     margin-bottom: 0;
 }
-
 .pagination-centered {
     text-align: center;
+}
+.content-right-pane--container h3 {
+    border-top : 1px solid #ddd;
+    padding : 6px 6.2%;
+    margin : 0;
+
+}
+.sectlevel1 {
+    padding : 4px 11px
 }
