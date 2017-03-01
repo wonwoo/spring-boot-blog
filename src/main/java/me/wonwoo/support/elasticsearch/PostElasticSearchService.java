@@ -14,6 +14,7 @@ import org.elasticsearch.search.highlight.HighlightBuilder;
 import org.elasticsearch.search.highlight.HighlightField;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.SearchResultMapper;
@@ -55,8 +56,6 @@ public class PostElasticSearchService {
     if (StringUtils.hasText(q)) {
       final MatchQueryBuilder postTitle = matchQuery("post_title", q);
       queryStringQueryBuilder.should(postTitle);
-//      final MatchQueryBuilder postContent = matchQuery("post_content", q);
-//      queryStringQueryBuilder.should(postContent);
       final MatchQueryBuilder postContentFiltered = matchQuery("post_content_filtered", q);
       queryStringQueryBuilder.should(postContentFiltered);
     }
@@ -70,15 +69,15 @@ public class PostElasticSearchService {
       .withSearchType(SearchType.DEFAULT)
       .withSort(SortBuilders.scoreSort())
       .withHighlightFields(new HighlightBuilder.Field("post_content_filtered")
-                      .preTags("<highlight>")
-                      .postTags("</highlight>")
-                      .fragmentSize(Integer.MAX_VALUE)
-                      .numOfFragments(1),
+          .preTags("<highlight>")
+          .postTags("</highlight>")
+          .fragmentSize(Integer.MAX_VALUE)
+          .numOfFragments(1),
         new HighlightBuilder.Field("post_title")
-                .preTags("<highlight>")
-                .postTags("</highlight>")
-                .fragmentSize(Integer.MAX_VALUE)
-                .numOfFragments(1))
+          .preTags("<highlight>")
+          .postTags("</highlight>")
+          .fragmentSize(Integer.MAX_VALUE)
+          .numOfFragments(1))
       .withQuery(builder).build();
     return elasticsearchTemplate.queryForPage(searchQuery, WpPosts.class, new SearchResultMapper() {
       public <T> AggregatedPage<T> mapResults(SearchResponse response, Class<T> clazz, Pageable pageable) {
@@ -89,13 +88,13 @@ public class PostElasticSearchService {
           }
           final WpPosts wpPosts = objectMapper.convertValue(searchHit.getSource(), WpPosts.class);
           final HighlightField postContentFiltered = searchHit.getHighlightFields().get("post_content_filtered");
-          if(postContentFiltered != null){
+          if (postContentFiltered != null) {
             wpPosts.setHighlightedContent(postContentFiltered.fragments()[0].toString());
-          }else{
+          } else {
             wpPosts.setHighlightedContent(wpPosts.getPostContentFiltered());
           }
           HighlightField postTitle = searchHit.getHighlightFields().get("post_title");
-          if(postTitle != null){
+          if (postTitle != null) {
             wpPosts.setPostTitle(postTitle.fragments()[0].toString());
           }
           chunk.add(wpPosts);
@@ -112,7 +111,24 @@ public class PostElasticSearchService {
     CriteriaQuery criteriaQuery = new CriteriaQuery(new Criteria("post_type").is("post").and("post_status")
       .is("publish").and("ID").is(id));
     return elasticsearchTemplate.queryForObject(criteriaQuery, WpPosts.class);
+  }
 
+  //TODO 추후 수정
+  public List<WpPosts> findRelationPosts(String q) {
+    BoolQueryBuilder queryStringQueryBuilder = QueryBuilders.boolQuery();
+    final MatchQueryBuilder postTitle = matchQuery("post_title", q);
+    queryStringQueryBuilder.should(postTitle);
+    final MatchQueryBuilder postContentFiltered = matchQuery("post_content_filtered", q);
+    queryStringQueryBuilder.should(postContentFiltered);
+    queryStringQueryBuilder.must(termQuery("post_type", "post"))
+      .must(termQuery("post_status", "publish"));
+
+    final SearchQuery searchQuery = new NativeSearchQueryBuilder()
+      .withPageable(new PageRequest(0, 4))
+      .withFields("ID", "post_title", "post_date")
+      .withQuery(queryStringQueryBuilder)
+      .build();
+    return elasticsearchTemplate.queryForList(searchQuery, WpPosts.class);
   }
 }
 

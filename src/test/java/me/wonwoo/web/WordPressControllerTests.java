@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -110,6 +111,9 @@ public class WordPressControllerTests extends AbstractControllerTests {
     given(postElasticSearchService.findOne(any()))
       .willReturn(wpPosts);
 
+    given(postElasticSearchService.findRelationPosts(any()))
+      .willReturn(Collections.singletonList(wpPosts));
+
     final MvcResult mvcResult = mockMvc.perform(get("/wordPress/{id}", 1))
       .andExpect(status().isOk())
       .andReturn();
@@ -122,6 +126,7 @@ public class WordPressControllerTests extends AbstractControllerTests {
     assertThat(wpPosts.getHighlightedContent()).isEqualTo("test content");
     assertThat(wpPosts.getPostContent()).isEqualTo("<body>\n <p>test content</p>\n</body>");
     verify(postElasticSearchService, atLeastOnce()).findOne(1L);
+    verify(postElasticSearchService, atLeastOnce()).findRelationPosts("test title");
 
   }
 
