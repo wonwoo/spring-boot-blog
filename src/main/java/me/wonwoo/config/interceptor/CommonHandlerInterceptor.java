@@ -43,9 +43,7 @@ public class CommonHandlerInterceptor extends HandlerInterceptorAdapter {
 //      } catch (Exception ignored) {
 //        System.out.println(ignored);
 //      }
-      logger.info("Current Request Handler : {}.{}() , uri : {}, queryString : {}, ip : {}",
-        handlerMethod.getBeanType().getCanonicalName(),
-        handlerMethod.getMethod().getName(),
+      logger.info("Current Request Handler : uri : {}, queryString : {}, ip : {}",
         request.getRequestURI(),
         request.getQueryString(),
         requestIP()
