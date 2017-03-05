@@ -77,16 +77,18 @@ public class GuideOrganization {
     byte[] download = gitHub.sendRequestForDownload(path);
 
     String tempFilePrefix = path.replace("/", "-");
+    File zipball = null;
+    File unzippedRoot = null;
     try {
       // First, write the downloaded stream of bytes into a file
-      File zipball = File.createTempFile(tempFilePrefix, ".zip");
+      zipball = File.createTempFile(tempFilePrefix, ".zip");
       zipball.deleteOnExit();
       FileOutputStream zipOut = new FileOutputStream(zipball);
       zipOut.write(download);
       zipOut.close();
 
       // Open the zip file and unpack it
-      File unzippedRoot;
+
       try (ZipFile zipFile = new ZipFile(zipball)) {
         unzippedRoot = null;
         for (Enumeration<? extends ZipEntry> e = zipFile.entries(); e.hasMoreElements(); ) {
@@ -137,11 +139,12 @@ public class GuideOrganization {
       tableOfContents = findTableOfContents(doc);
       understandingDocs = findUnderstandingLinks(doc);
 
+    } catch (IOException ex) {
+      throw new IllegalStateException("Could not create temp file for source: " + tempFilePrefix);
+    } finally {
       // Delete the zipball and the unpacked content
       FileSystemUtils.deleteRecursively(zipball);
       FileSystemUtils.deleteRecursively(unzippedRoot);
-    } catch (IOException ex) {
-      throw new IllegalStateException("Could not create temp file for source: " + tempFilePrefix);
     }
 
     return new AsciidocGuide(htmlContent, tags, projects, tableOfContents, understandingDocs);
