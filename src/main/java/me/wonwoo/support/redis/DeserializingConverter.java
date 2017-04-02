@@ -34,8 +34,7 @@ public class DeserializingConverter implements Converter<byte[], Object> {
   public Object convert(byte[] source) {
     ByteArrayInputStream byteStream = new ByteArrayInputStream(source);
     try {
-      final Object deserialize = this.deserializer.deserialize(byteStream);
-      return deserialize;
+      return this.deserializer.deserialize(byteStream);
     }
     catch (Throwable ex) {
       logger.debug("Failed to deserialize payload.");
