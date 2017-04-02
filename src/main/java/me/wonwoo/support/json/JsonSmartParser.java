@@ -23,6 +23,11 @@ public class JsonSmartParser implements JsonParser {
     this.jsonReader = new JsonReader();
   }
 
+  public JsonSmartParser(JSONParser jsonParser, JsonReader jsonReader) {
+    this.jsonParser = jsonParser;
+    this.jsonReader = jsonReader;
+  }
+
   @Override
   public <T> String writeObject(T value, ResolvableType type) {
     return JSONValue.toJSONString(value);
