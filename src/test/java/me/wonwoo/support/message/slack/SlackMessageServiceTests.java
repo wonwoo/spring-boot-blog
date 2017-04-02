@@ -1,6 +1,6 @@
-package me.wonwoo.support.slack;
+package me.wonwoo.support.message.slack;
 
-import me.wonwoo.autoconfigure.slack.SlackMessageProperties;
+import me.wonwoo.autoconfigure.message.slack.SlackMessageProperties;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,6 +37,6 @@ public class SlackMessageServiceTests {
     String stackTrace = "```\n" + ExceptionUtils.getStackTrace(e) + "\n```";
     Payload payload = new Payload(properties.getChannel(), properties.getUsername(), stackTrace, properties.getIconEmoji());
     HttpEntity<?> httpEntity = new HttpEntity<>(payload);
-    verify(asyncRestTemplate).postForEntity("http://wonwoo.ml", httpEntity, String.class);
+    verify(asyncRestTemplate).postForEntity("http://wonwoo.ml", httpEntity, Void.class);
   }
 }

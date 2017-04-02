@@ -1,4 +1,4 @@
-package me.wonwoo.support.slack.exception;
+package me.wonwoo.support.message;
 
 /**
  * Created by wonwoo on 2017. 2. 26..

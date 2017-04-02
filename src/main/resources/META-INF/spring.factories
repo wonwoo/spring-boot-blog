@@ -1,6 +1,7 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  me.wonwoo.autoconfigure.slack.SlackMessageAutoConfiguration,\
+  me.wonwoo.autoconfigure.message.slack.SlackMessageAutoConfiguration,\
+  me.wonwoo.autoconfigure.message.telegram.TelegramMessageAutoConfiguration,\
   me.wonwoo.autoconfigure.json.JsonParserAutoConfiguration
 
 org.springframework.boot.diagnostics.FailureAnalyzer=\
-  me.wonwoo.autoconfigure.slack.InvalidWebHookUrlFailureAnalyzer
+  me.wonwoo.autoconfigure.message.slack.InvalidWebHookUrlFailureAnalyzer

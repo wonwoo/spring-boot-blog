@@ -1,4 +1,4 @@
-package me.wonwoo.support.slack;
+package me.wonwoo.support.message.slack;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

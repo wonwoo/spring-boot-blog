@@ -1,7 +1,6 @@
-package me.wonwoo.autoconfigure.slack;
+package me.wonwoo.autoconfigure.message.slack;
 
-import me.wonwoo.support.slack.SlackMessageService;
-import me.wonwoo.support.slack.exception.InvalidWebHookUrlException;
+import me.wonwoo.support.message.slack.SlackMessageService;
 import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;

@@ -1,6 +1,6 @@
-package me.wonwoo.autoconfigure.slack;
+package me.wonwoo.autoconfigure.message.slack;
 
-import me.wonwoo.support.slack.exception.InvalidWebHookUrlException;
+import me.wonwoo.support.message.InvalidWebHookUrlException;
 import org.springframework.boot.diagnostics.AbstractFailureAnalyzer;
 import org.springframework.boot.diagnostics.FailureAnalysis;
 
