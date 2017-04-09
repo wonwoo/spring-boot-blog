@@ -62,7 +62,7 @@ public class JsonSmartParser implements JsonParser {
     try {
       return jsonParser.parse(reader, jsonReader.getMapper(type));
     } catch (ParseException e) {
-      return null;
+      throw new RuntimeException(e);
     }
   }
 }
