@@ -1,0 +1,52 @@
+{
+  "post": {
+    "properties": {
+      "post_title": {
+        "type": "string",
+        "store": "yes",
+        "analyzer": "simple"
+      },
+      "post_author": {
+        "type": "string",
+        "store": "yes",
+        "index": "no"
+      },
+      "post_content": {
+        "type": "string",
+        "store": "yes",
+        "term_vector": "with_positions_offsets",
+        "analyzer": "fulltext"
+      },
+      "post_type": {
+        "type": "string",
+        "store": "yes",
+        "index": "no"
+      },
+      "post_status": {
+        "type": "string",
+        "store": "yes",
+        "index": "no"
+      },
+      "post_content_filtered": {
+        "type": "string",
+        "store": "yes",
+        "index": "not_analyzed"
+      },
+      "post_date": {
+        "type": "date",
+        "store": "yes",
+        "index": "not_analyzed"
+      },
+      "highlightedContent": {
+        "type": "string",
+        "store": "yes",
+        "index": "not_analyzed"
+      },
+      "tableOfContent": {
+        "type": "string",
+        "store": "yes",
+        "index": "not_analyzed"
+      }
+    }
+  }
+}
