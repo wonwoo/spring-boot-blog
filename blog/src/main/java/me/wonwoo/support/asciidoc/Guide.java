@@ -1,4 +1,4 @@
-package me.wonwoo.support.github.asciidoc;
+package me.wonwoo.support.asciidoc;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 

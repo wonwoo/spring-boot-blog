@@ -5,10 +5,7 @@ import java.time.LocalDateTime;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 
 import lombok.Data;
 
@@ -29,8 +26,6 @@ public class WpPosts {
     private String postContent;
 
     @JsonProperty("post_date")
-    @JsonDeserialize(using=LocalDateTimeDeserializer.class)
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSz")
     private LocalDateTime postDate;
 
     @JsonProperty("post_type")

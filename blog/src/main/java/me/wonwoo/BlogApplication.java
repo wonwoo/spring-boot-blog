@@ -1,9 +1,9 @@
 package me.wonwoo;
 
-import me.wonwoo.config.PostProperties;
-import me.wonwoo.security.GitProperties;
-import me.wonwoo.support.weather.WeatherAppProperties;
-import net.minidev.json.parser.JSONParser;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Collections;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -18,9 +18,11 @@ import org.springframework.util.Base64Utils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.Collections;
+import me.wonwoo.config.PostProperties;
+import me.wonwoo.security.GitProperties;
+import me.wonwoo.support.github.GithubClient;
+import me.wonwoo.support.weather.WeatherAppProperties;
+import net.minidev.json.parser.JSONParser;
 
 import static net.minidev.json.parser.JSONParser.DEFAULT_PERMISSIVE_MODE;
 
@@ -65,5 +67,10 @@ public class BlogApplication {
 	@Bean
 	public JSONParser jsonParser(){
 		return new JSONParser(DEFAULT_PERMISSIVE_MODE);
+	}
+
+	@Bean
+	GithubClient githubClient () {
+		return new GithubClient(restTemplate(null));
 	}
 }

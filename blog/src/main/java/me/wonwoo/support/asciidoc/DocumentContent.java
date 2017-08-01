@@ -1,4 +1,4 @@
-package me.wonwoo.support.github.asciidoc;
+package me.wonwoo.support.asciidoc;
 
 /**
  * Document content, loaded from distant datastore and parsed to generate

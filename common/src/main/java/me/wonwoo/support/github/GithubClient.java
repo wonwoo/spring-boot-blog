@@ -5,16 +5,13 @@ import java.util.List;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import me.wonwoo.support.client.Client;
-import me.wonwoo.support.github.asciidoc.GitHubRepo;
 
 /**
  * Created by wonwoo on 2016. 8. 23..
  */
-@Service
 public class GithubClient extends Client {
 
   private final static String GIT_HUB_URL = "https://api.github.com";

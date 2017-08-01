@@ -21,10 +21,7 @@ import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.SearchResultMapper;
 import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
 import org.springframework.data.elasticsearch.core.aggregation.impl.AggregatedPageImpl;
-import org.springframework.data.elasticsearch.core.query.Criteria;
-import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
-import org.springframework.data.elasticsearch.core.query.SearchQuery;
+import org.springframework.data.elasticsearch.core.query.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -41,13 +38,8 @@ public class PostElasticSearchService {
   private final ObjectMapper objectMapper;
 
   public Page<WpPosts> wpPosts(Pageable pageable) {
-
-    final QueryBuilder builder = boolQuery()
-      .must(termQuery("post_type", "post"))
-      .must(termQuery("post_status", "publish"));
     final SearchQuery searchQuery = new NativeSearchQueryBuilder()
-      .withPageable(pageable)
-      .withQuery(builder).build();
+      .withPageable(pageable).build();
     return elasticsearchTemplate.queryForPage(searchQuery, WpPosts.class);
   }
 
@@ -62,8 +54,6 @@ public class PostElasticSearchService {
     }
 
     final QueryBuilder builder = boolQuery()
-      .must(termQuery("post_type", "post"))
-      .must(termQuery("post_status", "publish"))
       .must(queryStringQueryBuilder);
     final SearchQuery searchQuery = new NativeSearchQueryBuilder()
       .withPageable(pageable)
@@ -108,9 +98,14 @@ public class PostElasticSearchService {
     });
   }
 
+  public void save(WpPosts WpPosts) {
+    IndexQuery indexQuery = new IndexQuery();
+    indexQuery.setObject(WpPosts);
+    elasticsearchTemplate.index(indexQuery);
+  }
+
   public WpPosts findOne(Long id) {
-    CriteriaQuery criteriaQuery = new CriteriaQuery(new Criteria("post_type").is("post").and("post_status")
-      .is("publish").and("ID").is(id));
+    CriteriaQuery criteriaQuery = new CriteriaQuery(new Criteria("ID").is(id));
     return elasticsearchTemplate.queryForObject(criteriaQuery, WpPosts.class);
   }
 
@@ -121,8 +116,6 @@ public class PostElasticSearchService {
     queryStringQueryBuilder.should(postTitle);
     final MatchQueryBuilder postContentFiltered = matchQuery("post_content_filtered", q);
     queryStringQueryBuilder.should(postContentFiltered);
-    queryStringQueryBuilder.must(termQuery("post_type", "post"))
-      .must(termQuery("post_status", "publish"));
 
     final SearchQuery searchQuery = new NativeSearchQueryBuilder()
       .withPageable(new PageRequest(0, 4))

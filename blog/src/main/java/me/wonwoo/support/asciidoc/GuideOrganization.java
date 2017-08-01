@@ -1,4 +1,4 @@
-package me.wonwoo.support.github.asciidoc;
+package me.wonwoo.support.asciidoc;
 
 import java.io.*;
 import java.util.*;
@@ -23,6 +23,7 @@ import org.yaml.snakeyaml.Yaml;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import me.wonwoo.support.github.GitHubRepo;
 import me.wonwoo.support.github.GithubClient;
 
 @Component

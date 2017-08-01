@@ -1,16 +1,17 @@
 package me.wonwoo.service;
 
-import me.wonwoo.junit.MockitoJsonJUnitRunner;
-import me.wonwoo.support.github.asciidoc.GitHubRepo;
-import me.wonwoo.support.github.asciidoc.GuideMetadata;
-import me.wonwoo.support.github.asciidoc.GuideOrganization;
+import java.util.Collections;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
-import java.util.Collections;
-import java.util.List;
+import me.wonwoo.junit.MockitoJsonJUnitRunner;
+import me.wonwoo.support.asciidoc.GuideMetadata;
+import me.wonwoo.support.asciidoc.GuideOrganization;
+import me.wonwoo.support.github.GitHubRepo;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;

@@ -1,4 +1,4 @@
-package me.wonwoo.support.github.asciidoc;
+package me.wonwoo.support.asciidoc;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
