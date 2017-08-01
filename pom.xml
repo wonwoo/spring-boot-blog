@@ -21,14 +21,28 @@
   <modules>
     <module>support</module>
     <module>blog</module>
+    <module>common</module>
   </modules>
 
   <dependencies>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-configuration-processor</artifactId>
+      <optional>true</optional>
+    </dependency>
+
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+    </dependency>
+
   </dependencies>
 
   <dependencyManagement>
@@ -36,6 +50,14 @@
       <dependency>
         <groupId>me.wonwoo</groupId>
         <artifactId>support</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <type>jar</type>
+        <scope>compile</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>me.wonwoo</groupId>
+        <artifactId>common</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <type>jar</type>
         <scope>compile</scope>

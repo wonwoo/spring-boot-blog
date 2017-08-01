@@ -1,15 +1,16 @@
 package me.wonwoo.web;
 
-import lombok.RequiredArgsConstructor;
-import me.wonwoo.support.github.Commit;
-import me.wonwoo.support.github.GithubClient;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import me.wonwoo.support.github.Commit;
+import me.wonwoo.support.github.GithubClient;
 
 @Controller
 @RequiredArgsConstructor

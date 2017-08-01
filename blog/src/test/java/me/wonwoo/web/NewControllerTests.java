@@ -1,8 +1,10 @@
 package me.wonwoo.web;
 
 
-import me.wonwoo.support.github.Commit;
-import me.wonwoo.support.github.GithubClient;
+import java.time.Instant;
+import java.util.Collections;
+import java.util.List;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -10,9 +12,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.time.Instant;
-import java.util.Collections;
-import java.util.List;
+import me.wonwoo.support.github.Commit;
+import me.wonwoo.support.github.GithubClient;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;

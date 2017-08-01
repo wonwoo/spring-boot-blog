@@ -1,8 +1,8 @@
 package me.wonwoo.web;
 
-import me.wonwoo.support.elasticsearch.PostElasticSearchService;
-import me.wonwoo.support.sidebar.SidebarContents;
-import me.wonwoo.wordpress.domain.WpPosts;
+import java.time.LocalDateTime;
+import java.util.Collections;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.pegdown.PegDownProcessor;
@@ -18,8 +18,9 @@ import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.time.LocalDateTime;
-import java.util.Collections;
+import me.wonwoo.support.elasticsearch.PostElasticSearchService;
+import me.wonwoo.support.elasticsearch.WpPosts;
+import me.wonwoo.support.sidebar.SidebarContents;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;

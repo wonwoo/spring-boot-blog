@@ -1,14 +1,15 @@
 package me.wonwoo.security.service;
 
-import lombok.RequiredArgsConstructor;
-import me.wonwoo.domain.model.User;
-import me.wonwoo.domain.repository.UserRepository;
-import me.wonwoo.security.UserNotFoundException;
+import java.util.Optional;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import me.wonwoo.domain.model.User;
+import me.wonwoo.domain.repository.UserRepository;
+import me.wonwoo.security.UserNotFoundException;
 
 /**
  * Created by wonwoo on 2016. 10. 15..
