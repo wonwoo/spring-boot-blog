@@ -47,7 +47,7 @@ public class PostElasticSearchService {
 
     BoolQueryBuilder queryStringQueryBuilder = QueryBuilders.boolQuery();
     if (StringUtils.hasText(q)) {
-      final MatchQueryBuilder postTitle = matchQuery("post_title", q);
+      final MatchQueryBuilder postTitle = matchQuery("post_title", q).boost(3);
       queryStringQueryBuilder.should(postTitle);
       final MatchQueryBuilder postContentFiltered = matchQuery("post_content_filtered", q);
       queryStringQueryBuilder.should(postContentFiltered);
@@ -63,12 +63,12 @@ public class PostElasticSearchService {
           .preTags("<highlight>")
           .postTags("</highlight>")
           .fragmentSize(Integer.MAX_VALUE)
-          .numOfFragments(1),
+          .numOfFragments(0),
         new HighlightBuilder.Field("post_title")
           .preTags("<highlight>")
           .postTags("</highlight>")
           .fragmentSize(Integer.MAX_VALUE)
-          .numOfFragments(1))
+          .numOfFragments(0))
       .withQuery(builder).build();
     return elasticsearchTemplate.queryForPage(searchQuery, WpPosts.class, new SearchResultMapper() {
       public <T> AggregatedPage<T> mapResults(SearchResponse response, Class<T> clazz, Pageable pageable) {
