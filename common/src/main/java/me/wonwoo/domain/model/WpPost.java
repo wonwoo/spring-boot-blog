@@ -1,4 +1,4 @@
-package me.wonwoo.blog;
+package me.wonwoo.domain.model;
 
 import java.time.LocalDateTime;
 

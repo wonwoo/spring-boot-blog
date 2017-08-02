@@ -4,6 +4,8 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import me.wonwoo.Indexer;
+import me.wonwoo.domain.model.WpPost;
+import me.wonwoo.domain.repository.WpPostsRepository;
 import me.wonwoo.support.elasticsearch.PostElasticSearchService;
 import me.wonwoo.support.elasticsearch.WpPosts;
 
