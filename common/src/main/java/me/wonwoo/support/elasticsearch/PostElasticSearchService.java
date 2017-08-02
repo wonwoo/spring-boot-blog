@@ -6,10 +6,8 @@ import java.util.List;
 
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.MatchQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.common.unit.Fuzziness;
+import org.elasticsearch.index.query.*;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.highlight.HighlightBuilder;
 import org.elasticsearch.search.highlight.HighlightField;
@@ -23,50 +21,62 @@ import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
 import org.springframework.data.elasticsearch.core.aggregation.impl.AggregatedPageImpl;
 import org.springframework.data.elasticsearch.core.query.*;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
+import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 
 @Service
 @RequiredArgsConstructor
 public class PostElasticSearchService {
+
   private final ElasticsearchTemplate elasticsearchTemplate;
   private final ObjectMapper objectMapper;
+
+  private static final String BOOSTED_TITLE_FIELD = "post_title^3";
+  private static final String TITLE_FIELD = "post_title";
+  private static final String POST_CONTENT_FILTERED = "post_content_filtered";
+  private static final String ID_FIELD = "ID";
+  private static final String DATE_FIELD = "post_date";
 
   public Page<WpPosts> wpPosts(Pageable pageable) {
     final SearchQuery searchQuery = new NativeSearchQueryBuilder()
       .withPageable(pageable).build();
     return elasticsearchTemplate.queryForPage(searchQuery, WpPosts.class);
   }
-
+  private static MultiMatchQueryBuilder matchTitleContent(String queryTerm) {
+  	  return QueryBuilders
+			  .multiMatchQuery(queryTerm, BOOSTED_TITLE_FIELD, BOOSTED_TITLE_FIELD, POST_CONTENT_FILTERED)
+			  .fuzziness(Fuzziness.ONE)
+			  .minimumShouldMatch("30%");
+  }
   public Page<WpPosts> searchWpPosts(String q, Pageable pageable) {
 
-    BoolQueryBuilder queryStringQueryBuilder = QueryBuilders.boolQuery();
-    if (StringUtils.hasText(q)) {
-      final MatchQueryBuilder postTitle = matchQuery("post_title", q).boost(3);
-      queryStringQueryBuilder.should(postTitle);
-      final MatchQueryBuilder postContentFiltered = matchQuery("post_content_filtered", q);
-      queryStringQueryBuilder.should(postContentFiltered);
-    }
+    BoolQueryBuilder query = QueryBuilders.boolQuery()
+	  	    .must(matchTitleContent(q))
+		    .boost(3f);
 
     final QueryBuilder builder = boolQuery()
-      .must(queryStringQueryBuilder);
+      .must(query);
     final SearchQuery searchQuery = new NativeSearchQueryBuilder()
       .withPageable(pageable)
       .withSearchType(SearchType.DEFAULT)
       .withSort(SortBuilders.scoreSort())
-      .withHighlightFields(new HighlightBuilder.Field("post_content_filtered")
+      .withHighlightFields(new HighlightBuilder.Field(POST_CONTENT_FILTERED)
           .preTags("<highlight>")
+		  .order("score")
+		  .requireFieldMatch(false)
           .postTags("</highlight>")
           .fragmentSize(Integer.MAX_VALUE)
           .numOfFragments(0),
-        new HighlightBuilder.Field("post_title")
+        new HighlightBuilder.Field(TITLE_FIELD)
           .preTags("<highlight>")
           .postTags("</highlight>")
+		  .order("score")
+		  .requireFieldMatch(false)
           .fragmentSize(Integer.MAX_VALUE)
           .numOfFragments(0))
       .withQuery(builder).build();
@@ -78,13 +88,13 @@ public class PostElasticSearchService {
             return new AggregatedPageImpl<>(Collections.emptyList());
           }
           final WpPosts wpPosts = objectMapper.convertValue(searchHit.getSource(), WpPosts.class);
-          final HighlightField postContentFiltered = searchHit.getHighlightFields().get("post_content_filtered");
+          final HighlightField postContentFiltered = searchHit.getHighlightFields().get(POST_CONTENT_FILTERED);
           if (postContentFiltered != null) {
             wpPosts.setHighlightedContent(postContentFiltered.fragments()[0].toString());
           } else {
             wpPosts.setHighlightedContent(wpPosts.getPostContentFiltered());
           }
-          HighlightField postTitle = searchHit.getHighlightFields().get("post_title");
+          HighlightField postTitle = searchHit.getHighlightFields().get(TITLE_FIELD);
           if (postTitle != null) {
             wpPosts.setPostTitle(postTitle.fragments()[0].toString());
           }
@@ -105,21 +115,19 @@ public class PostElasticSearchService {
   }
 
   public WpPosts findOne(Long id) {
-    CriteriaQuery criteriaQuery = new CriteriaQuery(new Criteria("ID").is(id));
+    CriteriaQuery criteriaQuery = new CriteriaQuery(new Criteria(ID_FIELD).is(id));
     return elasticsearchTemplate.queryForObject(criteriaQuery, WpPosts.class);
   }
 
   //TODO 추후 수정
   public List<WpPosts> findRelationPosts(String q) {
-    BoolQueryBuilder queryStringQueryBuilder = QueryBuilders.boolQuery();
-    final MatchQueryBuilder postTitle = matchQuery("post_title", q);
-    queryStringQueryBuilder.should(postTitle);
-    final MatchQueryBuilder postContentFiltered = matchQuery("post_content_filtered", q);
-    queryStringQueryBuilder.should(postContentFiltered);
+    BoolQueryBuilder queryStringQueryBuilder = QueryBuilders.boolQuery()
+      .should(matchQuery(TITLE_FIELD, q).boost(3))
+      .should(matchQuery(POST_CONTENT_FILTERED, q));
 
     final SearchQuery searchQuery = new NativeSearchQueryBuilder()
       .withPageable(new PageRequest(0, 4))
-      .withFields("ID", "post_title", "post_date")
+      .withFields(ID_FIELD, TITLE_FIELD, DATE_FIELD)
       .withQuery(queryStringQueryBuilder)
       .build();
     return elasticsearchTemplate.queryForList(searchQuery, WpPosts.class);
