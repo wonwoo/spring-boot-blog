@@ -21,6 +21,7 @@ public class IndexerService {
 			executorService.submit(() -> {
 				try {
 					indexer.indexItem(item);
+					indexer.save(item);
 				} catch (Exception e) {
 					logger.warn("error ", e);
 				}

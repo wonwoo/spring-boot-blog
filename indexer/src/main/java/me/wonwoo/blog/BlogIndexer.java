@@ -21,7 +21,6 @@ public class BlogIndexer implements Indexer<WpPost> {
 		return wpPostsRepository.findByPostTypeAndPostStatusAndIndexingIsNull("post", "publish");
 	}
 
-	//TODO indexing update
 	@Override
 	public void indexItem(WpPost index) {
 		WpPosts wpPosts = new WpPosts();
@@ -34,5 +33,11 @@ public class BlogIndexer implements Indexer<WpPost> {
 		wpPosts.setPostAuthor(index.getPostAuthor());
 		wpPosts.setPostDate(index.getPostDate());
 		postElasticSearchService.save(wpPosts);
+	}
+
+	@Override
+	public void save(WpPost index) {
+		index.setIndexing("Y");
+		wpPostsRepository.save(index);
 	}
 }
