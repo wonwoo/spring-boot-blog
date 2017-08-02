@@ -23,7 +23,7 @@ public class IndexerService {
 					indexer.indexItem(item);
 					indexer.save(item);
 				} catch (Exception e) {
-					logger.warn("error ", e);
+					indexer.error(item, e);
 				}
 			});
 		}

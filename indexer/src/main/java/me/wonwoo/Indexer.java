@@ -10,4 +10,6 @@ public interface Indexer<T> {
 
 	@Transactional
 	void save(T index);
+
+	void error(T index, Throwable e);
 }
