@@ -1,6 +1,7 @@
 package me.wonwoo.blog;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +39,7 @@ public class BlogIndexer implements Indexer<WpPost> {
 	}
 
 	@Override
+	@Transactional
 	public void save(WpPost index) {
 		index.setIndexing("Y");
 		wpPostsRepository.save(index);

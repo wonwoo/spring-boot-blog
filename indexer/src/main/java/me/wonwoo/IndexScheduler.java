@@ -15,7 +15,7 @@ public class IndexScheduler {
 	private final BlogIndexer blogIndexer;
 
 	@Scheduled(fixedDelay = ONE_HOUR, initialDelayString = "${search.indexer.delay:0}")
-	public void indexGettingStartedGuides() {
+	public void indexBlogPosts() {
 		indexerService.index(blogIndexer);
 	}
 }
