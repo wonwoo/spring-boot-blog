@@ -18,6 +18,7 @@ public class BlogIndexer implements Indexer<WpPost> {
 
 	private final WpPostsRepository wpPostsRepository;
 	private final PostElasticSearchService postElasticSearchService;
+	private final static String Y_FIELD = "Y";
 
 	@Override
 	public Iterable<WpPost> indexItems() {
@@ -41,7 +42,7 @@ public class BlogIndexer implements Indexer<WpPost> {
 	@Override
 	@Transactional
 	public void save(WpPost index) {
-		index.setIndexing("Y");
+		index.setIndexing(Y_FIELD);
 		wpPostsRepository.save(index);
 	}
 
