@@ -57,7 +57,7 @@
     <!--<logger name="org.apache.flume" level="ERROR"/>-->
     <root level="INFO">
         <appender-ref ref="console"/>
-        <appender-ref ref="dailyRolling" />
+        <!--<appender-ref ref="dailyRolling" />-->
         <!--<appender-ref ref="flume"/>-->
     </root>
 
