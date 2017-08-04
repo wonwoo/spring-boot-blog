@@ -137,7 +137,7 @@ public class PostElasticSearchService {
   }
 
   public void update(String id, WpPosts index) {
-    IndexRequest indexRequest = new IndexRequest("wordpress");
+    IndexRequest indexRequest = new IndexRequest();
     indexRequest.source("post_title", index.getPostTitle(),
             "post_content", index.getPostContent() ,
             "post_content_filtered", index.getPostContentFiltered());

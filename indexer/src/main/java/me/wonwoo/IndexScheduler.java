@@ -20,9 +20,10 @@ public class IndexScheduler {
 	public void indexBlogPosts() {
 		indexerService.index(blogIndexer);
 	}
+
 	@Scheduled(fixedDelay = ONE_HOUR, initialDelayString = "${search.indexer.delay:0}")
 	public void indexBlogUpdatePost() {
-//		indexerService.index(blogUpdateIndexer);
+		indexerService.index(blogUpdateIndexer);
 	}
 
 }
