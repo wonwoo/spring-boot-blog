@@ -1,7 +1,10 @@
 package me.wonwoo.blog;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,41 +17,34 @@ import me.wonwoo.support.elasticsearch.WpPosts;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class BlogIndexer implements Indexer<WpPost> {
+public class BlogUpdateIndexer implements Indexer<WpPost> {
 
 	private final WpPostsRepository wpPostsRepository;
 	private final PostElasticSearchService postElasticSearchService;
-	private final static String Y_FIELD = "Y";
 
 	@Override
 	public Iterable<WpPost> indexItems() {
-		return wpPostsRepository.findByPostTypeAndPostStatusAndIndexingIsNull("post", "publish");
+		LocalDateTime localDateTime = LocalDateTime.of(LocalDate.now(), LocalTime.now().minusHours(1));
+		return wpPostsRepository.findByPostTypeAndPostStatusAndIndexingAndPostModifiedAfter("post", "publish", "Y", localDateTime);
 	}
 
 	@Override
 	public void indexItem(WpPost index) {
-		WpPosts wpPosts = new WpPosts();
-		wpPosts.setPostContent(index.getPostContent());
-		wpPosts.setPostTitle(index.getPostTitle());
-		wpPosts.setId(index.getId());
-		wpPosts.setPostContentFiltered(index.getPostContentFiltered());
-		wpPosts.setPostType(index.getPostType());
-		wpPosts.setPostStatus(index.getPostStatus());
-		wpPosts.setPostAuthor(index.getPostAuthor());
-		wpPosts.setPostDate(index.getPostDate());
-		postElasticSearchService.save(wpPosts);
+		//nothing
 	}
 
 	@Override
-	@Transactional
 	public void save(WpPost index) {
-		index.setIndexing(Y_FIELD);
-		wpPostsRepository.save(index);
+		WpPosts wpPosts = new WpPosts();
+		wpPosts.setPostContent(index.getPostContent());
+		wpPosts.setPostTitle(index.getPostTitle());
+		wpPosts.setPostContentFiltered(index.getPostContentFiltered());
+		postElasticSearchService.update(index.getId().toString(), wpPosts);
 	}
 
 	@Override
 	public void error(WpPost index, Throwable e) {
-		logger.error("BlogIndexer error ", e);
+		logger.error("BlogUpdateIndexer error ", e);
 		logger.error("id : {}, title : {} ", index.getId(), index.getPostTitle());
 	}
 }

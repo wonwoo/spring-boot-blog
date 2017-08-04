@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.common.unit.Fuzziness;
-import org.elasticsearch.index.query.*;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.MultiMatchQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.highlight.HighlightBuilder;
 import org.elasticsearch.search.highlight.HighlightField;
@@ -119,7 +123,6 @@ public class PostElasticSearchService {
     return elasticsearchTemplate.queryForObject(criteriaQuery, WpPosts.class);
   }
 
-  //TODO 추후 수정
   public List<WpPosts> findRelationPosts(String q) {
     BoolQueryBuilder queryStringQueryBuilder = QueryBuilders.boolQuery()
       .should(matchQuery(TITLE_FIELD, q).boost(3))
@@ -131,6 +134,16 @@ public class PostElasticSearchService {
       .withQuery(queryStringQueryBuilder)
       .build();
     return elasticsearchTemplate.queryForList(searchQuery, WpPosts.class);
+  }
+
+  public void update(String id, WpPosts index) {
+    IndexRequest indexRequest = new IndexRequest();
+    indexRequest.source("post_title", index.getPostTitle(),
+            "post_content", index.getPostContent() ,
+            "post_content_filtered", index.getPostContentFiltered());
+    UpdateQuery updateQuery = new UpdateQueryBuilder().withId(id)
+            .withClass(WpPosts.class).withIndexRequest(indexRequest).build();
+    elasticsearchTemplate.update(updateQuery);
   }
 }
 

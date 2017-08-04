@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import me.wonwoo.blog.BlogIndexer;
+import me.wonwoo.blog.BlogUpdateIndexer;
 
 @Component
 @RequiredArgsConstructor
@@ -13,9 +14,15 @@ public class IndexScheduler {
 
 	private final IndexerService indexerService;
 	private final BlogIndexer blogIndexer;
+	private final BlogUpdateIndexer blogUpdateIndexer;
 
 	@Scheduled(fixedDelay = ONE_HOUR, initialDelayString = "${search.indexer.delay:0}")
 	public void indexBlogPosts() {
-		indexerService.index(blogIndexer);
+//		indexerService.index(blogIndexer);
 	}
+	@Scheduled(fixedDelay = ONE_HOUR, initialDelayString = "${search.indexer.delay:0}")
+	public void indexBlogUpdatePost() {
+		indexerService.index(blogUpdateIndexer);
+	}
+
 }
