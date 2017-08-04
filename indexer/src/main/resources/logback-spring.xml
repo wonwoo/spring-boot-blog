@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- 콘솔만 ansi 적용 -->
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+    <conversionRule conversionWord="wex"
+                    converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
+    <conversionRule conversionWord="wEx"
+                    converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
+
+    <property name="CONSOLE_LOG_PATTERN" value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+    <property name="FILE_LOG_PATTERN" value="[%d{HH:mm:ss.SSS}] [%-5level] [%logger{36}:%L] ### %msg%n"/>
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>${CONSOLE_LOG_PATTERN}</Pattern>
+        </encoder>
+    </appender>
+
+    <!--<appender name="flume" class="me.wonwoo.appender.FlumeKafkaAppender">-->
+        <!--<sinkName>kafkaSink</sinkName>-->
+        <!--<channelName>kafkaChannel</channelName>-->
+        <!--<mode>INFO</mode>-->
+        <!--&lt;!&ndash;https://flume.apache.org/FlumeUserGuide.html#file-channel &ndash;&gt;-->
+        <!--<channelAttr>-->
+            <!--<capacity>100000</capacity>-->
+            <!--<transactionCapacity>1000</transactionCapacity>-->
+            <!--<dataDirs>/home/wonwoo/flume</dataDirs>-->
+            <!--<checkpointDir>/home/wonwoo/flume/checkout</checkpointDir>-->
+        <!--</channelAttr>-->
+        <!--&lt;!&ndash; topic ,brokerList, batchSize &ndash;&gt;-->
+        <!--<KafkaAttr>-->
+            <!--<topic>logs</topic>-->
+            <!--<brokerList>localhost:9092</brokerList>-->
+            <!--&lt;!&ndash;<brokerList>localhost:9092,localhost:9093,localhost:9094</brokerList>&ndash;&gt;-->
+            <!--<batchSize>100</batchSize>-->
+        <!--</KafkaAttr>-->
+        <!--<encoder class="me.wonwoo.encoding.DefaultFlumeMessageEncoder">-->
+            <!--<layout class="me.wonwoo.layout.JsonLayout">-->
+                <!--<jsonFormatter class="me.wonwoo.layout.JacksonJsonFormatter">-->
+                    <!--<prettyPrint>false</prettyPrint>-->
+                <!--</jsonFormatter>-->
+                <!--<includeContextName>false</includeContextName>-->
+            <!--</layout>-->
+        <!--</encoder>-->
+    <!--</appender>-->
+    <!--<logger name="org.apache.flume" level="ERROR"/>-->
+    <root level="INFO">
+        <appender-ref ref="console"/>
+        <!--<appender-ref ref="flume"/>-->
+    </root>
+
+</configuration>
