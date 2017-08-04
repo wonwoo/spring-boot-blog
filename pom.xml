@@ -18,12 +18,24 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
-  <modules>
-    <module>support</module>
-    <module>blog</module>
-    <module>common</module>
-    <module>indexer</module>
-  </modules>
+  <profiles>
+    <profile>
+      <id>blog</id>
+      <modules>
+        <module>common</module>
+        <module>support</module>
+        <module>blog</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>indexer</id>
+      <modules>
+        <module>common</module>
+        <module>support</module>
+        <module>indexer</module>
+      </modules>
+    </profile>
+  </profiles>
 
   <dependencies>
 
