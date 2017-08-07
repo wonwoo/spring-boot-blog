@@ -35,6 +35,16 @@
         <module>indexer</module>
       </modules>
     </profile>
+    <profile>
+      <id>test</id>
+      <modules>
+        <module>common</module>
+        <module>support</module>
+        <module>indexer</module>
+        <module>blog</module>
+      </modules>
+    </profile>
+
   </profiles>
 
   <dependencies>
