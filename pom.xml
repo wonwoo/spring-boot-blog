@@ -114,6 +114,14 @@
           <encoding>UTF-8</encoding>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.eluder.coveralls</groupId>
+        <artifactId>coveralls-maven-plugin</artifactId>
+        <version>4.3.0</version>
+        <configuration>
+          <repoToken>t3oJz2ys4joiqgYdybDVWIMxUUpqhpkck</repoToken>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 </project>
