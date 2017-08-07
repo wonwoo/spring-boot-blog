@@ -18,6 +18,11 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
+  <properties>
+    <maven.cobertura.version>2.6</maven.cobertura.version>
+    <coveralls.version>4.3.0</coveralls.version>
+  </properties>
+
   <profiles>
     <profile>
       <id>blog</id>
@@ -43,6 +48,29 @@
         <module>indexer</module>
         <module>blog</module>
       </modules>
+
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>cobertura-maven-plugin</artifactId>
+            <version>${maven.cobertura.version}</version>
+            <dependencies>
+              <dependency>
+                <groupId>org.ow2.asm</groupId>
+                <artifactId>asm</artifactId>
+                <version>5.0.3</version>
+              </dependency>
+            </dependencies>
+            <configuration>
+              <format>xml</format>
+              <maxmem>256m</maxmem>
+              <!-- aggregated reports for multi-module projects -->
+              <aggregate>true</aggregate>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
 
   </profiles>
@@ -117,7 +145,7 @@
       <plugin>
         <groupId>org.eluder.coveralls</groupId>
         <artifactId>coveralls-maven-plugin</artifactId>
-        <version>4.3.0</version>
+        <version>${coveralls.version}</version>
         <configuration>
           <repoToken>t3oJz2ys4joiqgYdybDVWIMxUUpqhpkck</repoToken>
         </configuration>
