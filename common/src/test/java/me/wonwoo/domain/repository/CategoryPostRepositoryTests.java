@@ -1,4 +1,4 @@
-package me.wonwoo.repository;
+package me.wonwoo.domain.repository;
 
 import java.util.Arrays;
 
@@ -9,10 +9,11 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import me.wonwoo.domain.model.Comment;
+import me.wonwoo.domain.model.Category;
+import me.wonwoo.domain.model.CategoryPost;
 import me.wonwoo.domain.model.Post;
 import me.wonwoo.domain.model.User;
-import me.wonwoo.domain.repository.CommentRepository;
+import me.wonwoo.domain.repository.CategoryPostRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,13 +22,13 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class CommentRepositoryTests {
+public class CategoryPostRepositoryTests {
 
   @Autowired
   private TestEntityManager testEntityManager;
 
   @Autowired
-  private CommentRepository commentRepository;
+  private CategoryPostRepository categoryPostRepository;
 
   @Test
   public void findOneTest() {
@@ -36,8 +37,10 @@ public class CommentRepositoryTests {
       "wonwoo",
       "https://avatars.githubusercontent.com/u/747472?v=3", "password", true));
     final Post post = this.testEntityManager.persist(new Post("test title", "test content", "test content", "Y", user, Arrays.asList("spring", "jpa")));
-    final Comment persist = this.testEntityManager.persist(new Comment("test commnet", post, user));
-    final Comment comment = commentRepository.findOne(persist.getId());
-    assertThat(comment.getContent()).isEqualTo(comment.getContent());
+    final Category category = this.testEntityManager.persist(new Category("spring"));
+    final CategoryPost categoryPost = categoryPostRepository.save(new CategoryPost(category, post));
+    assertThat(categoryPost.getPost()).isEqualTo(post);
+    assertThat(categoryPost.getCategory()).isEqualTo(category);
+
   }
 }

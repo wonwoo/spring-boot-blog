@@ -1,4 +1,4 @@
-package me.wonwoo.repository;
+package me.wonwoo.domain.repository;
 
 
 import org.junit.Test;

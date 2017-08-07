@@ -1,4 +1,4 @@
-package me.wonwoo.repository;
+package me.wonwoo.domain.repository;
 
 import java.util.Arrays;
 
@@ -9,11 +9,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import me.wonwoo.domain.model.Category;
-import me.wonwoo.domain.model.CategoryPost;
 import me.wonwoo.domain.model.Post;
 import me.wonwoo.domain.model.User;
-import me.wonwoo.domain.repository.CategoryPostRepository;
+import me.wonwoo.domain.repository.PostRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,25 +20,28 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class CategoryPostRepositoryTests {
+public class PostRepositoryTests {
 
   @Autowired
   private TestEntityManager testEntityManager;
 
   @Autowired
-  private CategoryPostRepository categoryPostRepository;
+  private PostRepository postRepository;
 
   @Test
-  public void findOneTest() {
+  public void findByIdAndYnTest() {
     final User user = this.testEntityManager.persist(new User("wonwoo@test.com",
       "wonwoo",
       "wonwoo",
       "https://avatars.githubusercontent.com/u/747472?v=3", "password", true));
-    final Post post = this.testEntityManager.persist(new Post("test title", "test content", "test content", "Y", user, Arrays.asList("spring", "jpa")));
-    final Category category = this.testEntityManager.persist(new Category("spring"));
-    final CategoryPost categoryPost = categoryPostRepository.save(new CategoryPost(category, post));
-    assertThat(categoryPost.getPost()).isEqualTo(post);
-    assertThat(categoryPost.getCategory()).isEqualTo(category);
 
+    final Post persist = this.testEntityManager.persist(
+      new Post("test title", "test content", "test content", "Y", user, Arrays.asList("spring", "jpa"))
+    );
+    Post post = this.postRepository.findByIdAndYn(persist.getId(), "Y");
+    assertThat(post.getTitle()).isEqualTo("test title");
+    assertThat(post.getContent()).isEqualTo("test content");
+    assertThat(post.getCode()).isEqualTo("test content");
+    assertThat(post.getYn()).isEqualTo("Y");
   }
 }

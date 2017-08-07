@@ -1,4 +1,4 @@
-package me.wonwoo.repository;
+package me.wonwoo.domain.repository;
 
 import java.util.Collection;
 
