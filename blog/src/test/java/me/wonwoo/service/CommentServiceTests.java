@@ -51,7 +51,7 @@ public class CommentServiceTests {
   @Test
   public void deleteCommentTest() {
     doNothing().when(commentRepository).delete(any(Comment.class));
-    commentRepository.delete(1L);
+    commentService.deleteComment(1L);
     verify(commentRepository, times(1)).delete(1L);
   }
 }
