@@ -1,14 +1,14 @@
 package me.wonwoo.config.interceptor;
 
-import lombok.extern.slf4j.Slf4j;
-import me.wonwoo.domain.repository.BlogHistoryRepository;
-import me.wonwoo.web.Navigation;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
+import me.wonwoo.web.Navigation;
 
 import static me.wonwoo.support.utils.ServletUtils.requestIP;
 
@@ -19,11 +19,6 @@ import static me.wonwoo.support.utils.ServletUtils.requestIP;
 public class CommonHandlerInterceptor extends HandlerInterceptorAdapter {
 
   private final static String NAV_SECTION = "navSection";
-  private final BlogHistoryRepository blogHistoryRepository;
-
-  public CommonHandlerInterceptor(BlogHistoryRepository blogHistoryRepository) {
-    this.blogHistoryRepository = blogHistoryRepository;
-  }
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
