@@ -24,6 +24,8 @@
 
   <properties>
     <maven.jacoco.version>0.7.6.201602180812</maven.jacoco.version>
+    <maven.jasmine.version>2.1</maven.jasmine.version>
+    <maven.saga.version>1.5.5</maven.saga.version>
     <coveralls.version>4.3.0</coveralls.version>
   </properties>
 
@@ -56,38 +58,76 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>org.jacoco</groupId>
-            <artifactId>jacoco-maven-plugin</artifactId>
-            <version>${maven.jacoco.version}</version>
+            <groupId>com.github.searls</groupId>
+            <artifactId>jasmine-maven-plugin</artifactId>
+            <version>${maven.jasmine.version}</version>
             <executions>
               <execution>
-                <id>default-prepare-agent</id>
                 <goals>
-                  <goal>prepare-agent</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>default-prepare-agent-integration</id>
-                <goals>
-                  <goal>prepare-agent-integration</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>default-report</id>
-                <goals>
-                  <goal>report</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>default-report-integration</id>
-                <goals>
-                  <goal>report-integration</goal>
+                  <goal>test</goal>
                 </goals>
               </execution>
             </executions>
           </plugin>
+          <plugin>
+            <groupId>com.github.timurstrekalov</groupId>
+            <artifactId>saga-maven-plugin</artifactId>
+            <version>${maven.saga.version}</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>coverage</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <baseDir>http://localhost:${jasmine.serverPort}</baseDir>
+              <outputDir>${project.build.directory}/saga-coverage</outputDir>
+              <noInstrumentPatterns>
+                <pattern>.*/spec/.*</pattern>
+                <pattern>.*/classpath/.*</pattern>
+                <pattern>.*/webjars/.*</pattern>
+              </noInstrumentPatterns>
+            </configuration>
+          </plugin>
         </plugins>
       </build>
+
+      <!--<build>-->
+        <!--<plugins>-->
+          <!--<plugin>-->
+            <!--<groupId>org.jacoco</groupId>-->
+            <!--<artifactId>jacoco-maven-plugin</artifactId>-->
+            <!--<version>${maven.jacoco.version}</version>-->
+            <!--<executions>-->
+              <!--<execution>-->
+                <!--<id>default-prepare-agent</id>-->
+                <!--<goals>-->
+                  <!--<goal>prepare-agent</goal>-->
+                <!--</goals>-->
+              <!--</execution>-->
+              <!--<execution>-->
+                <!--<id>default-prepare-agent-integration</id>-->
+                <!--<goals>-->
+                  <!--<goal>prepare-agent-integration</goal>-->
+                <!--</goals>-->
+              <!--</execution>-->
+              <!--<execution>-->
+                <!--<id>default-report</id>-->
+                <!--<goals>-->
+                  <!--<goal>report</goal>-->
+                <!--</goals>-->
+              <!--</execution>-->
+              <!--<execution>-->
+                <!--<id>default-report-integration</id>-->
+                <!--<goals>-->
+                  <!--<goal>report-integration</goal>-->
+                <!--</goals>-->
+              <!--</execution>-->
+            <!--</executions>-->
+          <!--</plugin>-->
+        <!--</plugins>-->
+      <!--</build>-->
     </profile>
   </profiles>
 
