@@ -65,7 +65,6 @@ public class GuidesService {
     return new GettingStartedGuide(metadata);
   }
 
-
   private <T extends AbstractGuide> T populate(T tutorial) {
     String repoName = tutorial.getRepoName();
 

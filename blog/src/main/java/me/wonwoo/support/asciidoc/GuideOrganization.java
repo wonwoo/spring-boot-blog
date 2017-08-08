@@ -14,7 +14,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.FileSystemUtils;
@@ -39,7 +38,6 @@ public class GuideOrganization {
   private final Asciidoctor asciidoctor;
   private final Yaml yaml = new Yaml();
 
-  @Autowired
   public GuideOrganization(@Value("${github.guides.owner.name}") String name,
                            @Value("${github.guides.owner.type}") String type,
                            GithubClient gitHub,
@@ -220,30 +218,13 @@ public class GuideOrganization {
     return understandingDocs;
   }
 
-  //    public String getMarkdownFileAsHtml(String path) {
-//        return gitHub.sendRequestForHtml(path);
-//    }
-//
   public GitHubRepo getRepoInfo(String repoName) {
     return gitHub.sendRequestForGithub("repos/" + name + "/" + repoName);
-//
-//        try {
-//            return objectMapper.readValue(json, GitHubRepo.class);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
   }
 
   //
   public GitHubRepo[] findAllRepositories() {
-//        return gitHub.sendRequestForJson("/{type}/{name}/repos?per_page=100", type, name);
     return gitHub.sendRequestForGithubs(type + "/" + name + "/repos?per_page=100");
-
-//        try {
-//            return objectMapper.readValue(json, GitHubRepo[].class);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
   }
 
   public List<GitHubRepo> findRepositoriesByPrefix(String prefix) {
@@ -255,26 +236,4 @@ public class GuideOrganization {
     }
     return matches;
   }
-//
-//    @SuppressWarnings("unchecked")
-//    public byte[] getGuideImage(String repoName, String imageName) {
-//        String json = gitHub.sendRequestForJson(REPO_CONTENTS_PATH + "/images/{image}", name, repoName, imageName);
-//        try {
-//            Map<String, String> map = objectMapper.readValue(json, Map.class);
-//            return Base64.decode(map.get("content").getBytes());
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-//
-//    public List<RepoContent> getRepoContents(String repoName) {
-//        String json = gitHub.sendRequestForJson(REPO_CONTENTS_PATH, name, repoName);
-//        try {
-//            return objectMapper.readValue(json, new TypeReference<List<RepoContent>>() {
-//            });
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-
 }
