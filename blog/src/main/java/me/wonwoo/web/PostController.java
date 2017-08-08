@@ -13,11 +13,6 @@ import me.wonwoo.dto.SearchForm;
 import me.wonwoo.exception.NotFoundException;
 import me.wonwoo.service.CategoryService;
 import me.wonwoo.service.PostService;
-import me.wonwoo.support.jinq.JinqSource;
-import org.jinq.jpa.JPAJinqStream;
-import org.jinq.tuples.Pair;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -27,8 +22,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -52,11 +45,6 @@ public class PostController {
   private final CategoryService categoryService;
 
   private final PostProperties postProperties;
-
-  @PersistenceContext
-  private final EntityManager em;
-
-  private final JinqSource jinqSource;
 
   @ModelAttribute("categories")
   public List<Category> categories() {
@@ -148,14 +136,7 @@ public class PostController {
 
   @GetMapping("/category/{id}")
   public String categoryPost(Model model, @PathVariable Long id, @ModelAttribute SearchForm searchForm, @PageableDefault(size = 3, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
-
-    JPAJinqStream<Post> posts = jinqSource.posts(em)
-            .where(post -> post.getYn().equals("Y"))
-            .joinList(Post::getCategoryPost)
-            .where(categoryPost -> categoryPost.getTwo().getCategory().getId().equals(id))
-            .select(Pair::getOne);
-
-    model.addAttribute("posts", asPaged(posts, pageable));
+    model.addAttribute("posts", postRepository.findByPostsForCategory(id, pageable));
     model.addAttribute("show", postProperties.isFull());
     return "index";
   }
@@ -163,22 +144,8 @@ public class PostController {
 
   @GetMapping("/tags/{name}")
   public String getTags(@PathVariable String name, @ModelAttribute SearchForm searchForm, Model model, @PageableDefault(size = 3, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
-    JPAJinqStream<Post> posts = jinqSource.posts(em)
-            .where(post -> post.getYn().equals("Y"))
-            .joinList(Post::getTags)
-            .where(tags -> tags.getTwo().getTag().equals(name))
-            .select(Pair::getOne);
-    model.addAttribute("posts", asPaged(posts, pageable));
+    model.addAttribute("posts", postRepository.findByPostsForTag(name, pageable));
     model.addAttribute("show", postProperties.isFull());
     return "index";
-  }
-
-  protected <T> Page<T> asPaged(JPAJinqStream<T> source, Pageable pageable) {
-    long total = source.count();
-    if (pageable != null && pageable.getPageSize() > 0) {
-      source = source.skip(pageable.getPageNumber() * pageable.getPageSize())
-              .limit(pageable.getPageSize());
-    }
-    return new PageImpl<>(source.toList(), pageable, total);
   }
 }

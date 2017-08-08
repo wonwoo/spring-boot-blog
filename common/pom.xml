@@ -56,10 +56,20 @@
             <version>1.9.2</version>
         </dependency>
 
+        <!--<dependency>-->
+            <!--<groupId>org.jinq</groupId>-->
+            <!--<artifactId>jinq-jpa</artifactId>-->
+            <!--<version>1.8.13</version>-->
+        <!--</dependency>-->
+
         <dependency>
-            <groupId>org.jinq</groupId>
-            <artifactId>jinq-jpa</artifactId>
-            <version>1.8.13</version>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-apt</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.querydsl</groupId>
+            <artifactId>querydsl-jpa</artifactId>
         </dependency>
 
         <dependency>
@@ -88,17 +98,24 @@
         </dependency>
     </dependencies>
 
-    <!--<build>-->
-        <!--<plugins>-->
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-surefire-plugin</artifactId>-->
-                <!--<configuration>-->
-                    <!--<argLine>-->
-                        <!-- -Xms256m -Xmx512m -XX:MaxPermSize=128m -Dfile.encoding=UTF-8-->
-                    <!--</argLine>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
-        <!--</plugins>-->
-    <!--</build>-->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.mysema.maven</groupId>
+                <artifactId>apt-maven-plugin</artifactId>
+                <version>1.0.9</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>process</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/generated-sources/java</outputDirectory>
+                            <processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
