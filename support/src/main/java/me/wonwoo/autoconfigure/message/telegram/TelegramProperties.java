@@ -1,7 +1,8 @@
 package me.wonwoo.autoconfigure.message.telegram;
 
-import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import lombok.Data;
 
 /**
  * Created by wonwoolee on 2017. 4. 2..
