@@ -1,9 +1,9 @@
 package me.wonwoo.security;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import java.util.Collections;
 import java.util.List;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * Created by wonwoo on 2016. 8. 23..

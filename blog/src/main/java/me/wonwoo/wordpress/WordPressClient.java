@@ -1,7 +1,8 @@
 package me.wonwoo.wordpress;
 
-import me.wonwoo.support.client.Client;
-import me.wonwoo.support.sidebar.SidebarContents;
+import java.io.UnsupportedEncodingException;
+import java.util.Collections;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.cache.annotation.Cacheable;
@@ -12,8 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriUtils;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Collections;
+import me.wonwoo.support.client.Client;
+import me.wonwoo.support.sidebar.SidebarContents;
 
 /**
  * Created by wonwoo on 2016. 9. 6..
@@ -49,7 +50,7 @@ public class WordPressClient extends Client {
   @Cacheable("wp.post")
   public WordPress findOne(Long id) {
     String url = String.format(
-      WP_API + MY_SITE + POST + "/%s??fields=ID,content,title,date,author,tags", id);
+      WP_API + MY_SITE + POST + "/%s?fields=ID,content,title,date,author,tags", id);
     final WordPress body = invoke(createRequestEntity(url), WordPress.class).getBody();
     final Document parse = Jsoup.parse(body.getContent());
     final String sidebar = sidebarContents.sidebar(parse);
