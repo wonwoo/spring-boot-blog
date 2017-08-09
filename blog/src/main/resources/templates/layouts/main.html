@@ -90,12 +90,6 @@
                     <a href="/tut">Spring Tutorial</a>
                 </li>
                 <li>
-                    <a href="/wordPress">wordPress</a>
-                </li>
-                <li>
-                    <a href="/wordPress/api">wordPress api</a>
-                </li>
-                <li>
                     <a href="/github/page">GitHub Page</a>
                 </li>
                 <li sec:authorize="hasRole('ROLE_ADMIN')">
@@ -103,9 +97,6 @@
                 </li>
                 <li sec:authorize="hasRole('ROLE_ADMIN')">
                     <a href="/categories">category</a>
-                </li>
-                <li sec:authorize="hasRole('ROLE_ADMIN')">
-                    <a href="/histories">history</a>
                 </li>
                 <li sec:authorize="hasRole('ROLE_ADMIN')">
                     <a href="/news">news</a>
