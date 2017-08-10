@@ -1,4 +1,5 @@
-insert into USER (ID,PASSWORD, AVATAR_URL,BIO,EMAIL,GITHUB,NAME, IS_ADMIN) values(1,'$2a$10$9f9ZjYeYVHObuzbSi93TOeM1lWP6A11schzLOgaVoii2ZVUgM2DUC', 'https://avatars.githubusercontent.com/u/747472?v=3',null,'aoruqjfu@gamilc.com', 'wonwoo','wonwoo', 1);
+
+insert into user (ID,PASSWORD, AVATAR_URL,BIO,EMAIL,GITHUB,NAME, IS_ADMIN) values(1,'$2a$10$9f9ZjYeYVHObuzbSi93TOeM1lWP6A11schzLOgaVoii2ZVUgM2DUC', 'https://avatars.githubusercontent.com/u/747472?v=3',null,'aoruqjfu@gamilc.com', 'wonwoo','wonwoo', 1);
 
 insert into category(ID, NAME, REG_DATE) values(1, 'spring', CURRENT_TIMESTAMP());
 insert into category(ID, NAME, REG_DATE) values(2, 'java', CURRENT_TIMESTAMP());

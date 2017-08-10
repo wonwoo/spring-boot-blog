@@ -25,6 +25,8 @@
     <root.dir>${basedir}</root.dir>
     <gem.home>${root.dir}/target/rubygems</gem.home>
     <gem.path>${root.dir}/target/rubygems</gem.path>
+    <docker.version>0.4.13</docker.version>
+    <docker.image.prefix>wonwoo</docker.image.prefix>
     <!--<maven.test.skip>true</maven.test.skip>-->
   </properties>
 
@@ -191,6 +193,34 @@
               <artifactId>asciidoctorj</artifactId>
             </dependency>
           </requiresUnpack>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>com.spotify</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>${docker.version}</version>
+        <executions>
+          <execution>
+            <phase>install</phase>
+            <goals>
+              <goal>build</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+          <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
+          <resources>
+            <resource>
+              <targetPath>/</targetPath>
+              <directory>${project.build.directory}</directory>
+              <include>${project.build.finalName}.jar</include>
+            </resource>
+          </resources>
+          <buildArgs>
+            <ARTIFACT_NAME>${project.build.finalName}</ARTIFACT_NAME>
+          </buildArgs>
         </configuration>
       </plugin>
     </plugins>
