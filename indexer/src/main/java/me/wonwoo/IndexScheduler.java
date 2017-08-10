@@ -10,7 +10,7 @@ import me.wonwoo.blog.BlogUpdateIndexer;
 @Component
 @RequiredArgsConstructor
 public class IndexScheduler {
-	private static final long ONE_HOUR = 1000 * 60 * 60;
+	private static final long ONE_HOUR = 1000 * 60;// * 60;
 
 	private final IndexerService indexerService;
 	private final BlogIndexer blogIndexer;
@@ -21,9 +21,10 @@ public class IndexScheduler {
 		indexerService.index(blogIndexer);
 	}
 
-	@Scheduled(fixedDelay = ONE_HOUR, initialDelayString = "${search.indexer.delay:0}")
-	public void indexBlogUpdatePost() {
-		indexerService.index(blogUpdateIndexer);
-	}
+	//TODO update
+//	@Scheduled(fixedDelay = ONE_HOUR, initialDelayString = "${search.indexer.delay:0}")
+//	public void indexBlogUpdatePost() {
+//		indexerService.index(blogUpdateIndexer);
+//	}
 
 }

@@ -11,8 +11,8 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.boot.test.rule.OutputCapture;
 
-import me.wonwoo.domain.model.WpPost;
-import me.wonwoo.domain.repository.WpPostsRepository;
+import me.wonwoo.domain.model.Post;
+import me.wonwoo.domain.repository.PostRepository;
 import me.wonwoo.support.elasticsearch.PostElasticSearchService;
 import me.wonwoo.support.elasticsearch.WpPosts;
 
@@ -26,7 +26,7 @@ import static org.mockito.Mockito.verify;
 public class BlogIndexerTests {
 
 	@Mock
-	private WpPostsRepository wpPostsRepository;
+	private PostRepository postRepository;
 
 	@Mock
 	private PostElasticSearchService postElasticSearchService;
@@ -38,59 +38,52 @@ public class BlogIndexerTests {
 
 	@Before
 	public void setup() {
-		blogIndexer = new BlogIndexer(wpPostsRepository, postElasticSearchService);
+		blogIndexer = new BlogIndexer(postRepository, postElasticSearchService);
 	}
 
 	@Test
 	public void indexItems() {
-		WpPost wpPost = createWpPost();
+		Post post = createWpPost();
 
-		given(wpPostsRepository.findByPostTypeAndPostStatusAndIndexingIsNull(any(), any())).willReturn(Collections.singletonList(wpPost));
-		Iterable<WpPost> wpPosts = blogIndexer.indexItems();
-		for (WpPost next : wpPosts) {
-			assertThat(next.getId()).isEqualTo(1);
-			assertThat(next.getPostAuthor()).isEqualTo(1);
-			assertThat(next.getPostContent()).isEqualTo("test content");
-			assertThat(next.getPostTitle()).isEqualTo("test");
-			assertThat(next.getPostType()).isEqualTo("post");
-			assertThat(next.getPostStatus()).isEqualTo("publish");
-			assertThat(next.getPostContentFiltered()).isEqualTo("test content filtered");
+		given(postRepository.findByYnAndIndexingIsNull("Y")).willReturn(Collections.singletonList(post));
+		Iterable<Post> posts = blogIndexer.indexItems();
+		for (Post next : posts) {
+			assertThat(next.getId()).isEqualTo(1L);
+			assertThat(next.getContent()).isEqualTo("test content");
+			assertThat(next.getTitle()).isEqualTo("test");
+			assertThat(next.getCode()).isEqualTo("test content filtered");
 		}
-		verify(wpPostsRepository).findByPostTypeAndPostStatusAndIndexingIsNull("post", "publish");
+		verify(postRepository).findByYnAndIndexingIsNull("Y");
 	}
 
 	@Test
 	public void indexItem() {
-		WpPost wpPost = createWpPost();
+		Post post = createWpPost();
 		doNothing().when(postElasticSearchService).save(any(WpPosts.class));
-		blogIndexer.indexItem(wpPost);
+		blogIndexer.indexItem(post);
 		verify(postElasticSearchService).save(any(WpPosts.class));
 	}
 
 	@Test
 	public void save() {
-		WpPost wpPost = createWpPost();
-		given(wpPostsRepository.save(wpPost)).willReturn(wpPost);
-		blogIndexer.save(wpPost);
-		verify(wpPostsRepository).save(wpPost);
+		Post post = createWpPost();
+		given(postRepository.save(post)).willReturn(post);
+		blogIndexer.save(post);
+		verify(postRepository).save(post);
 	}
 
 	@Test
 	public void error() {
-		WpPost wpPost = createWpPost();
-		blogIndexer.error(wpPost, new NullPointerException());
-		assertThat(outputCapture.toString()).contains("id : " + wpPost.getId() + ", title : " + wpPost.getPostTitle());
+		Post post = createWpPost();
+		blogIndexer.error(post, new NullPointerException());
+		assertThat(outputCapture.toString()).contains("id : " + post.getId() + ", title : " + post.getTitle());
 	}
 
-	private WpPost createWpPost() {
-		WpPost wpPost = new WpPost();
-		wpPost.setId(1);
-		wpPost.setPostAuthor(1);
-		wpPost.setPostContent("test content");
-		wpPost.setPostTitle("test");
-		wpPost.setPostType("post");
-		wpPost.setPostStatus("publish");
-		wpPost.setPostContentFiltered("test content filtered");
-		return wpPost;
+	private Post createWpPost() {
+		Post post = new Post(1L);
+		post.setContent("test content");
+		post.setTitle("test");
+		post.setCode("test content filtered");
+		return post;
 	}
 }

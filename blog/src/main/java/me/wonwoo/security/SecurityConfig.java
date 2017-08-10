@@ -1,6 +1,5 @@
 package me.wonwoo.security;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -11,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * Created by wonwoo on 2016. 8. 23..
@@ -40,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       .antMatchers("/news/**").hasRole("ADMIN")
       .antMatchers("/histories/**").hasRole("ADMIN")
       .antMatchers("/about", "/contact", "/guides/**", "/tut/**", "/wordPress/**", "/github/page/**").permitAll()
-      .antMatchers("/", "/js/**", "/fonts/**", "/vendor/**", "/codemirror/**", "/markdown/**", "/login/**", "/css/**", "/img/**", "/webjars/**").permitAll()
+      .antMatchers("/", "/search", "/js/**", "/fonts/**", "/vendor/**", "/codemirror/**", "/markdown/**", "/login/**", "/css/**", "/img/**", "/webjars/**").permitAll()
       .anyRequest().authenticated()
       .and()
       .csrf()
