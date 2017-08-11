@@ -14,8 +14,9 @@ public class CategoryTests {
   @Test
   public void category() {
     Category category = new Category(1L, "jpa", LocalDateTime.now());
+    category.setName("spring");
     assertThat(category.getId()).isEqualTo(1L);
-    assertThat(category.getName()).isEqualTo("jpa");
+    assertThat(category.getName()).isEqualTo("spring");
     assertThat(category.getRegDate()).isNotNull();
   }
 

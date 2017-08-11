@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
 
 /**
  * Created by wonwoo on 2017. 3. 2..
@@ -109,6 +110,13 @@ public class PostElasticSearchServiceTests {
   }
 
   @Test
+  public void save() {
+    given(elasticsearchTemplate.index(any())).willReturn(null);
+    postElasticSearchService.save(new WpPosts());
+    verify(elasticsearchTemplate).index(any());
+  }
+
+  @Test
   public void findRelationPosts() throws Exception {
     WpPosts wpPosts = new WpPosts();
     wpPosts.setPostContentFiltered("<p>content</p>");
@@ -126,5 +134,12 @@ public class PostElasticSearchServiceTests {
     assertThat(result.get(0).getPostType()).isEqualTo("post");
     assertThat(result.get(0).getPostContent()).isEqualTo("content");
     assertThat(result.get(0).getPostContentFiltered()).isEqualTo("<p>content</p>");
+  }
+
+  @Test
+  public void update() {
+    given(elasticsearchTemplate.update(any())).willReturn(null);
+    postElasticSearchService.update("test", new WpPosts());
+    verify(elasticsearchTemplate).update(any());
   }
 }
