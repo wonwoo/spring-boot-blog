@@ -1,4 +1,7 @@
+sudo: required
 language: java
+services:
+  - docker
 jdk:
   - oraclejdk8
 script: mvn install -P test
