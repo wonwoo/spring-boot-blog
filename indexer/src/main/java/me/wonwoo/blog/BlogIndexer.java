@@ -22,11 +22,13 @@ public class BlogIndexer implements Indexer<Post> {
 
 	@Override
 	public Iterable<Post> indexItems() {
+		logger.info("starter indexItems");
 		return postRepository.findByYnAndIndexingIsNull("Y");
 	}
 
 	@Override
 	public void indexItem(Post index) {
+		logger.info("starter indexItem");
 		WpPosts wpPosts = new WpPosts();
 		wpPosts.setPostContent(index.getContent());
 		wpPosts.setPostTitle(index.getTitle());
@@ -39,6 +41,7 @@ public class BlogIndexer implements Indexer<Post> {
 	@Override
 	@Transactional
 	public void save(Post index) {
+		logger.info("starter save");
 		index.setIndexing(Y_FIELD);
 		postRepository.save(index);
 	}

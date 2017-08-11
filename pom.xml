@@ -27,6 +27,13 @@
     <maven.jasmine.version>2.1</maven.jasmine.version>
     <maven.saga.version>1.5.5</maven.saga.version>
     <coveralls.version>4.3.0</coveralls.version>
+    <thymeleaf.version>3.0.0.RELEASE</thymeleaf.version>
+    <thymeleaf-layout-dialect.version>2.0.3</thymeleaf-layout-dialect.version>
+    <root.dir>${basedir}</root.dir>
+    <gem.home>${root.dir}/target/rubygems</gem.home>
+    <gem.path>${root.dir}/target/rubygems</gem.path>
+    <docker.version>0.4.13</docker.version>
+    <docker.image.prefix>wonwoo</docker.image.prefix>
   </properties>
 
   <profiles>

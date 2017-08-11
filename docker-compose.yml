@@ -8,7 +8,12 @@ services:
       - elasticsearch
     ports:
      - 8080:8080
-
+  indexer:
+    image: wonwoo/indexer
+    container_name: indexer
+    depends_on:
+      - mysql
+      - elasticsearch
   mysql:
     image: mysql:latest
     ports:
