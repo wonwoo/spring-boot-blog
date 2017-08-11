@@ -10,8 +10,6 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import lombok.extern.slf4j.Slf4j;
 import me.wonwoo.web.Navigation;
 
-import static me.wonwoo.support.utils.ServletUtils.requestIP;
-
 /**
  * Created by wonwoo on 2017. 2. 14..
  */
@@ -37,12 +35,20 @@ public class CommonHandlerInterceptor extends HandlerInterceptorAdapter {
       logger.info("Current Request Handler : uri : {}, queryString : {}, ip : {}",
         request.getRequestURI(),
         request.getQueryString(),
-        requestIP()
+		requestIp(request)
       );
       return true;
     } catch (Exception ignored) {
     }
     return true;
+  }
+
+  private String requestIp(HttpServletRequest request) {
+    String ip = request.getHeader("X-FORWARDED-FOR");
+    if(ip == null) {
+      return request.getRemoteAddr();
+    }
+    return ip;
   }
 
   @Override
