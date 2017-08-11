@@ -11,6 +11,8 @@ public class GitHubRepoTests {
 		GitHubRepo gitHubRepo = new GitHubRepo(1L, "http://github.com/repo", "http://github.com/html",
 				"http://github.com/clone", "http://github.com/repo.git",
 				"git@github.com:repo/blog", "test");
+		gitHubRepo.setName("test");
+		gitHubRepo.setDescription("test desc");
 		assertThat(gitHubRepo.getId()).isEqualTo(1L);
 		assertThat(gitHubRepo.getUrl()).isEqualTo("http://github.com/repo");
 		assertThat(gitHubRepo.getHtmlUrl()).isEqualTo("http://github.com/html");
@@ -18,6 +20,7 @@ public class GitHubRepoTests {
 		assertThat(gitHubRepo.getGitUrl()).isEqualTo("http://github.com/repo.git");
 		assertThat(gitHubRepo.getSshUrl()).isEqualTo("git@github.com:repo/blog");
 		assertThat(gitHubRepo.getSvnUrl()).isEqualTo("test");
-
+		assertThat(gitHubRepo.getName()).isEqualTo("test");
+		assertThat(gitHubRepo.getDescription()).isEqualTo("test desc");
 	}
 }

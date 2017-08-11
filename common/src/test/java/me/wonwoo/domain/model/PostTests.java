@@ -1,9 +1,9 @@
 package me.wonwoo.domain.model;
 
-import org.junit.Test;
-
 import java.util.Arrays;
 import java.util.Collections;
+
+import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,9 +26,12 @@ public class PostTests {
     assertThat(post.getYn()).isEqualTo("Y");
     assertThat(post.getCategoryPost()).isEqualTo(Collections.singletonList(new CategoryPost(new Category("jpa"), post)));
     assertThat(post.getTags()).isEqualTo(Arrays.asList(new Tag("jpa"), new Tag("spring")));
+  }
 
-
-
-
+  @Test
+  public void post1() {
+    Post post = new Post("post title", "Y");
+    assertThat(post.getTitle()).isEqualTo("post title");
+    assertThat(post.getYn()).isEqualTo("Y");
   }
 }

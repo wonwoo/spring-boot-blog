@@ -1,8 +1,8 @@
 package me.wonwoo.domain.model;
 
-import org.junit.Test;
-
 import java.time.LocalDateTime;
+
+import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -17,5 +17,18 @@ public class CategoryTests {
     assertThat(category.getId()).isEqualTo(1L);
     assertThat(category.getName()).isEqualTo("jpa");
     assertThat(category.getRegDate()).isNotNull();
+  }
+
+  @Test
+  public void category1() {
+    Category category = new Category(1L, "jpa");
+    assertThat(category.getId()).isEqualTo(1L);
+    assertThat(category.getName()).isEqualTo("jpa");
+  }
+
+  @Test
+  public void category2() {
+    Category category = new Category(1L);
+    assertThat(category.getId()).isEqualTo(1L);
   }
 }

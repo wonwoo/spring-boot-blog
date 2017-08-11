@@ -15,4 +15,10 @@ public class CategoryPostTests {
     assertThat(categoryPost.getCategory()).isEqualTo(new Category("spring"));
     assertThat(categoryPost.getPost()).isEqualTo(new Post(1L));
   }
+
+  @Test
+  public void categoryPost1() {
+    CategoryPost categoryPost = new CategoryPost(new Category("spring"));
+    assertThat(categoryPost.getCategory()).isEqualTo(new Category("spring"));
+  }
 }

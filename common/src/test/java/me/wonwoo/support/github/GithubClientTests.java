@@ -65,6 +65,51 @@ public class GithubClientTests {
       "wonwoo", "wonwoo", "https://avatars.githubusercontent.com/u/747472?v=3");
   }
 
+  @Test
+  public void sendGithubPage() {
+    expectJson("https://api.github.com/repos/wonwoo",
+            "spring-boot-blog-commits.json");
+    this.githubClient.sendGithubPage(
+            "repos/wonwoo", String.class);
+    this.server.verify();
+  }
+
+  @Test
+  public void sendRequestForJson() {
+    expectJson("https://api.github.com/repos/wonwoo",
+            "spring-boot-blog-commits.json");
+    this.githubClient.sendRequestForJson(
+            "repos/wonwoo");
+    this.server.verify();
+  }
+
+  @Test
+  public void sendRequestForGithub() {
+    expectJson("https://api.github.com/repos/wonwoo",
+            "githubUser.json");
+    this.githubClient.sendRequestForGithub(
+            "repos/wonwoo");
+    this.server.verify();
+  }
+
+  @Test
+  public void sendRequestForGithubs() {
+    expectJson("https://api.github.com/repos/wonwoo",
+            "githubUsers.json");
+    this.githubClient.sendRequestForGithubs(
+            "repos/wonwoo");
+    this.server.verify();
+  }
+
+  @Test
+  public void sendRequestForDownload() {
+    expectJson("https://api.github.com/repos/wonwoo",
+            "spring-boot-blog-commits.json");
+    this.githubClient.sendRequestForDownload(
+            "repos/wonwoo");
+    this.server.verify();
+  }
+
   private void expectJson(String url, String bodyPath) {
     expectJson(url, bodyPath, null);
   }
