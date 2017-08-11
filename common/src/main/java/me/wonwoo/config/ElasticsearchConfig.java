@@ -27,7 +27,7 @@ public class ElasticsearchConfig {
   }
 
   @Configuration
-  public class LocalDatetimeEntityMapper implements EntityMapper {
+  public static class LocalDatetimeEntityMapper implements EntityMapper {
 
     private final ObjectMapper objectMapper;
 
