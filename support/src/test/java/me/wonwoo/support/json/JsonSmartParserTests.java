@@ -1,7 +1,8 @@
 package me.wonwoo.support.json;
 
 
-import net.minidev.json.parser.JSONParser;
+import java.io.StringReader;
+
 import org.junit.After;
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -9,7 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.ResolvableType;
 
-import java.io.StringReader;
+import net.minidev.json.parser.JSONParser;
+import net.minidev.json.writer.JsonReader;
 
 import static net.minidev.json.parser.JSONParser.DEFAULT_PERMISSIVE_MODE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,7 +34,7 @@ public class JsonSmartParserTests {
   public void writeObject() throws Exception {
     Foo foo = new Foo("wonwoo");
     load(TestConfig.class);
-    JsonSmartParser jsonSmartParser = context.getBean(JsonSmartParser.class);
+    JsonSmartParser jsonSmartParser = context.getBean("jsonSmartParser", JsonSmartParser.class);
     assertThat(jsonSmartParser).isNotNull();
     ResolvableType resolvableType = ResolvableType.forType(Foo.class);
     final String s = jsonSmartParser.writeObject(foo, resolvableType);
@@ -43,7 +45,7 @@ public class JsonSmartParserTests {
   public void writeObject1() throws Exception {
     Foo foo = new Foo("wonwoo");
     load(TestConfig.class);
-    JsonSmartParser jsonSmartParser = context.getBean(JsonSmartParser.class);
+    JsonSmartParser jsonSmartParser = context.getBean("jsonSmartParser", JsonSmartParser.class);
     assertThat(jsonSmartParser).isNotNull();
     final String s = jsonSmartParser.writeObject(foo, Foo.class);
     assertThat(s).isEqualTo("{\"username\":\"wonwoo\"}");
@@ -52,7 +54,7 @@ public class JsonSmartParserTests {
   @Test
   public void readObject() throws Exception {
     load(TestConfig.class);
-    JsonSmartParser jsonSmartParser = context.getBean(JsonSmartParser.class);
+    JsonSmartParser jsonSmartParser = context.getBean("jsonSmartParser", JsonSmartParser.class);
     assertThat(jsonSmartParser).isNotNull();
     ResolvableType resolvableType = ResolvableType.forType(Foo.class);
     Foo foo = jsonSmartParser.readObject(new StringReader("{\"username\" :\"wonwoo\"}"), resolvableType);
@@ -62,7 +64,7 @@ public class JsonSmartParserTests {
   @Test
   public void readObject1() throws Exception {
     load(TestConfig.class);
-    JsonSmartParser jsonSmartParser = context.getBean(JsonSmartParser.class);
+    JsonSmartParser jsonSmartParser = context.getBean("jsonSmartParser", JsonSmartParser.class);
     assertThat(jsonSmartParser).isNotNull();
     Foo foo = jsonSmartParser.readObject(new StringReader("{\"username\" :\"wonwoo\"}"), Foo.class);
     assertThat(foo.getUsername()).isEqualTo("wonwoo");
@@ -71,7 +73,7 @@ public class JsonSmartParserTests {
   @Test
   public void readObject2() throws Exception {
     load(TestConfig.class);
-    JsonSmartParser jsonSmartParser = context.getBean(JsonSmartParser.class);
+    JsonSmartParser jsonSmartParser = context.getBean("jsonSmartParser", JsonSmartParser.class);
     assertThat(jsonSmartParser).isNotNull();
     ResolvableType resolvableType = ResolvableType.forType(Foo.class);
     Foo foo = jsonSmartParser.readObject("{\"username\" :\"wonwoo\"}", resolvableType);
@@ -81,7 +83,7 @@ public class JsonSmartParserTests {
   @Test
   public void readObject3() throws Exception {
     load(TestConfig.class);
-    JsonSmartParser jsonSmartParser = context.getBean(JsonSmartParser.class);
+    JsonSmartParser jsonSmartParser = context.getBean("jsonSmartParserAndJsonReader", JsonSmartParser.class);
     assertThat(jsonSmartParser).isNotNull();
     Foo foo = jsonSmartParser.readObject("{\"username\" :\"wonwoo\"}", Foo.class);
     assertThat(foo.getUsername()).isEqualTo("wonwoo");
@@ -102,6 +104,11 @@ public class JsonSmartParserTests {
     @Bean
     public JsonSmartParser jsonSmartParser() {
       return new JsonSmartParser(new JSONParser(DEFAULT_PERMISSIVE_MODE));
+    }
+
+    @Bean
+    public JsonSmartParser jsonSmartParserAndJsonReader() {
+      return new JsonSmartParser(new JSONParser(DEFAULT_PERMISSIVE_MODE), new JsonReader());
     }
 
   }
