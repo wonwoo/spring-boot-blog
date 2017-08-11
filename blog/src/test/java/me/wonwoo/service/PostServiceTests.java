@@ -105,7 +105,7 @@ public class PostServiceTests {
     exception.expect(NotFoundException.class);
     given(postRepository.findByIdAndYn(any(), any()))
             .willReturn(null);
-
+    postService.deletePost(1L);
 
   }
 
