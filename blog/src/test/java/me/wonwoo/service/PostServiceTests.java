@@ -98,8 +98,15 @@ public class PostServiceTests {
     postService.deletePost(1L);
     verify(postRepository, times(1))
       .findByIdAndYn(1L, "Y");
-
   }
 
+  @Test
+  public void deletePostNotFoundExceptionTest() {
+    exception.expect(NotFoundException.class);
+    given(postRepository.findByIdAndYn(any(), any()))
+            .willReturn(null);
+
+
+  }
 
 }

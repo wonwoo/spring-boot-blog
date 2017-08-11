@@ -1,12 +1,13 @@
 package me.wonwoo.support.json;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.StringReader;
+
 import org.junit.After;
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.ResolvableType;
 
-import java.io.StringReader;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -17,7 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class JacksonParserTests {
 
   private AnnotationConfigApplicationContext context;
-
 
   @After
   public void tearDown() {
@@ -84,6 +84,16 @@ public class JacksonParserTests {
     Foo foo = jacksonParser.readObject("{\"username\" :\"wonwoo\"}", Foo.class);
     assertThat(foo.getUsername()).isEqualTo("wonwoo");
   }
+
+  @Test
+  public void readObject3_exception() throws Exception {
+    load(JacksonParser.class, ObjectMapper.class);
+    JacksonParser jacksonParser = context.getBean(JacksonParser.class);
+    assertThat(jacksonParser).isNotNull();
+    Foo foo = jacksonParser.readObject("{\"username\" :\"wonwoo\"", Foo.class);
+    assertThat(foo).isNull();
+  }
+
 
   private void load(Class<?>... config) {
     AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();

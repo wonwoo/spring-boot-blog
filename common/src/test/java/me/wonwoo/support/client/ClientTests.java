@@ -75,4 +75,11 @@ public class ClientTests {
     httpHeaders.add("accept", "application/json");
     assertThat(requestEntity.getHeaders()).isEqualTo(httpHeaders);
   }
+
+  @Test
+  public void createRequestEntityUriExceptionTest() {
+    exception.expect(IllegalStateException.class);
+    RequestEntity<?> requestEntity = client.createRequestEntity("Asdfas###");
+    System.out.println(requestEntity);
+  }
 }

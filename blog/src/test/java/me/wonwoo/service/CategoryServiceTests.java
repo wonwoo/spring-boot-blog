@@ -1,8 +1,9 @@
 package me.wonwoo.service;
 
-import me.wonwoo.domain.model.Category;
-import me.wonwoo.domain.repository.CategoryRepository;
-import me.wonwoo.junit.MockitoJsonJUnitRunner;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,9 +14,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import me.wonwoo.domain.model.Category;
+import me.wonwoo.domain.repository.CategoryRepository;
+import me.wonwoo.junit.MockitoJsonJUnitRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
@@ -60,7 +61,7 @@ public class CategoryServiceTests {
   @Test
   public void deleteTest() {
     doNothing().when(categoryRepository).delete(any(Category.class));
-    categoryRepository.delete(1L);
+    categoryService.delete(1L);
     verify(categoryRepository, times(1)).delete(1L);
   }
 
@@ -82,7 +83,7 @@ public class CategoryServiceTests {
     );
     given(categoryRepository.findAll(any(Pageable.class)))
       .willReturn(page);
-    final Page<Category> result = categoryRepository.findAll(new PageRequest(0, 20));
+    final Page<Category> result = categoryService.findAll(new PageRequest(0, 20));
     assertThat(this.json1.write(result))
       .isEqualToJson("findcategorypage.json");
   }
@@ -93,7 +94,7 @@ public class CategoryServiceTests {
         new Category(1L, "spring"),
         new Category(2L, "jpa")
       ));
-    final List<Category> result = categoryRepository.findAll();
+    final List<Category> result = categoryService.findAll();
     assertThat(this.json2.write(result))
       .isEqualToJson("findcategorylist.json");
   }
