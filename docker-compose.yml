@@ -14,6 +14,7 @@ services:
     depends_on:
       - mysql
       - elasticsearch
+    entrypoint: ["./wait-for-it.sh","blog:8080","--timeout=60","--","java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
   mysql:
     image: mysql:latest
     ports:
