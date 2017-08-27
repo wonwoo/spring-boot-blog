@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -21,6 +23,9 @@ public class AsciidoctorUtilsTests {
 	
 	private AsciidoctorUtils asciidoctorUtils = new AsciidoctorUtils();
 
+	@Rule
+	public final ExpectedException exception = ExpectedException.none();
+
 	@Test
 	public void getReadme() {
 		Readme readme = new Readme();
@@ -28,6 +33,13 @@ public class AsciidoctorUtilsTests {
 		given(org.getReadme(any())).willReturn(readme);
 		Readme result = asciidoctorUtils.getReadme(org, "/test");
 		assertThat(result.getName()).isEqualTo("wonwoo");
+	}
+
+	@Test
+	public void getReadmeException() {
+		exception.expect(RuntimeException.class);
+		given(org.getReadme(any())).willThrow(new RuntimeException());
+		asciidoctorUtils.getReadme(org, "/test");
 	}
 
 	@Test
@@ -50,6 +62,14 @@ public class AsciidoctorUtilsTests {
 		assertThat(result.getTableOfContents()).isEqualTo("left table");
 		assertThat(result.getUnderstandingDocs()).isNotNull();
 	}
+
+	@Test
+	public void getDocumentException() {
+		exception.expect(RuntimeException.class);
+		given(org.getAsciidocGuide(any())).willThrow(new RuntimeException());
+		asciidoctorUtils.getDocument(org, "/test");
+	}
+
 
 	@Test
 	public void generateDynamicSidebar() {
