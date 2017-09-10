@@ -5,5 +5,3 @@ services:
 jdk:
   - oraclejdk8
 script: mvn clean install -P all
-after_success:
-  - mvn clean test -P all jacoco:report coveralls:report
