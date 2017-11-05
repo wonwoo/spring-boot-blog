@@ -33,7 +33,7 @@ public class WordPressClientTests {
 
 	@Test
 	public void findAll() {
-		expectJson("https://public-api.wordpress.com/rest/v1.1/sites/aoruqjfu.fun25.co.kr/posts"
+		expectJson("https://public-api.wordpress.com/rest/v1.1/sites/wonwoo.ml/posts"
 						+ "?number=1&page=1&search=tester&fields=ID,content,title,date,author,tags",
 				"posts.json");
 
@@ -47,7 +47,7 @@ public class WordPressClientTests {
 
 	@Test
 	public void findOne() {
-		expectJson("https://public-api.wordpress.com/rest/v1.1/sites/aoruqjfu.fun25.co.kr/posts"
+		expectJson("https://public-api.wordpress.com/rest/v1.1/sites/wonwoo.ml/posts"
 						+ "/1?fields=ID,content,title,date,author,tags",
 				"post.json");
 
