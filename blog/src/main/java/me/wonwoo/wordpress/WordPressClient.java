@@ -23,7 +23,7 @@ import me.wonwoo.support.sidebar.SidebarContents;
 public class WordPressClient extends Client {
 
   private static final String WP_API = "https://public-api.wordpress.com/rest/v1.1/sites/";
-  private static final String MY_SITE = "aoruqjfu.fun25.co.kr/";
+  private static final String MY_SITE = "wonwoo.ml/";
   private static final String POST = "posts";
   private final SidebarContents sidebarContents;
 
