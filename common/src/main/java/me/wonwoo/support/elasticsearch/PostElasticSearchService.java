@@ -1,5 +1,6 @@
 package me.wonwoo.support.elasticsearch;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,6 +14,8 @@ import org.elasticsearch.index.query.MultiMatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.aggregations.Aggregations;
+import org.elasticsearch.search.aggregations.InternalAggregations;
 import org.elasticsearch.search.highlight.HighlightBuilder;
 import org.elasticsearch.search.highlight.HighlightField;
 import org.elasticsearch.search.sort.SortBuilders;
@@ -29,6 +32,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.util.ReflectionUtils;
 
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
@@ -49,7 +53,16 @@ public class PostElasticSearchService {
   public Page<WpPosts> wpPosts(Pageable pageable) {
     final SearchQuery searchQuery = new NativeSearchQueryBuilder()
       .withPageable(pageable).build();
-    return elasticsearchTemplate.queryForPage(searchQuery, WpPosts.class);
+    AggregatedPage<WpPosts> wpPosts = elasticsearchTemplate.queryForPage(searchQuery, WpPosts.class);
+    //TODO
+    Aggregations aggregations = wpPosts.getAggregations();
+    if (aggregations == null) {
+      Field field = ReflectionUtils.findField(AggregatedPageImpl.class, "aggregations");
+      ReflectionUtils.makeAccessible(field);
+      ReflectionUtils.setField(field, wpPosts, InternalAggregations.EMPTY);
+      return wpPosts;
+    }
+    return wpPosts;
   }
   private static MultiMatchQueryBuilder matchTitleContent(String queryTerm) {
   	  return QueryBuilders
