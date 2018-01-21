@@ -36,10 +36,10 @@ public class Category {
   @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
   private List<CategoryPost> post = new ArrayList<>();
 
-  Category(){
+  Category() {
   }
 
-  public Category(Long id){
+  public Category(Long id) {
     this.id = id;
   }
 
@@ -47,12 +47,12 @@ public class Category {
     this.name = name;
   }
 
-  public Category(Long id, String name){
+  public Category(Long id, String name) {
     this.name = name;
     this.id = id;
   }
 
-  public Category(Long id, String name,LocalDateTime regDate){
+  public Category(Long id, String name, LocalDateTime regDate) {
     this.name = name;
     this.id = id;
     this.regDate = regDate;

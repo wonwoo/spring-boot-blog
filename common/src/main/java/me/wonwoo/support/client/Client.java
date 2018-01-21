@@ -19,7 +19,7 @@ public class Client {
 
   private final RestTemplate restTemplate;
 
-  protected  <T> ResponseEntity<T> invoke(RequestEntity<?> request, Class<T> type) {
+  protected <T> ResponseEntity<T> invoke(RequestEntity<?> request, Class<T> type) {
     try {
       return this.restTemplate.exchange(request, type);
     } catch (HttpClientErrorException ex) {
@@ -30,7 +30,7 @@ public class Client {
   protected RequestEntity<?> createRequestEntity(String url) {
     try {
       return RequestEntity.get(new URI(url))
-        .accept(MediaType.APPLICATION_JSON).build();
+          .accept(MediaType.APPLICATION_JSON).build();
     } catch (URISyntaxException ex) {
       throw new IllegalStateException("Invalid URL " + url, ex);
     }

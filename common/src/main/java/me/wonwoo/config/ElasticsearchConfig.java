@@ -22,7 +22,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 public class ElasticsearchConfig {
 
   @Bean
-  public ElasticsearchTemplate elasticsearchTemplate(Client client, LocalDatetimeEntityMapper localDatetimeEntityMapper) {
+  public ElasticsearchTemplate elasticsearchTemplate(Client client,
+                                                     LocalDatetimeEntityMapper localDatetimeEntityMapper) {
     return new ElasticsearchTemplate(client, localDatetimeEntityMapper);
   }
 
@@ -33,10 +34,10 @@ public class ElasticsearchConfig {
 
     public LocalDatetimeEntityMapper() {
       objectMapper = Jackson2ObjectMapperBuilder
-        .json()
-        .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-        .modules(new JavaTimeModule(), new CustomGeoModule())
-        .build();
+          .json()
+          .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+          .modules(new JavaTimeModule(), new CustomGeoModule())
+          .build();
       objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
       objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
     }

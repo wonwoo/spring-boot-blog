@@ -11,13 +11,13 @@ import org.springframework.data.convert.Jsr310Converters;
 @Converter(autoApply = true)
 public class LocalDateTimeConverter implements AttributeConverter<LocalDateTime, Date> {
 
-    @Override
-    public Date convertToDatabaseColumn(LocalDateTime date) {
-        return Jsr310Converters.LocalDateTimeToDateConverter.INSTANCE.convert(date);
-    }
+  @Override
+  public Date convertToDatabaseColumn(LocalDateTime date) {
+    return Jsr310Converters.LocalDateTimeToDateConverter.INSTANCE.convert(date);
+  }
 
-    @Override
-    public LocalDateTime convertToEntityAttribute(Date date) {
-        return Jsr310Converters.DateToLocalDateTimeConverter.INSTANCE.convert(date);
-    }
+  @Override
+  public LocalDateTime convertToEntityAttribute(Date date) {
+    return Jsr310Converters.DateToLocalDateTimeConverter.INSTANCE.convert(date);
+  }
 }

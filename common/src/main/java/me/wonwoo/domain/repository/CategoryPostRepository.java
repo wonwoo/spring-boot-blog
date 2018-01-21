@@ -7,5 +7,5 @@ import me.wonwoo.domain.model.CategoryPost;
 import me.wonwoo.domain.model.Post;
 
 public interface CategoryPostRepository extends JpaRepository<CategoryPost, Long> {
-    CategoryPost findByCategoryAndPost(Category category, Post post);
+  CategoryPost findByCategoryAndPost(Category category, Post post);
 }

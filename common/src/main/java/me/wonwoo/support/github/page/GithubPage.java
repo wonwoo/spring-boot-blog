@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class GithubPage {
-    private String name;
-    private String path;
-    private Long size;
-    private String content;
+  private String name;
+  private String path;
+  private Long size;
+  private String content;
 
 }

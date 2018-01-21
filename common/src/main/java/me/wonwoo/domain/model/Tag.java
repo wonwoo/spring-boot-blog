@@ -14,10 +14,10 @@ public class Tag implements Serializable {
   @Column(name = "tag")
   private String tag;
 
-  Tag(){
+  Tag() {
   }
 
-  public Tag(String tag){
+  public Tag(String tag) {
     this.tag = tag;
   }
 

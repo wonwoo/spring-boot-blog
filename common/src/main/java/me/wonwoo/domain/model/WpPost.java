@@ -16,25 +16,25 @@ import lombok.Data;
 @Data
 public class WpPost {
 
-	@Id
-	private Integer id;
+  @Id
+  private Integer id;
 
-	private String postTitle;
+  private String postTitle;
 
-	private Integer postAuthor;
+  private Integer postAuthor;
 
-	private String postContent;
+  private String postContent;
 
-	@JsonDeserialize(using=LocalDateTimeDeserializer.class)
-	private LocalDateTime postDate;
+  @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+  private LocalDateTime postDate;
 
-	private String postType;
+  private String postType;
 
-	private String postStatus;
+  private String postStatus;
 
-	private String postContentFiltered;
+  private String postContentFiltered;
 
-	private String indexing;
+  private String indexing;
 
-	private LocalDateTime postModified;
+  private LocalDateTime postModified;
 }

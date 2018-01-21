@@ -13,23 +13,24 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CategoryPost {
 
-    @Id
-    @GeneratedValue
-    private Long id;
+  @Id
+  @GeneratedValue
+  private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "CATEGORY_ID")
-    private Category category;
+  @ManyToOne
+  @JoinColumn(name = "CATEGORY_ID")
+  private Category category;
 
-    @ManyToOne
-    @JoinColumn(name = "POST_ID")
-    private Post post;
+  @ManyToOne
+  @JoinColumn(name = "POST_ID")
+  private Post post;
 
-    public CategoryPost(Category category, Post post){
-        this.category = category;
-        this.post = post;
-    }
-    public CategoryPost(Category category){
-        this.category = category;
-    }
+  public CategoryPost(Category category, Post post) {
+    this.category = category;
+    this.post = post;
+  }
+
+  public CategoryPost(Category category) {
+    this.category = category;
+  }
 }

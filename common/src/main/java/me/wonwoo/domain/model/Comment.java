@@ -17,30 +17,32 @@ import lombok.ToString;
 @ToString(exclude = {"user", "post"})
 @EqualsAndHashCode(exclude = {"user", "post"})
 public class Comment {
-    @Id
-    @GeneratedValue
-    private Long id;
 
-    private String content;
+  @Id
+  @GeneratedValue
+  private Long id;
 
-    @CreatedDate
-    @Column(name = "reg_date")
-    private LocalDateTime regDate;
+  private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "POST_ID")
-    private Post post;
+  @CreatedDate
+  @Column(name = "reg_date")
+  private LocalDateTime regDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID")
-    private User user;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "POST_ID")
+  private Post post;
 
-    public Comment(String content, Post post, User user){
-        this.content = content;
-        this.post = post;
-        this.user = user;
-    }
-    Comment(){
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "USER_ID")
+  private User user;
 
-    }
+  public Comment(String content, Post post, User user) {
+    this.content = content;
+    this.post = post;
+    this.user = user;
+  }
+
+  Comment() {
+
+  }
 }

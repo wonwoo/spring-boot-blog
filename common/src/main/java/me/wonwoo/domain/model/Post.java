@@ -30,7 +30,7 @@ public class Post {
   private Long id;
 
   @NotNull
-  @Column(name="title")
+  @Column(name = "title")
   private String title;
 
   @Lob
@@ -80,7 +80,8 @@ public class Post {
     this.yn = yn;
   }
 
-  public Post(String title, String content, String code, String yn, List<Category> categories, User user, List<String> tags) {
+  public Post(String title, String content, String code, String yn, List<Category> categories,
+              User user, List<String> tags) {
     this.title = title;
     this.content = content;
     this.code = code;
@@ -90,7 +91,7 @@ public class Post {
     this.tags = tags.stream().map(Tag::new).collect(toList());
   }
 
-  public Post(String title, String content, String code, String yn,  User user, List<String> tags) {
+  public Post(String title, String content, String code, String yn, User user, List<String> tags) {
     this.title = title;
     this.content = content;
     this.code = code;
@@ -99,7 +100,7 @@ public class Post {
     this.tags = tags.stream().map(Tag::new).collect(toList());
   }
 
-  public void delete(){
+  public void delete() {
     this.yn = "N";
   }
 }
