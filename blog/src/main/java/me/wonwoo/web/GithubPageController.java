@@ -28,18 +28,21 @@ public class GithubPageController {
 
   @GetMapping
   public String githubPages(Model model, @Value("${github.username:wonwoo}") String githubName) {
-    List<GithubPage> githubPages = Arrays.asList(githubClient.sendRequest("repos/" + githubName + "/github/contents/_post", GithubPage[].class));
+    List<GithubPage> githubPages = Arrays.asList(githubClient
+        .sendRequest("repos/" + githubName + "/github/contents/_post", GithubPage[].class));
     model.addAttribute("githubPages", githubPages
-      .stream()
-      .filter(githubPage -> githubPage.getName().contains(".md"))
-      .peek(githubPage -> githubPage.setName(githubPage.getName().replace(".md", "")))
-      .collect(toList()));
+        .stream()
+        .filter(githubPage -> githubPage.getName().contains(".md"))
+        .peek(githubPage -> githubPage.setName(githubPage.getName().replace(".md", "")))
+        .collect(toList()));
     return "github/list";
   }
 
   @GetMapping("/{name}")
-  public String githubPage(@PathVariable String name, Model model, @Value("${github.username:wonwoo}") String githubName) {
-    GithubPage githubPage = githubClient.sendRequest("repos/" + githubName + "/github/contents/_post/" + name + ".md", GithubPage.class);
+  public String githubPage(@PathVariable String name, Model model,
+                           @Value("${github.username:wonwoo}") String githubName) {
+    GithubPage githubPage = githubClient.
+        sendRequest("repos/" + githubName + "/github/contents/_post/" + name + ".md", GithubPage.class);
     githubPage.setContent(pegDownProcessor.markdownToHtml(new String(Base64.decodeBase64(githubPage.getContent()))));
     model.addAttribute("githubPage", githubPage);
     return "github/page";

@@ -24,29 +24,30 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class CommentController {
 
-    private final CommentService commentService;
-    private final PostRepository postRepository;
+  private final CommentService commentService;
+  private final PostRepository postRepository;
 
-    @ModelAttribute
-    public Post post(@ModelAttribute CommentDto commentDto){
-        return postRepository.findOne(commentDto.getPostId());
-    }
+  @ModelAttribute
+  public Post post(@ModelAttribute CommentDto commentDto) {
+    return postRepository.findOne(commentDto.getPostId());
+  }
 
-    @PostMapping
-    public String createComment(@ModelAttribute @Valid CommentDto commentDto, BindingResult bindingResult, @AuthenticationPrincipal User user, Model model){
-        if(bindingResult.hasErrors()){
-            return "post/post";
-        }
-        model.addAttribute("comment",commentService.createComment(
-                new Comment(commentDto.getContent(),
-                        new Post(commentDto.getPostId()),
-                        user)));
-        return "redirect:/posts/"+commentDto.getPostId();
+  @PostMapping
+  public String createComment(@ModelAttribute @Valid CommentDto commentDto, BindingResult bindingResult,
+                              @AuthenticationPrincipal User user, Model model) {
+    if (bindingResult.hasErrors()) {
+      return "post/post";
     }
+    model.addAttribute("comment", commentService.createComment(
+        new Comment(commentDto.getContent(),
+            new Post(commentDto.getPostId()),
+            user)));
+    return "redirect:/posts/" + commentDto.getPostId();
+  }
 
-    @PostMapping("/{postId}/{commentId}")
-    public String deleteComment(@PathVariable Long postId, @PathVariable Long commentId){
-        commentService.deleteComment(commentId);
-        return "redirect:/posts/"+postId;
-    }
+  @PostMapping("/{postId}/{commentId}")
+  public String deleteComment(@PathVariable Long postId, @PathVariable Long commentId) {
+    commentService.deleteComment(commentId);
+    return "redirect:/posts/" + postId;
+  }
 }

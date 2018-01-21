@@ -27,7 +27,7 @@ public class WeatherSummaryController {
 
 
   @GetMapping
-  public String conferenceWeather(Model model){
+  public String conferenceWeather(Model model) {
     model.addAttribute("summary", getSummary());
     return "summary/summary";
   }
@@ -42,7 +42,6 @@ public class WeatherSummaryController {
     }
     return summary;
   }
-
 
 
   private WeatherSummary createWeatherSummary(String country, String city,

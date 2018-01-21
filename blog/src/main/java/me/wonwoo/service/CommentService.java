@@ -11,13 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CommentService {
 
-    private final CommentRepository commentRepository;
+  private final CommentRepository commentRepository;
 
-    public Comment createComment(Comment comment){
-        return commentRepository.save(comment);
-    }
+  public Comment createComment(Comment comment) {
+    return commentRepository.save(comment);
+  }
 
-    public void deleteComment(Long commentId) {
-        commentRepository.delete(commentId);
-    }
+  public void deleteComment(Long commentId) {
+    commentRepository.delete(commentId);
+  }
 }

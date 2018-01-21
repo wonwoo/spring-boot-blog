@@ -39,12 +39,14 @@ public class GuidesService {
 
   public List<GuideMetadata> invokeMap(List<GitHubRepo> gitHubRepos, String prefix) {
     return gitHubRepos
-      .stream()
-      .map(repo -> new DefaultGuideMetadata(org.getName(), repo.getName().replaceAll("^" + prefix, ""),
-        repo.getName(), repo.getDescription(), new HashSet<>(tagMultimap.getOrDefault(repo
-        .getName(), Collections.emptyList()))))
-      .collect(Collectors.toList());
+        .stream()
+        .map(repo -> new DefaultGuideMetadata(org.getName(),
+            repo.getName().replaceAll("^" + prefix, ""),
+            repo.getName(), repo.getDescription(), new HashSet<>(tagMultimap.getOrDefault(repo
+            .getName(), Collections.emptyList()))))
+        .collect(Collectors.toList());
   }
+
   @Cacheable("spring.tuts")
   public List<GuideMetadata> findTutAllMetadata() {
     String prefix = "tut-";
@@ -69,7 +71,7 @@ public class GuidesService {
     String repoName = tutorial.getRepoName();
 
     AsciidocGuide asciidocGuide = asciidoctorUtils.getDocument(org, String.format(README_PATH_ASC, org.getName(),
-      repoName));
+        repoName));
     tagMultimap.merge(repoName, new ArrayList<>(asciidocGuide.getTags()), (source, target) -> {
       Set<String> tags = new LinkedHashSet<>(target);
       tags.addAll(source);
@@ -84,7 +86,7 @@ public class GuidesService {
     String repoName = type + "-" + tutorial;
     String description = getRepoDescription(repoName);
     Set<String> tags = tagMultimap.get(repoName) != null ? new HashSet<>(tagMultimap.get(repoName))
-      : Collections.emptySet();
+        : Collections.emptySet();
     return new DefaultGuideMetadata(org.getName(), tutorial, repoName, description, tags);
   }
 

@@ -19,7 +19,8 @@ public class CommonHandlerInterceptor extends HandlerInterceptorAdapter {
   private final static String NAV_SECTION = "navSection";
 
   @Override
-  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+  public boolean preHandle(HttpServletRequest request,
+                           HttpServletResponse response, Object handler) throws Exception {
 
     try {
       HandlerMethod handlerMethod = (HandlerMethod) handler;
@@ -33,9 +34,9 @@ public class CommonHandlerInterceptor extends HandlerInterceptorAdapter {
 //        System.out.println(ignored);
 //      }
       logger.info("Current Request Handler : uri : {}, queryString : {}, ip : {}",
-        request.getRequestURI(),
-        request.getQueryString(),
-		requestIp(request)
+          request.getRequestURI(),
+          request.getQueryString(),
+          requestIp(request)
       );
       return true;
     } catch (Exception ignored) {
@@ -45,7 +46,7 @@ public class CommonHandlerInterceptor extends HandlerInterceptorAdapter {
 
   private String requestIp(HttpServletRequest request) {
     String ip = request.getHeader("X-FORWARDED-FOR");
-    if(ip == null) {
+    if (ip == null) {
       return request.getRemoteAddr();
     }
     return ip;

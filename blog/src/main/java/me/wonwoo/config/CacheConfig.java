@@ -34,9 +34,9 @@ public class CacheConfig {
 
   private MutableConfiguration<Object, Object> initConfiguration(Duration duration) {
     return new MutableConfiguration<>()
-      .setStoreByValue(false)
-      .setStatisticsEnabled(true)
-      .setExpiryPolicyFactory(CreatedExpiryPolicy.factoryOf(duration));
+        .setStoreByValue(false)
+        .setStatisticsEnabled(true)
+        .setExpiryPolicyFactory(CreatedExpiryPolicy.factoryOf(duration));
   }
 
 }

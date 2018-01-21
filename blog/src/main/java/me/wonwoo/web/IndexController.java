@@ -45,33 +45,36 @@ public class IndexController {
 
 
   @ModelAttribute("theme")
-  public String theme(){
+  public String theme() {
     return postProperties.getTheme();
   }
 
   @ModelAttribute("categories")
-  public List<Category> categories(){
+  public List<Category> categories() {
     return categoryRepository.findAll();
   }
 
   @ModelAttribute("show")
-  public boolean show(){
+  public boolean show() {
     return postProperties.isFull();
   }
 
   @GetMapping({"/", "index"})
-  public String home(SearchForm searchForm, Model model, @PageableDefault(size = 3, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
+  public String home(SearchForm searchForm, Model model,
+                     @PageableDefault(size = 3, sort = "regDate", direction = Sort.Direction.DESC)
+                         Pageable pageable) {
 
     Example<Post> post = Example.of(new Post(searchForm.getQ(), "Y"),
-            matching()
-                    .withMatcher("title", ExampleMatcher.GenericPropertyMatcher::contains));
+        matching()
+            .withMatcher("title", ExampleMatcher.GenericPropertyMatcher::contains));
     model.addAttribute("posts", postRepository.findAll(post, pageable));
     model.addAttribute("show", postProperties.isFull());
     return "index";
   }
 
   @GetMapping("/search")
-  public String search(Model model, @PageableDefault(size = 3) Pageable pageable, @ModelAttribute SearchForm searchForm) {
+  public String search(Model model, @PageableDefault(size = 3) Pageable pageable,
+                       @ModelAttribute SearchForm searchForm) {
     Page<WpPosts> wpPostses = postElasticSearchService.searchWpPosts(searchForm.getQ(), pageable);
     List<WpPosts> wpPosts = wpPostses.getContent().stream().peek(content -> {
       String postContent = pegDownProcessor.markdownToHtml(unescapeHtml(content.getHighlightedContent()));
@@ -79,7 +82,7 @@ public class IndexController {
       String em2 = em1.replace("&lt;/highlight&gt;", "</highlight>");
       content.setPostContent(em2);
     }).collect(toList());
-    model.addAttribute("posts",new PageImpl<>(wpPosts, pageable, wpPostses.getTotalElements()));
+    model.addAttribute("posts", new PageImpl<>(wpPosts, pageable, wpPostses.getTotalElements()));
     return "search";
   }
 
