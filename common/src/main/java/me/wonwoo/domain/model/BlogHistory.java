@@ -30,9 +30,10 @@ public class BlogHistory {
 
   private LocalDateTime date;
 
-  BlogHistory(){
+  BlogHistory() {
   }
-  public BlogHistory(String url , String fullUrl, String ip, String navigation, String referer, LocalDateTime date){
+
+  public BlogHistory(String url, String fullUrl, String ip, String navigation, String referer, LocalDateTime date) {
     this.url = url;
     this.fullUrl = fullUrl;
     this.ip = ip;

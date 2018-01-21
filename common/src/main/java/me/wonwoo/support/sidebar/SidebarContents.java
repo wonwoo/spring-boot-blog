@@ -13,12 +13,13 @@ public class SidebarContents {
 
   public String sidebar(Document doc) {
     String sidebar = "<div class='right-pane-widget--container'>\n" +
-      "<div class='related_resources'>\n";
+        "<div class='related_resources'>\n";
 
     sidebar += "<h3>" +
-      "<a name='table-of-sidebar' class='anchor' href='#table-of-sidebar'></a>" +
-      "Table of sidebar</h3><ul class='sectlevel1'>\n";
-    sidebar += findTableOfContents(doc).replaceAll("h2", "li").replaceAll("h3", "li");
+        "<a name='table-of-sidebar' class='anchor' href='#table-of-sidebar'></a>" +
+        "Table of sidebar</h3><ul class='sectlevel1'>\n";
+    sidebar += findTableOfContents(doc).replaceAll("h2", "li")
+        .replaceAll("h3", "li");
     sidebar += "</ul></div></div>";
     return sidebar;
   }
@@ -31,7 +32,8 @@ public class SidebarContents {
       final Element a = part.appendElement("a");
       final String s = text.toLowerCase();
       final String replace = s.replaceAll(" ", "-");
-      final Element href = a.attr("href", "#" + replace).attr("name", replace).text(text);
+      final Element href = a.attr("href", "#" + replace)
+          .attr("name", replace).text(text);
       part.removeAttr("text");
       part.appendChild(href);
     });

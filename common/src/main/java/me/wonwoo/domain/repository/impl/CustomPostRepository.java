@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 public interface CustomPostRepository {
 
   Page<Post> findByPostsForCategory(Long id, Pageable pageable);
+
   Page<Post> findByPostsForTag(String name, Pageable pageable);
 
 }

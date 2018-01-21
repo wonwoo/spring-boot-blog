@@ -23,7 +23,7 @@ import lombok.ToString;
 @Getter
 @ToString(exclude = {"comments", "post"})
 @EqualsAndHashCode(exclude = {"comments", "post"})
-public class User implements Serializable ,UserDetails {
+public class User implements Serializable, UserDetails {
   @GeneratedValue
   @Id
   private Long id;
@@ -50,7 +50,8 @@ public class User implements Serializable ,UserDetails {
     List<GrantedAuthority> authorities = new ArrayList<>();
     authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
     if (user.isAdmin()) {
-      authorities.addAll(AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER, ROLE_ADMIN, ROLE_ACTUATOR"));
+      authorities.addAll(AuthorityUtils
+          .commaSeparatedStringToAuthorityList("ROLE_USER, ROLE_ADMIN, ROLE_ACTUATOR"));
     }
     return authorities;
   }

@@ -52,7 +52,7 @@ public class PostElasticSearchService {
 
   public Page<WpPosts> wpPosts(Pageable pageable) {
     final SearchQuery searchQuery = new NativeSearchQueryBuilder()
-      .withPageable(pageable).build();
+        .withPageable(pageable).build();
     AggregatedPage<WpPosts> wpPosts = elasticsearchTemplate.queryForPage(searchQuery, WpPosts.class);
     //TODO
     Aggregations aggregations = wpPosts.getAggregations();
@@ -64,39 +64,41 @@ public class PostElasticSearchService {
     }
     return wpPosts;
   }
+
   private static MultiMatchQueryBuilder matchTitleContent(String queryTerm) {
-  	  return QueryBuilders
-			  .multiMatchQuery(queryTerm, BOOSTED_TITLE_FIELD, BOOSTED_TITLE_FIELD, POST_CONTENT_FILTERED)
-			  .fuzziness(Fuzziness.ONE)
-			  .minimumShouldMatch("30%");
+    return QueryBuilders
+        .multiMatchQuery(queryTerm, BOOSTED_TITLE_FIELD, BOOSTED_TITLE_FIELD, POST_CONTENT_FILTERED)
+        .fuzziness(Fuzziness.ONE)
+        .minimumShouldMatch("30%");
   }
+
   public Page<WpPosts> searchWpPosts(String q, Pageable pageable) {
 
     BoolQueryBuilder query = QueryBuilders.boolQuery()
-	  	    .must(matchTitleContent(q))
-		    .boost(3f);
+        .must(matchTitleContent(q))
+        .boost(3f);
 
     final QueryBuilder builder = boolQuery()
-      .must(query);
+        .must(query);
     final SearchQuery searchQuery = new NativeSearchQueryBuilder()
-      .withPageable(pageable)
-      .withSearchType(SearchType.DEFAULT)
-      .withSort(SortBuilders.scoreSort())
-      .withHighlightFields(new HighlightBuilder.Field(POST_CONTENT_FILTERED)
-          .preTags("<highlight>")
-		  .order("score")
-		  .requireFieldMatch(false)
-          .postTags("</highlight>")
-          .fragmentSize(Integer.MAX_VALUE)
-          .numOfFragments(0),
-        new HighlightBuilder.Field(TITLE_FIELD)
-          .preTags("<highlight>")
-          .postTags("</highlight>")
-		  .order("score")
-		  .requireFieldMatch(false)
-          .fragmentSize(Integer.MAX_VALUE)
-          .numOfFragments(0))
-      .withQuery(builder).build();
+        .withPageable(pageable)
+        .withSearchType(SearchType.DEFAULT)
+        .withSort(SortBuilders.scoreSort())
+        .withHighlightFields(new HighlightBuilder.Field(POST_CONTENT_FILTERED)
+                .preTags("<highlight>")
+                .order("score")
+                .requireFieldMatch(false)
+                .postTags("</highlight>")
+                .fragmentSize(Integer.MAX_VALUE)
+                .numOfFragments(0),
+            new HighlightBuilder.Field(TITLE_FIELD)
+                .preTags("<highlight>")
+                .postTags("</highlight>")
+                .order("score")
+                .requireFieldMatch(false)
+                .fragmentSize(Integer.MAX_VALUE)
+                .numOfFragments(0))
+        .withQuery(builder).build();
     return elasticsearchTemplate.queryForPage(searchQuery, WpPosts.class, new SearchResultMapper() {
       public <T> AggregatedPage<T> mapResults(SearchResponse response, Class<T> clazz, Pageable pageable) {
         List<WpPosts> chunk = new ArrayList<>();
@@ -138,24 +140,24 @@ public class PostElasticSearchService {
 
   public List<WpPosts> findRelationPosts(String q) {
     BoolQueryBuilder queryStringQueryBuilder = QueryBuilders.boolQuery()
-      .should(matchQuery(TITLE_FIELD, q).boost(3))
-      .should(matchQuery(POST_CONTENT_FILTERED, q));
+        .should(matchQuery(TITLE_FIELD, q).boost(3))
+        .should(matchQuery(POST_CONTENT_FILTERED, q));
 
     final SearchQuery searchQuery = new NativeSearchQueryBuilder()
-      .withPageable(new PageRequest(0, 4))
-      .withFields(ID_FIELD, TITLE_FIELD, DATE_FIELD)
-      .withQuery(queryStringQueryBuilder)
-      .build();
+        .withPageable(new PageRequest(0, 4))
+        .withFields(ID_FIELD, TITLE_FIELD, DATE_FIELD)
+        .withQuery(queryStringQueryBuilder)
+        .build();
     return elasticsearchTemplate.queryForList(searchQuery, WpPosts.class);
   }
 
   public void update(String id, WpPosts index) {
     IndexRequest indexRequest = new IndexRequest();
     indexRequest.source("post_title", index.getPostTitle(),
-            "post_content", index.getPostContent() ,
-            "post_content_filtered", index.getPostContentFiltered());
+        "post_content", index.getPostContent(),
+        "post_content_filtered", index.getPostContentFiltered());
     UpdateQuery updateQuery = new UpdateQueryBuilder().withId(id)
-            .withClass(WpPosts.class).withIndexRequest(indexRequest).build();
+        .withClass(WpPosts.class).withIndexRequest(indexRequest).build();
     elasticsearchTemplate.update(updateQuery);
   }
 }

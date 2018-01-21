@@ -23,7 +23,7 @@ public class GithubClient extends Client {
   @Cacheable("github.user")
   public GithubUser getUser(String githubId) {
     return invoke(createRequestEntity(
-      String.format(GIT_HUB_URL + "/users/%s", githubId)), GithubUser.class).getBody();
+        String.format(GIT_HUB_URL + "/users/%s", githubId)), GithubUser.class).getBody();
   }
 
   @Cacheable("github.commits")
@@ -40,7 +40,7 @@ public class GithubClient extends Client {
 
   private ResponseEntity<Commit[]> doGetRecentCommit(String organization, String project) {
     String url = String.format(
-      GIT_HUB_URL + "/repos/%s/%s/commits", organization, project);
+        GIT_HUB_URL + "/repos/%s/%s/commits", organization, project);
     return invoke(createRequestEntity(url), Commit[].class);
   }
 
@@ -63,7 +63,7 @@ public class GithubClient extends Client {
 
   public <T> T sendRequest(String path, Class<T> clazz) {
     String url = String.format(
-      GIT_HUB_URL + "/%s", path);
+        GIT_HUB_URL + "/%s", path);
     return invoke(createRequestEntity(url), clazz).getBody();
   }
 }

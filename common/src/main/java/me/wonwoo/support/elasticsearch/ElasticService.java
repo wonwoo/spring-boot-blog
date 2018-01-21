@@ -42,6 +42,9 @@ public class ElasticService {
     final StringTerms value = aggregations.get("groupByState");
 
     val buckets = value.getBuckets();
-    return buckets.stream().map(bucket -> new ElasticBuckets(bucket.getKeyAsString(), bucket.getDocCount())).collect(toList());
+    return buckets
+        .stream()
+        .map(bucket -> new ElasticBuckets(bucket.getKeyAsString(), bucket.getDocCount()))
+        .collect(toList());
   }
 }

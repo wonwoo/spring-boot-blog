@@ -10,10 +10,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 /**
  * Created by wonwoolee on 2017. 4. 2..
  */
-public abstract class JsonObjectDeserializer<T> extends org.springframework.boot.jackson.JsonObjectDeserializer<T> {
+public abstract class JsonObjectDeserializer<T>
+    extends org.springframework.boot.jackson.JsonObjectDeserializer<T> {
 
   @Override
-  protected T deserializeObject(JsonParser jsonParser, DeserializationContext context, ObjectCodec codec, JsonNode tree) throws IOException {
+  protected T deserializeObject(JsonParser jsonParser, DeserializationContext context,
+                                ObjectCodec codec, JsonNode tree) throws IOException {
     return deserializeObject(tree);
   }
 
