@@ -18,7 +18,7 @@ import java.net.URI;
 public class WeatherService {
 
   private static final String WEATHER_URL =
-    "http://api.openweathermap.org/data/2.5/weather?q={city},{country}&APPID={key}";
+      "http://api.openweathermap.org/data/2.5/weather?q={city},{country}&APPID={key}";
 
   private final RestTemplate restTemplate;
 
@@ -39,9 +39,9 @@ public class WeatherService {
 
   private <T> T invoke(URI url, Class<T> responseType) {
     RequestEntity<?> request = RequestEntity.get(url)
-      .accept(MediaType.APPLICATION_JSON).build();
+        .accept(MediaType.APPLICATION_JSON).build();
     ResponseEntity<T> exchange = this.restTemplate
-      .exchange(request, responseType);
+        .exchange(request, responseType);
     return exchange.getBody();
   }
 

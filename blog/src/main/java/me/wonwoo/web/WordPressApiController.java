@@ -24,7 +24,8 @@ public class WordPressApiController {
   private final WordPressClient wordPressClient;
 
   @GetMapping("/api")
-  public String findAllApi(Model model, @PageableDefault(size = 3) Pageable pageable, @ModelAttribute SearchForm searchForm) {
+  public String findAllApi(Model model, @PageableDefault(size = 3) Pageable pageable,
+                           @ModelAttribute SearchForm searchForm) {
     model.addAttribute("wordPresses", wordPressClient.findAll(pageable, searchForm.getQ()));
     return "wordpress/api/wordPresses";
   }

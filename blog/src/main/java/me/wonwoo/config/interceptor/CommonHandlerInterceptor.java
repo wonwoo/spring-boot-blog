@@ -21,8 +21,8 @@ public class CommonHandlerInterceptor extends HandlerInterceptorAdapter {
   private final static String NAV_SECTION = "navSection";
 
   @Override
-  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
+  public boolean preHandle(HttpServletRequest request,
+                           HttpServletResponse response, Object handler) throws Exception {
     try {
       HandlerMethod handlerMethod = (HandlerMethod) handler;
 //      final String requestURL = request.getRequestURL().toString();

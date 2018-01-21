@@ -27,7 +27,8 @@ public class BlogHistoryController {
   }
 
   @GetMapping
-  public String findByDateBetween(Model model, @PageableDefault(sort = "date", direction = Sort.Direction.DESC) Pageable pageable) {
+  public String findByDateBetween(Model model, @PageableDefault(sort = "date", direction = Sort.Direction.DESC)
+      Pageable pageable) {
     model.addAttribute("histories", blogHistoryService.findByDateBetween(pageable));
     model.addAttribute("grouping", elasticService.findByGroupByNavigation());
     return "history/list";

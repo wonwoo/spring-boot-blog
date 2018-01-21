@@ -101,7 +101,7 @@ public class GuideOrganization {
             }
           } else {
             StreamUtils.copy(zipFile.getInputStream(entry),
-              new FileOutputStream(zipball.getParent() + File.separator + entry.getName()));
+                new FileOutputStream(zipball.getParent() + File.separator + entry.getName()));
           }
         }
       }
@@ -112,10 +112,10 @@ public class GuideOrganization {
       attributes.setSkipFrontMatter(true);
       File readmeAdocFile = new File(unzippedRoot.getAbsolutePath() + File.separator + "README.adoc");
       OptionsBuilder options = OptionsBuilder.options()
-        .safe(SafeMode.SAFE)
-        .baseDir(unzippedRoot)
-        .headerFooter(true)
-        .attributes(attributes);
+          .safe(SafeMode.SAFE)
+          .baseDir(unzippedRoot)
+          .headerFooter(true)
+          .attributes(attributes);
       StringWriter writer = new StringWriter();
       asciidoctor.convert(new FileReader(readmeAdocFile), writer, options);
 
@@ -186,15 +186,15 @@ public class GuideOrganization {
     Elements toc = doc.select("div#toc > ul.sectlevel1");
 
     toc.select("ul.sectlevel2").forEach(subsection ->
-      subsection.remove()
+        subsection.remove()
     );
 
     toc.forEach(part ->
-      part.select("a[href]").stream()
-        .filter(anchor ->
-          doc.select(anchor.attr("href")).get(0).parent().classNames().stream()
-            .anyMatch(clazz -> clazz.startsWith("reveal")))
-        .forEach(href -> href.parent().remove())
+        part.select("a[href]").stream()
+            .filter(anchor ->
+                doc.select(anchor.attr("href")).get(0).parent().classNames().stream()
+                    .anyMatch(clazz -> clazz.startsWith("reveal")))
+            .forEach(href -> href.parent().remove())
     );
 
     return toc.toString();

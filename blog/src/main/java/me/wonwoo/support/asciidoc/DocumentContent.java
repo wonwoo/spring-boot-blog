@@ -8,8 +8,8 @@ package me.wonwoo.support.asciidoc;
  */
 public interface DocumentContent {
 
-    String getContent();
+  String getContent();
 
-    String getSidebar();
+  String getSidebar();
 
 }

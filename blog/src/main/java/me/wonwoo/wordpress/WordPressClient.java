@@ -37,8 +37,8 @@ public class WordPressClient extends Client {
     String url;
     try {
       url = String.format(
-        WP_API + MY_SITE + POST + "?number=%s&page=%s&search=%s&fields=ID,content,title,date,author,tags",
-        pageable.getPageSize(), pageable.getPageNumber() + 1, UriUtils.encode(q, "UTF-8"));
+          WP_API + MY_SITE + POST + "?number=%s&page=%s&search=%s&fields=ID,content,title,date,author,tags",
+          pageable.getPageSize(), pageable.getPageNumber() + 1, UriUtils.encode(q, "UTF-8"));
     } catch (UnsupportedEncodingException e) {
       return new PageImpl<>(Collections.emptyList(), pageable, 0);
     }
@@ -50,7 +50,7 @@ public class WordPressClient extends Client {
   @Cacheable("wp.post")
   public WordPress findOne(Long id) {
     String url = String.format(
-      WP_API + MY_SITE + POST + "/%s?fields=ID,content,title,date,author,tags", id);
+        WP_API + MY_SITE + POST + "/%s?fields=ID,content,title,date,author,tags", id);
     final WordPress body = invoke(createRequestEntity(url), WordPress.class).getBody();
     final Document parse = Jsoup.parse(body.getContent());
     final String sidebar = sidebarContents.sidebar(parse);

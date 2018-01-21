@@ -7,28 +7,28 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
 public interface GuideMetadata extends DocumentMetadata {
 
-    String getTitle();
+  String getTitle();
 
-    String getSubtitle();
+  String getSubtitle();
 
-    Set<String> getTags();
+  Set<String> getTags();
 
-    String getRepoName();
+  String getRepoName();
 
-    String getGuideId();
+  String getGuideId();
 
-    String getGitRepoHttpsUrl();
+  String getGitRepoHttpsUrl();
 
-    String getGithubHttpsUrl();
+  String getGithubHttpsUrl();
 
-    String getZipUrl();
+  String getZipUrl();
 
-    String getGitRepoSshUrl();
+  String getGitRepoSshUrl();
 
-    String getGitRepoSubversionUrl();
+  String getGitRepoSubversionUrl();
 
-    String getCiStatusImageUrl();
+  String getCiStatusImageUrl();
 
-    String getCiLatestUrl();
+  String getCiLatestUrl();
 
 }

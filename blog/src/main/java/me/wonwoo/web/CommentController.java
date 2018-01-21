@@ -33,7 +33,8 @@ public class CommentController {
     }
 
     @PostMapping
-    public String createComment(@ModelAttribute @Valid CommentDto commentDto, BindingResult bindingResult, @AuthenticationPrincipal User user, Model model){
+    public String createComment(@ModelAttribute @Valid CommentDto commentDto, BindingResult bindingResult,
+                                @AuthenticationPrincipal User user, Model model){
         if(bindingResult.hasErrors()){
             return "post/post";
         }

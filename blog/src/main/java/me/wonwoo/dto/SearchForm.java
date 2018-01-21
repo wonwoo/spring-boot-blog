@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 public class SearchForm {
 
-    private String q ="";
+  private String q = "";
 }

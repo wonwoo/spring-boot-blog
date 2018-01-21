@@ -28,8 +28,8 @@ public class PostDto {
 
   private String tags;
 
-  public List<String> tags(){
-    if(tags != null && !tags.isEmpty()){
+  public List<String> tags() {
+    if (tags != null && !tags.isEmpty()) {
       return Arrays.asList(tags.split(","));
     }
     return Collections.emptyList();

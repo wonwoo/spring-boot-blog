@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class InvalidParameterException extends RuntimeException {
   private final String message;
 
-  public InvalidParameterException(String message){
+  public InvalidParameterException(String message) {
     this.message = message;
   }
 

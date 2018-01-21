@@ -37,21 +37,22 @@ public class IndexController {
   CategoryRepository categoryRepository;
 
   @ModelAttribute("theme")
-  public String theme(){
+  public String theme() {
     return postProperties.getTheme();
   }
 
   @ModelAttribute("categories")
-  public List<Category> categories(){
+  public List<Category> categories() {
     return categoryRepository.findAll();
   }
 
   @GetMapping({"/", "index"})
-  public String home(SearchForm searchForm, Model model, @PageableDefault(size = 3, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
+  public String home(SearchForm searchForm, Model model,
+                     @PageableDefault(size = 3, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
 
     Example<Post> post = Example.of(new Post(searchForm.getQ(), "Y"),
-      matching()
-        .withMatcher("title", ExampleMatcher.GenericPropertyMatcher::contains));
+        matching()
+            .withMatcher("title", ExampleMatcher.GenericPropertyMatcher::contains));
     model.addAttribute("posts", postRepository.findAll(post, pageable));
     model.addAttribute("show", postProperties.isFull());
     return "index";

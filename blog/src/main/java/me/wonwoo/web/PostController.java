@@ -80,30 +80,40 @@ public class PostController {
     }
     PostDto createPost = new PostDto();
 
-    createPost.setCategoryId(post.getCategoryPost().stream().map(mapper -> mapper.getCategory().getId()).collect(toList()));
-    createPost.setCategoryName(post.getCategoryPost().stream().map(mapper -> mapper.getCategory().getName()).collect(toList()));
+    createPost.setCategoryId(post.getCategoryPost()
+        .stream()
+        .map(mapper -> mapper.getCategory().getId())
+        .collect(toList()));
+    createPost.setCategoryName(post.getCategoryPost()
+        .stream()
+        .map(mapper -> mapper.getCategory().getName())
+        .collect(toList()));
     createPost.setTitle(post.getTitle());
     createPost.setCode(post.getCode());
     createPost.setContent(post.getContent());
     createPost.setId(id);
-    createPost.setTags(post.getTags().stream().map(Tag::getTag).collect(joining(",")));
+    createPost.setTags(post.getTags()
+        .stream()
+        .map(Tag::getTag)
+        .collect(joining(",")));
     model.addAttribute("editPost", createPost);
     return "post/edit";
   }
 
   @PostMapping
-  public String createPost(@ModelAttribute @Valid PostDto createPost, BindingResult bindingResult, @AuthenticationPrincipal User user, Model model) {
+  public String createPost(@ModelAttribute @Valid PostDto createPost, BindingResult bindingResult,
+                           @AuthenticationPrincipal User user, Model model) {
     if (bindingResult.hasErrors()) {
       return "post/new";
     }
 
     Post post = new Post(createPost.getTitle(),
-      createPost.getContent(),
-      createPost.getCode(),
-      "Y",
-      createPost.getCategoryId().stream().map(Category::new).collect(toList()),
-      user,
-      createPost.tags());
+        createPost.getContent(),
+        createPost.getCode(),
+        "Y",
+        createPost.getCategoryId().stream().map(Category::new).collect(toList()),
+        user,
+        createPost.tags());
 
     Post newPost = postService.createPost(post);
     model.addAttribute("post", newPost);
@@ -111,18 +121,19 @@ public class PostController {
   }
 
   @PostMapping("/{id}/edit")
-  public String modifyPost(@PathVariable Long id, @ModelAttribute("editPost") @Valid PostDto createPost, BindingResult bindingResult, @AuthenticationPrincipal User user) {
+  public String modifyPost(@PathVariable Long id, @ModelAttribute("editPost") @Valid PostDto createPost,
+                           BindingResult bindingResult, @AuthenticationPrincipal User user) {
     if (bindingResult.hasErrors()) {
       return "post/edit";
     }
     final Post post = new Post(
-      createPost.getTitle(),
-      createPost.getContent(),
-      createPost.getCode(),
-      "Y",
-      createPost.getCategoryId().stream().map(Category::new).collect(toList()),
-      user,
-      createPost.tags()
+        createPost.getTitle(),
+        createPost.getContent(),
+        createPost.getCode(),
+        "Y",
+        createPost.getCategoryId().stream().map(Category::new).collect(toList()),
+        user,
+        createPost.tags()
     );
     postService.updatePost(id, post);
     return "redirect:/posts/" + id;
@@ -135,7 +146,9 @@ public class PostController {
   }
 
   @GetMapping("/category/{id}")
-  public String categoryPost(Model model, @PathVariable Long id, @ModelAttribute SearchForm searchForm, @PageableDefault(size = 3, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
+  public String categoryPost(Model model, @PathVariable Long id, @ModelAttribute SearchForm searchForm,
+                             @PageableDefault(size = 3, sort = "regDate", direction = Sort.Direction.DESC)
+                                 Pageable pageable) {
     model.addAttribute("posts", postRepository.findByPostsForCategory(id, pageable));
     model.addAttribute("show", postProperties.isFull());
     return "index";
@@ -143,7 +156,9 @@ public class PostController {
 
 
   @GetMapping("/tags/{name}")
-  public String getTags(@PathVariable String name, @ModelAttribute SearchForm searchForm, Model model, @PageableDefault(size = 3, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
+  public String getTags(@PathVariable String name, @ModelAttribute SearchForm searchForm, Model model,
+                        @PageableDefault(size = 3, sort = "regDate", direction = Sort.Direction.DESC)
+                            Pageable pageable) {
     model.addAttribute("posts", postRepository.findByPostsForTag(name, pageable));
     model.addAttribute("show", postProperties.isFull());
     return "index";

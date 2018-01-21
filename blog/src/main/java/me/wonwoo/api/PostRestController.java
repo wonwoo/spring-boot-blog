@@ -20,7 +20,8 @@ public class PostRestController {
   }
 
   @GetMapping("/posts")
-  public Page<WpPosts> posts(@PageableDefault(size = 5, sort = "post_date", direction = Sort.Direction.DESC) Pageable pageable) {
+  public Page<WpPosts> posts(@PageableDefault(size = 5, sort = "post_date", direction = Sort.Direction.DESC)
+                                   Pageable pageable) {
     Page<WpPosts> wpPosts = postElasticSearchService.wpPosts(pageable);
     return wpPosts;
   }
