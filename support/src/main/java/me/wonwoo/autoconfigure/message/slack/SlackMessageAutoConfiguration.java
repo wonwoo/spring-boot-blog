@@ -27,7 +27,8 @@ import static me.wonwoo.autoconfigure.message.slack.SlackMessageAutoConfiguratio
 public class SlackMessageAutoConfiguration {
 
   @Bean
-  public SlackMessageService slackMessageService(AsyncRestTemplate asyncRestTemplate, SlackMessageProperties slackMessageProperties) {
+  public SlackMessageService slackMessageService(AsyncRestTemplate asyncRestTemplate,
+                                                 SlackMessageProperties slackMessageProperties) {
     return new SlackMessageService(asyncRestTemplate, slackMessageProperties);
   }
 
@@ -37,7 +38,7 @@ public class SlackMessageAutoConfiguration {
     public ConditionOutcome getMatchOutcome(ConditionContext context,
                                             AnnotatedTypeMetadata metadata) {
       PropertyResolver resolver = new RelaxedPropertyResolver(
-        context.getEnvironment(), "slack.message.");
+          context.getEnvironment(), "slack.message.");
       String webHookUrl = resolver.getProperty("webHookUrl");
       String channel = resolver.getProperty("channel");
       if (StringUtils.hasLength(webHookUrl) && StringUtils.hasLength(channel)) {

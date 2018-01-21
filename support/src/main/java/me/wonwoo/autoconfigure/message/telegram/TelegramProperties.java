@@ -17,7 +17,7 @@ public class TelegramProperties {
   private String apiUrl;
 
   /**
-   *  channel name
+   * channel name
    */
   private String chatId;
 

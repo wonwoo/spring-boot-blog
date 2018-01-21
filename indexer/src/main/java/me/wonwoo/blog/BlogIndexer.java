@@ -16,39 +16,39 @@ import me.wonwoo.support.elasticsearch.WpPosts;
 @Slf4j
 public class BlogIndexer implements Indexer<WpPost> {
 
-	private final WpPostsRepository wpPostsRepository;
-	private final PostElasticSearchService postElasticSearchService;
-	private final static String Y_FIELD = "Y";
+  private final WpPostsRepository wpPostsRepository;
+  private final PostElasticSearchService postElasticSearchService;
+  private final static String Y_FIELD = "Y";
 
-	@Override
-	public Iterable<WpPost> indexItems() {
-		return wpPostsRepository.findByPostTypeAndPostStatusAndIndexingIsNull("post", "publish");
-	}
+  @Override
+  public Iterable<WpPost> indexItems() {
+    return wpPostsRepository.findByPostTypeAndPostStatusAndIndexingIsNull("post", "publish");
+  }
 
-	@Override
-	public void indexItem(WpPost index) {
-		WpPosts wpPosts = new WpPosts();
-		wpPosts.setPostContent(index.getPostContent());
-		wpPosts.setPostTitle(index.getPostTitle());
-		wpPosts.setId(index.getId());
-		wpPosts.setPostContentFiltered(index.getPostContentFiltered());
-		wpPosts.setPostType(index.getPostType());
-		wpPosts.setPostStatus(index.getPostStatus());
-		wpPosts.setPostAuthor(index.getPostAuthor());
-		wpPosts.setPostDate(index.getPostDate());
-		postElasticSearchService.save(wpPosts);
-	}
+  @Override
+  public void indexItem(WpPost index) {
+    WpPosts wpPosts = new WpPosts();
+    wpPosts.setPostContent(index.getPostContent());
+    wpPosts.setPostTitle(index.getPostTitle());
+    wpPosts.setId(index.getId());
+    wpPosts.setPostContentFiltered(index.getPostContentFiltered());
+    wpPosts.setPostType(index.getPostType());
+    wpPosts.setPostStatus(index.getPostStatus());
+    wpPosts.setPostAuthor(index.getPostAuthor());
+    wpPosts.setPostDate(index.getPostDate());
+    postElasticSearchService.save(wpPosts);
+  }
 
-	@Override
-	@Transactional
-	public void save(WpPost index) {
-		index.setIndexing(Y_FIELD);
-		wpPostsRepository.save(index);
-	}
+  @Override
+  @Transactional
+  public void save(WpPost index) {
+    index.setIndexing(Y_FIELD);
+    wpPostsRepository.save(index);
+  }
 
-	@Override
-	public void error(WpPost index, Throwable e) {
-		logger.error("BlogIndexer error ", e);
-		logger.error("id : {}, title : {} ", index.getId(), index.getPostTitle());
-	}
+  @Override
+  public void error(WpPost index, Throwable e) {
+    logger.error("BlogIndexer error ", e);
+    logger.error("id : {}, title : {} ", index.getId(), index.getPostTitle());
+  }
 }
