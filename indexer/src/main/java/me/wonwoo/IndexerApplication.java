@@ -14,19 +14,19 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 @EnableScheduling
 public class IndexerApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(IndexerApplication.class, args);
-	}
+  public static void main(String[] args) {
+    SpringApplication.run(IndexerApplication.class, args);
+  }
 
-	@Bean
-	public ExecutorService executorService() {
-		return Executors.newFixedThreadPool(5);
-	}
+  @Bean
+  public ExecutorService executorService() {
+    return Executors.newFixedThreadPool(5);
+  }
 
-	@Bean
-	public TaskScheduler scheduler() {
-		ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
-		scheduler.setPoolSize(5);
-		return scheduler;
-	}
+  @Bean
+  public TaskScheduler scheduler() {
+    ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
+    scheduler.setPoolSize(5);
+    return scheduler;
+  }
 }

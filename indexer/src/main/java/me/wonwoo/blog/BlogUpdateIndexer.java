@@ -19,32 +19,33 @@ import me.wonwoo.support.elasticsearch.WpPosts;
 @Slf4j
 public class BlogUpdateIndexer implements Indexer<WpPost> {
 
-	private final WpPostsRepository wpPostsRepository;
-	private final PostElasticSearchService postElasticSearchService;
+  private final WpPostsRepository wpPostsRepository;
+  private final PostElasticSearchService postElasticSearchService;
 
-	@Override
-	public Iterable<WpPost> indexItems() {
-		LocalDateTime localDateTime = LocalDateTime.of(LocalDate.now(), LocalTime.now().minusHours(1));
-		return wpPostsRepository.findByPostTypeAndPostStatusAndIndexingAndPostModifiedAfter("post", "publish", "Y", localDateTime);
-	}
+  @Override
+  public Iterable<WpPost> indexItems() {
+    LocalDateTime localDateTime = LocalDateTime.of(LocalDate.now(), LocalTime.now().minusHours(1));
+    return wpPostsRepository.findByPostTypeAndPostStatusAndIndexingAndPostModifiedAfter(
+        "post", "publish", "Y", localDateTime);
+  }
 
-	@Override
-	public void indexItem(WpPost index) {
-		//nothing
-	}
+  @Override
+  public void indexItem(WpPost index) {
+    //nothing
+  }
 
-	@Override
-	public void save(WpPost index) {
-		WpPosts wpPosts = new WpPosts();
-		wpPosts.setPostContent(index.getPostContent());
-		wpPosts.setPostTitle(index.getPostTitle());
-		wpPosts.setPostContentFiltered(index.getPostContentFiltered());
-		postElasticSearchService.update(index.getId().toString(), wpPosts);
-	}
+  @Override
+  public void save(WpPost index) {
+    WpPosts wpPosts = new WpPosts();
+    wpPosts.setPostContent(index.getPostContent());
+    wpPosts.setPostTitle(index.getPostTitle());
+    wpPosts.setPostContentFiltered(index.getPostContentFiltered());
+    postElasticSearchService.update(index.getId().toString(), wpPosts);
+  }
 
-	@Override
-	public void error(WpPost index, Throwable e) {
-		logger.error("BlogUpdateIndexer error ", e);
-		logger.error("id : {}, title : {} ", index.getId(), index.getPostTitle());
-	}
+  @Override
+  public void error(WpPost index, Throwable e) {
+    logger.error("BlogUpdateIndexer error ", e);
+    logger.error("id : {}, title : {} ", index.getId(), index.getPostTitle());
+  }
 }

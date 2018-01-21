@@ -26,7 +26,8 @@ public class TelegramMessageAutoConfiguration {
   @Bean
   @ConditionalOnBean(AsyncRestTemplate.class)
   @ConditionalOnMissingBean
-  public MessageService telegramMessageService(AsyncRestTemplate asyncRestTemplate, TelegramProperties telegramProperties) {
+  public MessageService telegramMessageService(AsyncRestTemplate asyncRestTemplate,
+                                               TelegramProperties telegramProperties) {
     return new TelegramMessageService(asyncRestTemplate, telegramProperties);
   }
 

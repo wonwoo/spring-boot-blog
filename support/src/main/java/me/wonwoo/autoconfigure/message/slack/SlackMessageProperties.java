@@ -16,7 +16,7 @@ public class SlackMessageProperties {
   private String webHookUrl;
 
   /**
-   *  channel name
+   * channel name
    */
   private String channel;
 
