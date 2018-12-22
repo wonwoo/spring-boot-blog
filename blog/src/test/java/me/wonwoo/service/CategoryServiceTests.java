@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +21,6 @@ import me.wonwoo.junit.MockitoJsonJUnitRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 /**
@@ -60,17 +60,17 @@ public class CategoryServiceTests {
 
   @Test
   public void deleteTest() {
-    doNothing().when(categoryRepository).delete(any(Category.class));
+    doNothing().when(categoryRepository).deleteById(any());
     categoryService.delete(1L);
-    verify(categoryRepository, times(1)).delete(1L);
+    verify(categoryRepository, times(1)).deleteById(1L);
   }
 
   @Test
   public void updateCategoryTest() {
-    given(categoryRepository.findOne(any(Long.class)))
-      .willReturn(new Category(1L, "spring"));
+    given(categoryRepository.findById(any(Long.class)))
+      .willReturn(Optional.of(new Category(1L, "spring")));
     categoryService.updateCategory(new Category(1L, "jpa"));
-    verify(categoryRepository, times(1)).findOne(1L);
+    verify(categoryRepository, times(1)).findById(1L);
   }
 
   @Test
@@ -83,7 +83,7 @@ public class CategoryServiceTests {
     );
     given(categoryRepository.findAll(any(Pageable.class)))
       .willReturn(page);
-    final Page<Category> result = categoryService.findAll(new PageRequest(0, 20));
+    final Page<Category> result = categoryService.findAll(PageRequest.of(0, 20));
     assertThat(this.json1.write(result))
       .isEqualToJson("findcategorypage.json");
   }

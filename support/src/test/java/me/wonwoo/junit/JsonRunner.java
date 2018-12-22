@@ -1,6 +1,5 @@
 package me.wonwoo.junit;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.runner.Description;
 import org.junit.runner.manipulation.Filter;
 import org.junit.runner.manipulation.NoTestsRemainException;
@@ -8,14 +7,15 @@ import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.InitializationError;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.runners.RunnerImpl;
-import org.mockito.internal.runners.util.FrameworkUsageValidator;
+import org.mockito.internal.runners.InternalRunner;
 import org.springframework.boot.test.json.JacksonTester;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Created by wonwoo on 2017. 2. 12..
  */
-public class JsonRunner implements RunnerImpl {
+public class JsonRunner implements InternalRunner {
   BlockJUnit4ClassRunner runner;
 
   public JsonRunner(Class<?> klass) throws InitializationError {
@@ -32,7 +32,6 @@ public class JsonRunner implements RunnerImpl {
   }
 
   public void run(RunNotifier notifier) {
-    notifier.addListener(new FrameworkUsageValidator(notifier));
     runner.run(notifier);
   }
 

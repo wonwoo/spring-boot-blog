@@ -19,7 +19,7 @@ import me.wonwoo.junit.MockitoJsonJUnitRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -72,9 +72,9 @@ public class PostServiceTests {
     verify(postRepository, times(1))
       .findByIdAndYn(1L, "Y");
     verify(categoryPostRepository, times(1))
-      .delete(post.getCategoryPost());
+      .deleteAll(post.getCategoryPost());
     verify(categoryPostRepository, times(1))
-      .save(post.getCategoryPost());
+      .saveAll(post.getCategoryPost());
   }
 
   @Test

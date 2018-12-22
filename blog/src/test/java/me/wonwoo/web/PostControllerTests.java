@@ -1,7 +1,23 @@
 package me.wonwoo.web;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Collections;
 import me.wonwoo.config.PostProperties;
-import me.wonwoo.domain.model.*;
+import me.wonwoo.domain.model.Category;
+import me.wonwoo.domain.model.CategoryPost;
+import me.wonwoo.domain.model.Post;
+import me.wonwoo.domain.model.Tag;
+import me.wonwoo.domain.model.User;
 import me.wonwoo.domain.repository.PostRepository;
 import me.wonwoo.dto.PostDto;
 import me.wonwoo.service.CategoryService;
@@ -12,30 +28,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collections;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Created by wonwoolee on 2017. 8. 8..
  */
 @WebMvcTest(PostController.class)
-@EnableSpringDataWebSupport
 public class PostControllerTests extends AbstractControllerTests {
 
   @MockBean

@@ -37,7 +37,7 @@ public class CommentRepositoryTests {
       "https://avatars.githubusercontent.com/u/747472?v=3", "password", true));
     final Post post = this.testEntityManager.persist(new Post("test title", "test content", "test content", "Y", user, Arrays.asList("spring", "jpa")));
     final Comment persist = this.testEntityManager.persist(new Comment("test commnet", post, user));
-    final Comment comment = commentRepository.findOne(persist.getId());
+    final Comment comment = commentRepository.findById(persist.getId()).get();
     assertThat(comment.getContent()).isEqualTo(comment.getContent());
   }
 }

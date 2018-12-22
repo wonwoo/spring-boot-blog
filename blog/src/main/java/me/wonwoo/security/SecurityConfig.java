@@ -1,5 +1,6 @@
 package me.wonwoo.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -11,8 +12,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import lombok.RequiredArgsConstructor;
-
 /**
  * Created by wonwoo on 2016. 8. 23..
  */
@@ -20,14 +19,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-  private final UserDetailsService userDetailsService;
-
-  @Override
-  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-//    auth.userDetailsService(userDetailsService);
-  }
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
@@ -69,38 +60,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     return new BCryptPasswordEncoder();
   }
 
-//  @Autowired
-//  public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//    auth
-//      .inMemoryAuthentication()
-//      .withUser("wonwoo").password("test").roles("ADMIN");
-//  }
-
-
-//  @Bean
-//  public AuthoritiesExtractor authoritiesExtractor() {
-//    return map -> {
-//      String username = (String) map.get("login");
-//      if (this.gitProperties.getSecurity().getAdmins().contains(username)) {
-//        return AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER,ROLE_ADMIN");
-//      } else {
-//        return AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER");
-//      }
-//    };
-//  }
-//
-//  @Bean
-//  public PrincipalExtractor principalExtractor(GithubClient githubClient, UserRepository userRepository) {
-//    return map -> {
-//      String githubLogin = (String) map.get("login");
-//      User speaker = userRepository.findByGithub(githubLogin);
-//      if (speaker == null) {
-//        logger.info("Initialize user with githubId {}", githubLogin);
-//        GithubUser user = githubClient.getUser(githubLogin);
-//        speaker = new User(user.getEmail(), user.getName(), githubLogin, user.getAvatar());
-//        userRepository.save(speaker);
-//      }
-//      return speaker;
-//    };
-//  }
 }

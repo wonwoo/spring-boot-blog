@@ -3,12 +3,13 @@ package me.wonwoo.domain.model;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.*;
-
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -18,18 +19,16 @@ import lombok.ToString;
  */
 @Entity
 @Getter
-@EntityListeners(value = AuditingEntityListener.class)
 @ToString(exclude = {"post"})
 @EqualsAndHashCode(exclude = {"post"})
 public class Category {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   private String name;
 
-  @CreatedDate
   @Column(name = "reg_date")
   private LocalDateTime regDate;
 

@@ -1,13 +1,11 @@
 package me.wonwoo.autoconfigure.message.telegram;
 
+import java.util.Objects;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-
-import lombok.Data;
 
 /**
  * Created by wonwoolee on 2017. 4. 2..
  */
-@Data
 @ConfigurationProperties("telegram.message")
 public class TelegramProperties {
 
@@ -21,4 +19,28 @@ public class TelegramProperties {
    */
   private String chatId;
 
+
+  public String getApiUrl() {
+    return apiUrl;
+  }
+
+  public void setApiUrl(String apiUrl) {
+    this.apiUrl = apiUrl;
+  }
+
+  public String getChatId() {
+    return chatId;
+  }
+
+  public void setChatId(String chatId) {
+    this.chatId = chatId;
+  }
+
+  @Override
+  public String toString() {
+    return "TelegramProperties{" +
+        "apiUrl='" + apiUrl + '\'' +
+        ", chatId='" + chatId + '\'' +
+        '}';
+  }
 }

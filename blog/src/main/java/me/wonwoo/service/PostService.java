@@ -1,5 +1,6 @@
 package me.wonwoo.service;
 
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import me.wonwoo.domain.model.Post;
 import me.wonwoo.domain.repository.CategoryPostRepository;
@@ -20,7 +21,8 @@ public class PostService {
 
   public Post createPost(Post post) {
     Post savePost = postRepository.save(post);
-    categoryPostRepository.save(savePost.getCategoryPost());
+    savePost.setRegDate(LocalDateTime.now());
+    categoryPostRepository.saveAll(savePost.getCategoryPost());
     return savePost;
   }
 
@@ -35,8 +37,8 @@ public class PostService {
     oldPost.setContent(post.getContent());
     //흠.
     post.setId(oldPost.getId());
-    categoryPostRepository.delete(oldPost.getCategoryPost());
-    categoryPostRepository.save(post.getCategoryPost());
+    categoryPostRepository.deleteAll(oldPost.getCategoryPost());
+    categoryPostRepository.saveAll(post.getCategoryPost());
   }
 
   public void deletePost(Long id) {

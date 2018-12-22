@@ -27,14 +27,12 @@ public class CategoryService {
   }
 
   public void delete(Long id) {
-    categoryRepository.delete(id);
+    categoryRepository.deleteById(id);
   }
 
   public void updateCategory(Category category) {
-    Category oldCategory = categoryRepository.findOne(category.getId());
-    if (oldCategory != null) {
-      oldCategory.setName(category.getName());
-    }
+    categoryRepository.findById(category.getId())
+        .ifPresent(c -> c.setName(c.getName()));
   }
 
   @Transactional(readOnly = true)

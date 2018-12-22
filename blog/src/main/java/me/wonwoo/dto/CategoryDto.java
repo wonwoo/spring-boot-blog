@@ -1,7 +1,7 @@
 package me.wonwoo.dto;
 
+import javax.validation.constraints.NotBlank;
 import lombok.Data;
-import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * Created by wonwoo on 2016. 8. 24..

@@ -20,13 +20,12 @@ import static java.util.stream.Collectors.toList;
  */
 @Entity
 @Data
-@EntityListeners(value = AuditingEntityListener.class)
 @ToString(exclude = {"comments", "tags", "user", "categoryPost"})
 @EqualsAndHashCode(exclude = {"comments", "tags", "user", "categoryPost"})
 public class Post {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @NotNull
@@ -45,7 +44,6 @@ public class Post {
   @Column(name = "yn")
   private String yn;
 
-  @CreatedDate
   @Column(name = "reg_date")
   private LocalDateTime regDate;
 

@@ -1,30 +1,31 @@
 package me.wonwoo.domain.model;
 
 import java.time.LocalDateTime;
-
-import javax.persistence.*;
-
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
 
 @Entity
-@EntityListeners(value = AuditingEntityListener.class)
 @Getter
 @ToString(exclude = {"user", "post"})
 @EqualsAndHashCode(exclude = {"user", "post"})
 public class Comment {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   private String content;
 
-  @CreatedDate
   @Column(name = "reg_date")
   private LocalDateTime regDate;
 
@@ -40,6 +41,7 @@ public class Comment {
     this.content = content;
     this.post = post;
     this.user = user;
+    this.regDate = LocalDateTime.now();
   }
 
   Comment() {

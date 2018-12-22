@@ -2,6 +2,7 @@ package me.wonwoo.support.message.slack;
 
 import me.wonwoo.autoconfigure.message.slack.SlackMessageProperties;
 import me.wonwoo.support.message.MessageService;
+import org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.concurrent.ListenableFuture;

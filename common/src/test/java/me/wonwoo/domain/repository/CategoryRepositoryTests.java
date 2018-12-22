@@ -29,7 +29,7 @@ public class CategoryRepositoryTests {
   @Test
   public void findOneTest() {
     final Category persist = this.testEntityManager.persist(new Category("spring"));
-    final Category category = this.categoryRepository.findOne(persist.getId());
+    final Category category = this.categoryRepository.findById(persist.getId()).get();
     assertThat(category.getName()).isEqualTo("spring");
   }
 }

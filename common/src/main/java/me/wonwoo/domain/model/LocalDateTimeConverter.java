@@ -13,11 +13,11 @@ public class LocalDateTimeConverter implements AttributeConverter<LocalDateTime,
 
   @Override
   public Date convertToDatabaseColumn(LocalDateTime date) {
-    return Jsr310Converters.LocalDateTimeToDateConverter.INSTANCE.convert(date);
+    return date == null ? null : Jsr310Converters.LocalDateTimeToDateConverter.INSTANCE.convert(date);
   }
 
   @Override
   public LocalDateTime convertToEntityAttribute(Date date) {
-    return Jsr310Converters.DateToLocalDateTimeConverter.INSTANCE.convert(date);
+    return date == null ? null : Jsr310Converters.DateToLocalDateTimeConverter.INSTANCE.convert(date);
   }
 }

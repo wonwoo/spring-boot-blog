@@ -5,8 +5,8 @@ import me.wonwoo.domain.model.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.support.QueryDslRepositorySupport;
 import org.springframework.data.jpa.repository.support.Querydsl;
+import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.data.querydsl.QPageRequest;
 
 import java.util.Collections;
@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by wonwoolee on 2017. 8. 8..
  */
-public class PostRepositoryImpl extends QueryDslRepositorySupport implements CustomPostRepository {
+public class PostRepositoryImpl extends QuerydslRepositorySupport implements CustomPostRepository {
 
   public PostRepositoryImpl() {
     super(Post.class);

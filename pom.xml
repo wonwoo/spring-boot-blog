@@ -18,7 +18,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>1.5.9.RELEASE</version>
+    <version>2.1.0.RELEASE</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
@@ -27,8 +27,8 @@
     <maven.jasmine.version>2.1</maven.jasmine.version>
     <maven.saga.version>1.5.5</maven.saga.version>
     <coveralls.version>4.3.0</coveralls.version>
-    <thymeleaf.version>3.0.0.RELEASE</thymeleaf.version>
-    <thymeleaf-layout-dialect.version>2.0.3</thymeleaf-layout-dialect.version>
+    <!--<thymeleaf.version>3.0.0.RELEASE</thymeleaf.version>-->
+    <!--<thymeleaf-layout-dialect.version>2.0.3</thymeleaf-layout-dialect.version>-->
     <root.dir>${basedir}</root.dir>
     <gem.home>${root.dir}/target/rubygems</gem.home>
     <gem.path>${root.dir}/target/rubygems</gem.path>

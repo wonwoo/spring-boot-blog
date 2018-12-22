@@ -16,7 +16,7 @@ import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 /**
@@ -50,8 +50,8 @@ public class CommentServiceTests {
 
   @Test
   public void deleteCommentTest() {
-    doNothing().when(commentRepository).delete(any(Comment.class));
+    doNothing().when(commentRepository).deleteById(any());
     commentService.deleteComment(1L);
-    verify(commentRepository, times(1)).delete(1L);
+    verify(commentRepository, times(1)).deleteById(1L);
   }
 }

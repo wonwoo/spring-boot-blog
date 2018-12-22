@@ -29,7 +29,7 @@ public class CommentController {
 
   @ModelAttribute
   public Post post(@ModelAttribute CommentDto commentDto) {
-    return postRepository.findOne(commentDto.getPostId());
+    return postRepository.findById(commentDto.getPostId()).orElse(null);
   }
 
   @PostMapping
