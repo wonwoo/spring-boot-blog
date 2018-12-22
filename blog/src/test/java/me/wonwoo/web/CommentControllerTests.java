@@ -5,6 +5,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -54,18 +55,18 @@ public class CommentControllerTests extends AbstractControllerTests {
     CommentDto commentDto = new CommentDto();
     commentDto.setContent("comment content");
     commentDto.setPostId(1L);
-    mockMvc.perform(post("/comments").param("content", "comment content")
+    mockMvc.perform(post("/comments").with(csrf()).param("content", "comment content")
       .param("postId", "1"))
       .andExpect(status().isFound())
       .andExpect(header().string(HttpHeaders.LOCATION, "/posts/1"));
-    verify(commentService, atLeastOnce()).createComment(value);
+    verify(commentService, atLeastOnce()).createComment(any());
 
   }
 
   @Test
   public void deleteComment() throws Exception {
     doNothing().when(commentService).deleteComment(any());
-    mockMvc.perform(post("/comments/{postId}/{commentId}", "1", "1"))
+    mockMvc.perform(post("/comments/{postId}/{commentId}", "1", "1").with(csrf()))
       .andExpect(status().isFound())
       .andExpect(header().string(HttpHeaders.LOCATION, "/posts/1"));
     verify(commentService, atLeastOnce()).deleteComment(1L);

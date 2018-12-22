@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
@@ -114,7 +115,7 @@ public class PostControllerTests extends AbstractControllerTests {
 
   @Test
   public void createPostHasError() throws Exception {
-    MvcResult mvcResult = mockMvc.perform(post("/posts"))
+    MvcResult mvcResult = mockMvc.perform(post("/posts").with(csrf()))
         .andExpect(status().isOk())
         .andReturn();
     assertThat(mvcResult.getModelAndView().getViewName())
@@ -125,17 +126,17 @@ public class PostControllerTests extends AbstractControllerTests {
   @Test
   public void createPost() throws Exception {
     given(postService.createPost(any())).willReturn(tempPost());
-    mockMvc.perform(post("/posts")
+    mockMvc.perform(post("/posts").with(csrf())
         .param("title", "test title")
         .param("content", "test content")
         .param("categoryId", "1,2"))
         .andExpect(status().isFound())
-        .andExpect(header().string(HttpHeaders.LOCATION, "/posts/1"));
+        .andExpect(header().string(HttpHeaders.LOCATION, "/posts/1?navSection=Post"));
   }
 
   @Test
   public void modifyPostHasError() throws Exception {
-    MvcResult mvcResult = mockMvc.perform(post("/posts/1/edit"))
+    MvcResult mvcResult = mockMvc.perform(post("/posts/1/edit").with(csrf()))
         .andExpect(status().isOk())
         .andReturn();
     assertThat(mvcResult.getModelAndView().getViewName())
@@ -147,19 +148,20 @@ public class PostControllerTests extends AbstractControllerTests {
   public void modifyPost() throws Exception {
     doNothing().when(postService).updatePost(any(), any());
     mockMvc.perform(post("/posts/1/edit")
+        .with(csrf())
         .param("title", "test title")
         .param("content", "test content")
         .param("categoryId", "1,2"))
         .andExpect(status().isFound())
-        .andExpect(header().string(HttpHeaders.LOCATION, "/posts/1"));
+        .andExpect(header().string(HttpHeaders.LOCATION, "/posts/1?navSection=Post"));
   }
 
   @Test
   public void deletePost() throws Exception {
     doNothing().when(postService).deletePost(any());
-    mockMvc.perform(post("/posts/1/delete"))
+    mockMvc.perform(post("/posts/1/delete").with(csrf()))
         .andExpect(status().isFound())
-        .andExpect(header().string(HttpHeaders.LOCATION, "/#/"));
+        .andExpect(header().string(HttpHeaders.LOCATION, "/?navSection=Post#/"));
   }
 
   @Test

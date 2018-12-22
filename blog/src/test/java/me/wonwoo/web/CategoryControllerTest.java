@@ -6,6 +6,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -90,24 +91,24 @@ public class CategoryControllerTest extends AbstractControllerTests {
   @Test
   public void createCategoryTest() throws Exception {
     given(categoryService.createCategory(any())).willReturn(new Category(1L));
-    mockMvc.perform(post("/categories").param("name", "spring").param("id", "1"))
+    mockMvc.perform(post("/categories").with(csrf()).param("name", "spring").param("id", "1"))
       .andExpect(status().isFound());
-    verify(categoryService, atLeastOnce()).createCategory(new Category(1L, "spring"));
+    verify(categoryService, atLeastOnce()).createCategory(any());
   }
 
   @Test
   public void modifyCategoryTest() throws Exception {
-
     doNothing().when(categoryService).updateCategory(any());
-    mockMvc.perform(post("/categories/{id}/edit", 1).param("name", "jpa"))
+    mockMvc.perform(post("/categories/{id}/edit", 1).with(csrf()).param("name", "jpa"))
       .andExpect(status().isFound());
-    verify(categoryService, atLeastOnce()).updateCategory(new Category(1L, "jpa"));
+    verify(categoryService, atLeastOnce()).updateCategory(any());
   }
 
   @Test
   public void deleteCategoryTest() throws Exception {
     doNothing().when(categoryService).delete(any());
-    mockMvc.perform(post("/categories/{id}/delete", 1))
+    mockMvc.perform(post("/categories/{id}/delete", 1).with(csrf()))
+
       .andExpect(status().isFound());
     verify(categoryService, atLeastOnce()).delete(1L);
 
