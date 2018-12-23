@@ -63,7 +63,7 @@ public class Post {
   @JoinColumn(name = "USER_ID")
   private User user;
 
-  @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private List<CategoryPost> categoryPost;
 
   Post() {
