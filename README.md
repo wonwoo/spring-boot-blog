@@ -5,7 +5,7 @@
 ## Spring boot blog 
 
 ### used 
- - Spring boot 1.5.x
+ - Spring boot 2.1.x
  - Spring Security
  - ehcache
  - Spring Data jpa (with querydsl)
