@@ -55,7 +55,7 @@
                 </li>
             </ul>
             <div th:each="post : ${posts.content}">
-                <a th:href="@{'/posts/' + ${post.id}}">
+                <a th:href="@{'/posts/' + ${post.postId}}">
                     <h1 class="post-title" th:utext="${post.postTitle}">
                     </h1>
                 </a>

@@ -38,14 +38,19 @@
         "store": "true",
         "index": "true"
       },
-      "highlightedContent": {
+      "highlighted_content": {
         "type": "text",
         "store": "true",
         "term_vector": "with_positions_offsets",
         "analyzer": "fulltext"
       },
-      "tableOfContent": {
+      "table_of_content": {
         "type": "text",
+        "store": "true",
+        "index": "true"
+      },
+      "post_id": {
+        "type": "long",
         "store": "true",
         "index": "true"
       }

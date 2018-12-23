@@ -10,7 +10,7 @@ public class PostElasticMapper implements ElasticMapper<Post, WpPosts> {
         WpPosts wpPosts = new WpPosts();
         wpPosts.setPostContent(post.getContent());
         wpPosts.setPostTitle(post.getTitle());
-        wpPosts.setId(post.getId().intValue());
+        wpPosts.setPostId(post.getId());
         wpPosts.setPostContentFiltered(post.getCode());
         wpPosts.setPostDate(post.getRegDate());
         return wpPosts;

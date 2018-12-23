@@ -43,7 +43,12 @@ public class WpPosts {
   private String postContentFiltered;
 
   @Field(analyzer = "fulltext", store = true)
+  @JsonProperty("highlighted_content")
   private String highlightedContent;
 
+  @JsonProperty("table_of_content")
   private String tableOfContent;
+
+  @JsonProperty("post_id")
+  private Long postId;
 }
