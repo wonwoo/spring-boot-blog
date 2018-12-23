@@ -82,6 +82,7 @@ public class IndexControllerTest extends AbstractControllerTests {
     post.setContent("text content");
     post.setRegDate(LocalDateTime.now());
     post.setCode("text content");
+    post.setCategory(new Category(1L, "spring"));
     post.setUser(new User(null, "wonwoo", null, null, null, true));
     given(postRepository.findAll(any(), any(Pageable.class)))
             .willReturn(new PageImpl<>(Collections.singletonList(post)));

@@ -1,5 +1,3 @@
-DROP TABLE IF EXISTS `category_post`;
-
 DROP TABLE IF EXISTS `category`;
 
 DROP TABLE IF EXISTS `comment`;
@@ -20,15 +18,7 @@ CREATE TABLE category
      PRIMARY KEY (id) 
   ); 
 
-CREATE TABLE category_post 
-  ( 
-     id          BIGINT NOT NULL auto_increment, 
-     category_id BIGINT, 
-     post_id     BIGINT, 
-     PRIMARY KEY (id) 
-  ); 
-
-CREATE TABLE comment 
+CREATE TABLE comment
   ( 
      id       BIGINT NOT NULL auto_increment, 
      content  VARCHAR(255), 
@@ -46,7 +36,8 @@ CREATE TABLE post
      indexing VARCHAR(255), 
      reg_date DATETIME, 
      title    VARCHAR(255) NOT NULL, 
-     yn       VARCHAR(255), 
+     yn       VARCHAR(255),
+     category_id BIGINT,
      user_id  BIGINT, 
      PRIMARY KEY (id) 
   ); 
@@ -85,15 +76,7 @@ CREATE TABLE wp_posts
      PRIMARY KEY (id) 
   ); 
 
-ALTER TABLE category_post 
-  ADD CONSTRAINT fkgrlw4y7oywggm56qbnehfn4a4 FOREIGN KEY (category_id) 
-  REFERENCES category (id); 
-
-ALTER TABLE category_post 
-  ADD CONSTRAINT fkmhkf2t5e9lcr9dl9ixc36x4b3 FOREIGN KEY (post_id) REFERENCES 
-  post (id); 
-
-ALTER TABLE comment 
+ALTER TABLE comment
   ADD CONSTRAINT fks1slvnkuemjsq2kj4h3vhx7i1 FOREIGN KEY (post_id) REFERENCES 
   post (id); 
 

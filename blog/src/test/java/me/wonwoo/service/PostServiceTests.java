@@ -13,7 +13,6 @@ import org.mockito.Mock;
 import me.wonwoo.domain.model.Category;
 import me.wonwoo.domain.model.Post;
 import me.wonwoo.domain.model.User;
-import me.wonwoo.domain.repository.CategoryPostRepository;
 import me.wonwoo.domain.repository.PostRepository;
 import me.wonwoo.exception.NotFoundException;
 import me.wonwoo.junit.MockitoJsonJUnitRunner;
@@ -35,9 +34,6 @@ public class PostServiceTests {
   private PostRepository postRepository;
 
   @Mock
-  private CategoryPostRepository categoryPostRepository;
-
-  @Mock
   private PostElasticSearchService postElasticSearchService;
 
   @Rule
@@ -47,13 +43,13 @@ public class PostServiceTests {
 
   @Before
   public void setup() {
-    postService = new PostService(postRepository, categoryPostRepository, postElasticSearchService);
+    postService = new PostService(postRepository, postElasticSearchService);
   }
 
   @Test
   public void createPostTest() {
     final Post post = new Post("post title", "post content",
-      "code", "Y", Collections.singletonList(new Category(1L, "spring")),
+      "code", "Y", new Category(1L, "spring"),
       new User(), Collections.emptyList());
     post.setId(1L);
     given(postRepository.save(any(Post.class)))
@@ -71,7 +67,7 @@ public class PostServiceTests {
   @Test
   public void updatePost() {
     final Post post = new Post("post title", "post content",
-      "code", "Y", Collections.singletonList(new Category(1L, "spring")),
+      "code", "Y", new Category(1L, "spring"),
       new User(), Collections.emptyList());
     given(postRepository.findByIdAndYn(any(), any()))
       .willReturn(post);
@@ -79,17 +75,13 @@ public class PostServiceTests {
     postService.updatePost(1L, post);
     verify(postRepository, times(1))
       .findByIdAndYn(1L, "Y");
-    verify(categoryPostRepository, times(1))
-      .deleteAll(post.getCategoryPost());
-    verify(categoryPostRepository, times(1))
-      .saveAll(post.getCategoryPost());
   }
 
   @Test
   public void updateNotFoundIdPost() {
     exception.expect(NotFoundException.class);
     final Post post = new Post("post title", "post content",
-            "code", "Y", Collections.singletonList(new Category(1L, "spring")),
+            "code", "Y",  new Category(1L, "spring"),
             new User(), Collections.emptyList());
     given(postRepository.findByIdAndYn(any(), any()))
             .willReturn(null);
@@ -99,7 +91,7 @@ public class PostServiceTests {
   @Test
   public void deletePostTest() {
     final Post post = new Post("post title", "post content",
-      "code", "Y", Collections.singletonList(new Category(1L, "spring")),
+      "code", "Y",  new Category(1L, "spring"),
       new User(), Collections.emptyList());
     given(postRepository.findByIdAndYn(any(), any()))
       .willReturn(post);

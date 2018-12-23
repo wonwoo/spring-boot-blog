@@ -15,7 +15,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import me.wonwoo.config.PostProperties;
 import me.wonwoo.domain.model.Category;
-import me.wonwoo.domain.model.CategoryPost;
 import me.wonwoo.domain.model.Post;
 import me.wonwoo.domain.model.Tag;
 import me.wonwoo.domain.model.User;
@@ -100,8 +99,7 @@ public class PostControllerTests extends AbstractControllerTests {
     assertThat(result.getContent()).isEqualTo("text content");
     assertThat(result.getTitle()).isEqualTo("post test");
     assertThat(result.getTags()).isEqualTo("spring,jpa");
-    assertThat(result.getCategoryId()).isEqualTo(Collections.singletonList(1L));
-    assertThat(result.getCategoryName()).isEqualTo(Collections.singletonList("spring"));
+    assertThat(result.getCategoryId()).isEqualTo(1L);
   }
 
   @Test
@@ -129,7 +127,7 @@ public class PostControllerTests extends AbstractControllerTests {
     mockMvc.perform(post("/posts").with(csrf())
         .param("title", "test title")
         .param("content", "test content")
-        .param("categoryId", "1,2"))
+        .param("categoryId", "1"))
         .andExpect(status().isFound())
         .andExpect(header().string(HttpHeaders.LOCATION, "/posts/1?navSection=Post"));
   }
@@ -151,7 +149,7 @@ public class PostControllerTests extends AbstractControllerTests {
         .with(csrf())
         .param("title", "test title")
         .param("content", "test content")
-        .param("categoryId", "1,2"))
+        .param("categoryId", "1"))
         .andExpect(status().isFound())
         .andExpect(header().string(HttpHeaders.LOCATION, "/posts/1?navSection=Post"));
   }
@@ -203,7 +201,7 @@ public class PostControllerTests extends AbstractControllerTests {
     post.setCode("text content");
     post.setUser(new User(null, "wonwoo", null, null, null, true));
     post.setTags(Arrays.asList(new Tag("spring"), new Tag("jpa")));
-    post.setCategoryPost(Collections.singletonList(new CategoryPost(new Category(1L, "spring"), post)));
+    post.setCategory(new Category(1L, "spring"));
     return post;
   }
 }

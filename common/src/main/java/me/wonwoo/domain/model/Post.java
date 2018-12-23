@@ -20,8 +20,8 @@ import static java.util.stream.Collectors.toList;
  */
 @Entity
 @Data
-@ToString(exclude = {"comments", "tags", "user", "categoryPost"})
-@EqualsAndHashCode(exclude = {"comments", "tags", "user", "categoryPost"})
+@ToString(exclude = {"comments", "tags", "user", "category"})
+@EqualsAndHashCode(exclude = {"comments", "tags", "user", "category"})
 public class Post {
 
   @Id
@@ -63,8 +63,8 @@ public class Post {
   @JoinColumn(name = "USER_ID")
   private User user;
 
-  @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  private List<CategoryPost> categoryPost;
+  @ManyToOne(fetch = FetchType.LAZY)
+  private Category category;
 
   Post() {
   }
@@ -78,14 +78,14 @@ public class Post {
     this.yn = yn;
   }
 
-  public Post(String title, String content, String code, String yn, List<Category> categories,
+  public Post(String title, String content, String code, String yn, Category category,
               User user, List<String> tags) {
     this.title = title;
     this.content = content;
     this.code = code;
     this.yn = yn;
     this.user = user;
-    this.categoryPost = categories.stream().map(category -> new CategoryPost(category, this)).collect(toList());
+    this.category = category;
     this.tags = tags.stream().map(Tag::new).collect(toList());
   }
 

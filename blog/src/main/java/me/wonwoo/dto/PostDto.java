@@ -19,10 +19,9 @@ public class PostDto {
   private String title;
   @NotBlank
   private String content;
-  @NotNull
-  private List<Long> categoryId;
 
-  private List<String> categoryName;
+  @NotNull
+  private Long categoryId;
 
   private String code;
 

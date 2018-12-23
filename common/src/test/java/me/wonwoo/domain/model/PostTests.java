@@ -16,7 +16,7 @@ public class PostTests {
   public void post() {
     Post post =
         new Post("post title", "post content", "post code", "Y",
-            Collections.singletonList(new Category("jpa")),
+            new Category("jpa"),
                 new User(), Arrays.asList("jpa","spring" ));
     post.setId(1L);
     assertThat(post.getId()).isEqualTo(1);
@@ -24,7 +24,7 @@ public class PostTests {
     assertThat(post.getContent()).isEqualTo("post content");
     assertThat(post.getCode()).isEqualTo("post code");
     assertThat(post.getYn()).isEqualTo("Y");
-    assertThat(post.getCategoryPost()).isEqualTo(Collections.singletonList(new CategoryPost(new Category("jpa"), post)));
+    assertThat(post.getCategory()).isEqualTo(new Category("jpa"));
     assertThat(post.getTags()).isEqualTo(Arrays.asList(new Tag("jpa"), new Tag("spring")));
   }
 

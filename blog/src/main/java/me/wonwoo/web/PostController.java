@@ -79,19 +79,11 @@ public class PostController {
       throw new NotFoundException(id + " not found");
     }
     PostDto createPost = new PostDto();
-
-    createPost.setCategoryId(post.getCategoryPost()
-        .stream()
-        .map(mapper -> mapper.getCategory().getId())
-        .collect(toList()));
-    createPost.setCategoryName(post.getCategoryPost()
-        .stream()
-        .map(mapper -> mapper.getCategory().getName())
-        .collect(toList()));
     createPost.setTitle(post.getTitle());
     createPost.setCode(post.getCode());
     createPost.setContent(post.getContent());
     createPost.setId(id);
+    createPost.setCategoryId(post.getCategory().getId());
     createPost.setTags(post.getTags().stream().map(Tag::getTag).collect(joining(",")));
     model.addAttribute("editPost", createPost);
     return "post/edit";
@@ -108,7 +100,7 @@ public class PostController {
         createPost.getContent(),
         createPost.getCode(),
         "Y",
-        createPost.getCategoryId().stream().map(Category::new).collect(toList()),
+        new Category(createPost.getCategoryId()),
         user,
         createPost.tags());
 
@@ -128,7 +120,7 @@ public class PostController {
         createPost.getContent(),
         createPost.getCode(),
         "Y",
-        createPost.getCategoryId().stream().map(Category::new).collect(toList()),
+        new Category(createPost.getCategoryId()),
         user,
         createPost.tags()
     );

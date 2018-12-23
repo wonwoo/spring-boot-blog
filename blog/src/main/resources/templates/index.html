@@ -25,7 +25,7 @@
                 </a>
                 <div>
                     <p style="margin: 10px 0px;">Posted by <strong th:text="${post.user.name}"></strong> on <strong th:text="${#temporals.format(post.regDate, 'yyyy-MM-dd')}"> </strong>
-                        category <strong th:each="categoryPost,id : ${post.categoryPost}" th:switch="${id.index}"><strong th:case="0"  th:text="${categoryPost.category.name}"></strong><strong th:case="*" th:text="', ' +${categoryPost.category.name}"></strong> </strong></p>
+                        category <strong th:text="${post.category.name}"> </strong></p>
                 </div>
                 <div th:if="${show}" style="margin-bottom:30px" th:utext="${post.content}">
 

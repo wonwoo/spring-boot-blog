@@ -1,5 +1,3 @@
-DROP TABLE IF EXISTS `category_post`;
-
 DROP TABLE IF EXISTS `category`;
 
 DROP TABLE IF EXISTS `comment`;
@@ -63,27 +61,12 @@ CREATE TABLE `post`
      `reg_date` DATETIME DEFAULT NULL,
      `title`    VARCHAR(255) NOT NULL,
      `yn`       VARCHAR(255) DEFAULT NULL,
+     `category_id`       BIGINT(20) DEFAULT NULL,
      `user_id`  BIGINT(20) DEFAULT NULL,
      PRIMARY KEY (`id`),
      KEY `fk72mt33dhhs48hf9gcqrq4fxte` (`user_id`),
      CONSTRAINT `fk72mt33dhhs48hf9gcqrq4fxte` FOREIGN KEY (`user_id`) REFERENCES
      `user` (`id`)
-  )
-engine=innodb
-DEFAULT charset=utf8;
-
-CREATE TABLE `category_post`
-  (
-     `id`          BIGINT(20) NOT NULL auto_increment,
-     `category_id` BIGINT(20) DEFAULT NULL,
-     `post_id`     BIGINT(20) DEFAULT NULL,
-     PRIMARY KEY (`id`),
-     KEY `fkgrlw4y7oywggm56qbnehfn4a4` (`category_id`),
-     KEY `fkmhkf2t5e9lcr9dl9ixc36x4b3` (`post_id`),
-     CONSTRAINT `fkgrlw4y7oywggm56qbnehfn4a4` FOREIGN KEY (`category_id`)
-     REFERENCES `category` (`id`),
-     CONSTRAINT `fkmhkf2t5e9lcr9dl9ixc36x4b3` FOREIGN KEY (`post_id`) REFERENCES
-     `post` (`id`)
   )
 engine=innodb
 DEFAULT charset=utf8;

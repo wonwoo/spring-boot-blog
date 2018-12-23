@@ -24,11 +24,9 @@ public class PostRepositoryImpl extends QuerydslRepositorySupport implements Cus
   @Override
   public Page<Post> findByPostsForCategory(Long id, Pageable pageable) {
     QPost post = QPost.post;
-    QCategoryPost categoryPost = QCategoryPost.categoryPost;
     QCategory category = QCategory.category;
     return readPage(getQuerydsl(), from(post)
-        .join(post.categoryPost, categoryPost).fetchJoin()
-        .join(categoryPost.category, category)
+        .join(post.category, category).fetchJoin()
         .where(category.id.eq(id)), pageable);
   }
 
@@ -36,10 +34,10 @@ public class PostRepositoryImpl extends QuerydslRepositorySupport implements Cus
   public Page<Post> findByPostsForTag(String name, Pageable pageable) {
     QPost post = QPost.post;
     QTag tags = QTag.tag1;
-    QCategoryPost categoryPost = QCategoryPost.categoryPost;
+    QCategory category = QCategory.category;
     return readPage(getQuerydsl(), from(post)
         .join(post.tags, tags)
-        .join(post.categoryPost, categoryPost).fetchJoin()
+        .join(post.category, category).fetchJoin()
         .where(tags.tag.eq(name)), pageable);
   }
 

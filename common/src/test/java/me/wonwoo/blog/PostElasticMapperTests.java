@@ -15,7 +15,7 @@ public class PostElasticMapperTests {
     public void map() {
         PostElasticMapper postElasticMapper = new PostElasticMapper();
         final Post post = new Post("post title", "post content",
-            "code", "Y", Collections.singletonList(new Category(1L, "spring")),
+            "code", "Y", new Category(1L, "spring"),
             new User(), Collections.emptyList());
         post.setId(1L);
         WpPosts wpPosts = postElasticMapper.map(post);

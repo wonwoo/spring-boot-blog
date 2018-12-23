@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import me.wonwoo.blog.PostElasticMapper;
 import me.wonwoo.domain.model.Post;
-import me.wonwoo.domain.repository.CategoryPostRepository;
 import me.wonwoo.domain.repository.PostRepository;
 import me.wonwoo.exception.NotFoundException;
 import me.wonwoo.support.elasticsearch.PostElasticSearchService;
@@ -19,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PostService {
   private final PostRepository postRepository;
-  private final CategoryPostRepository categoryPostRepository;
   private final PostElasticSearchService postElasticSearchService;
   private final PostElasticMapper postElasticMapper = new PostElasticMapper();
 
@@ -39,10 +37,7 @@ public class PostService {
     oldPost.setTags(post.getTags());
     oldPost.setCode(post.getCode());
     oldPost.setContent(post.getContent());
-    //흠.
-    post.setId(oldPost.getId());
-    categoryPostRepository.deleteAll(oldPost.getCategoryPost());
-    categoryPostRepository.saveAll(post.getCategoryPost());
+    oldPost.setCategory(post.getCategory());
   }
 
   public void deletePost(Long id) {
