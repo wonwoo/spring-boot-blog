@@ -19,7 +19,7 @@ public class PostElasticMapperTests {
             new User(), Collections.emptyList());
         post.setId(1L);
         BlogPost blogPost = postElasticMapper.map(post);
-        assertThat(blogPost.getId()).isEqualTo(1);
+        assertThat(blogPost.getPostId()).isEqualTo(1);
         assertThat(blogPost.getPostTitle()).isEqualTo("post title");
         assertThat(blogPost.getPostContent()).isEqualTo("post content");
         assertThat(blogPost.getPostContentFiltered()).isEqualTo("code");

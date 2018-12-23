@@ -15,10 +15,10 @@ public class IndexScheduler {
   private final FullIndexer fullIndexer;
 //  private final BlogUpdateIndexer blogUpdateIndexer;
 
-//  @Scheduled(fixedDelay = ONE_DAY, initialDelayString = "${search.indexer.delay:0}")
-//  public void fullIndexing() {
-//    indexerService.index(fullIndexer);
-//  }
+  @Scheduled(fixedDelay = ONE_DAY, initialDelayString = "${search.indexer.delay:0}")
+  public void fullIndexing() {
+    indexerService.index(fullIndexer);
+  }
 
 
 //  @Scheduled(fixedDelay = ONE_HOUR, initialDelayString = "${search.indexer.delay:0}")
