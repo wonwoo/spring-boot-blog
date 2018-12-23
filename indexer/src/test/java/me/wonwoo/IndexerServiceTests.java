@@ -1,12 +1,19 @@
 package me.wonwoo;
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Collections;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.util.ResourceUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,6 +34,12 @@ public class IndexerServiceTests {
   @Test
   public void index() {
     indexerService.index(new Indexer<Bean>() {
+
+      @Override
+      public void preHandle() {
+
+      }
+
       @Override
       public Iterable<Bean> indexItems() {
         return Collections.singletonList(new Bean("wonwoo"));
@@ -38,11 +51,12 @@ public class IndexerServiceTests {
 
       }
       @Override
-      public void save(Bean index) {
-        assertThat(index.getId()).isEqualTo("wonwoo");
-      }
-      @Override
       public void error(Bean index, Throwable e) {
+
+      }
+
+      @Override
+      public void postHandle() {
 
       }
     });
@@ -52,6 +66,10 @@ public class IndexerServiceTests {
   @Test
   public void indexException() {
     indexerService.index(new Indexer<Bean>() {
+      @Override
+      public void preHandle() {
+
+      }
       @Override
       public Iterable<Bean> indexItems() {
         return Collections.singletonList(new Bean("wonwoo"));
@@ -63,11 +81,13 @@ public class IndexerServiceTests {
 
       }
       @Override
-      public void save(Bean index) {
-      }
-      @Override
       public void error(Bean index, Throwable e) {
         assertThat(new RuntimeException()).hasCause(e);
+      }
+
+      @Override
+      public void postHandle() {
+
       }
     });
 

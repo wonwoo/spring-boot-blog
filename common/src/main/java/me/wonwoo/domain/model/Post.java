@@ -47,8 +47,6 @@ public class Post {
   @Column(name = "reg_date")
   private LocalDateTime regDate;
 
-  private String indexing;
-
   @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
   private List<Comment> comments;
 

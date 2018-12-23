@@ -6,9 +6,9 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Matchers;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
@@ -21,8 +21,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -46,18 +46,18 @@ public class PostElasticSearchServiceTests {
 
   @Test
   public void wpPosts() throws Exception {
-    WpPosts wpPosts = new WpPosts();
-    wpPosts.setPostContentFiltered("<p>content</p>");
-    wpPosts.setPostContent("content");
-    wpPosts.setId(1);
-    wpPosts.setPostTitle("title");
-    wpPosts.setPostStatus("publish");
-    wpPosts.setPostType("post");
-    AggregatedPage<WpPosts> page = new AggregatedPageImpl<>(Collections.singletonList(wpPosts));
-    given(elasticsearchTemplate.queryForPage(any(SearchQuery.class), Matchers.<Class<WpPosts>>any()))
+    BlogPost blogPost = new BlogPost();
+    blogPost.setPostContentFiltered("<p>content</p>");
+    blogPost.setPostContent("content");
+    blogPost.setId(1);
+    blogPost.setPostTitle("title");
+    blogPost.setPostStatus("publish");
+    blogPost.setPostType("post");
+    AggregatedPage<BlogPost> page = new AggregatedPageImpl<>(Collections.singletonList(blogPost));
+    given(elasticsearchTemplate.queryForPage(any(SearchQuery.class), ArgumentMatchers.<Class<BlogPost>>any()))
       .willReturn(page);
-    final Page<WpPosts> result = postElasticSearchService.wpPosts(new PageRequest(0, 20));
-    final List<WpPosts> content = result.getContent();
+    final Page<BlogPost> result = postElasticSearchService.wpPosts(PageRequest.of(0, 20));
+    final List<BlogPost> content = result.getContent();
     assertThat(content.get(0).getId()).isEqualTo(1);
     assertThat(content.get(0).getPostTitle()).isEqualTo("title");
     assertThat(content.get(0).getPostStatus()).isEqualTo("publish");
@@ -68,18 +68,18 @@ public class PostElasticSearchServiceTests {
 
   @Test
   public void searchWpPosts() throws Exception {
-    WpPosts wpPosts = new WpPosts();
-    wpPosts.setPostContentFiltered("<p>content</p>");
-    wpPosts.setPostContent("content");
-    wpPosts.setId(1);
-    wpPosts.setPostTitle("title");
-    wpPosts.setPostStatus("publish");
-    wpPosts.setPostType("post");
-    AggregatedPage<WpPosts> page = new AggregatedPageImpl<>(Collections.singletonList(wpPosts));
-    given(elasticsearchTemplate.queryForPage(any(SearchQuery.class), Matchers.<Class<WpPosts>>any(), any()))
+    BlogPost blogPost = new BlogPost();
+    blogPost.setPostContentFiltered("<p>content</p>");
+    blogPost.setPostContent("content");
+    blogPost.setId(1);
+    blogPost.setPostTitle("title");
+    blogPost.setPostStatus("publish");
+    blogPost.setPostType("post");
+    AggregatedPage<BlogPost> page = new AggregatedPageImpl<>(Collections.singletonList(blogPost));
+    given(elasticsearchTemplate.queryForPage(any(SearchQuery.class), ArgumentMatchers.<Class<BlogPost>>any(), any()))
       .willReturn(page);
-    final Page<WpPosts> result = postElasticSearchService.searchWpPosts("spring boot", new PageRequest(0, 20));
-    final List<WpPosts> content = result.getContent();
+    final Page<BlogPost> result = postElasticSearchService.searchWpPosts("spring boot", PageRequest.of(0, 20));
+    final List<BlogPost> content = result.getContent();
     assertThat(content.get(0).getId()).isEqualTo(1);
     assertThat(content.get(0).getPostTitle()).isEqualTo("title");
     assertThat(content.get(0).getPostStatus()).isEqualTo("publish");
@@ -90,17 +90,17 @@ public class PostElasticSearchServiceTests {
 
   @Test
   public void findOne() throws Exception {
-    WpPosts wpPosts = new WpPosts();
-    wpPosts.setPostContentFiltered("<p>content</p>");
-    wpPosts.setPostContent("content");
-    wpPosts.setId(1);
-    wpPosts.setPostTitle("title");
-    wpPosts.setPostStatus("publish");
-    wpPosts.setPostType("post");
-    given(elasticsearchTemplate.queryForObject(any(CriteriaQuery.class), Matchers.<Class<WpPosts>>any()))
-    .willReturn(wpPosts);
+    BlogPost blogPost = new BlogPost();
+    blogPost.setPostContentFiltered("<p>content</p>");
+    blogPost.setPostContent("content");
+    blogPost.setId(1);
+    blogPost.setPostTitle("title");
+    blogPost.setPostStatus("publish");
+    blogPost.setPostType("post");
+    given(elasticsearchTemplate.queryForObject(any(CriteriaQuery.class), ArgumentMatchers.<Class<BlogPost>>any()))
+    .willReturn(blogPost);
 
-    final WpPosts result = postElasticSearchService.findOne(1L);
+    final BlogPost result = postElasticSearchService.findOne(1L);
     assertThat(result.getId()).isEqualTo(1);
     assertThat(result.getPostTitle()).isEqualTo("title");
     assertThat(result.getPostStatus()).isEqualTo("publish");
@@ -112,22 +112,22 @@ public class PostElasticSearchServiceTests {
   @Test
   public void save() {
     given(elasticsearchTemplate.index(any())).willReturn(null);
-    postElasticSearchService.save(new WpPosts());
+    postElasticSearchService.save(new BlogPost());
     verify(elasticsearchTemplate).index(any());
   }
 
   @Test
   public void findRelationPosts() throws Exception {
-    WpPosts wpPosts = new WpPosts();
-    wpPosts.setPostContentFiltered("<p>content</p>");
-    wpPosts.setPostContent("content");
-    wpPosts.setId(1);
-    wpPosts.setPostTitle("title");
-    wpPosts.setPostStatus("publish");
-    wpPosts.setPostType("post");
-    given(elasticsearchTemplate.queryForList(any(SearchQuery.class), Matchers.<Class<WpPosts>>any()))
-    .willReturn(Collections.singletonList(wpPosts));
-    final List<WpPosts> result = postElasticSearchService.findRelationPosts("spring boot");
+    BlogPost blogPost = new BlogPost();
+    blogPost.setPostContentFiltered("<p>content</p>");
+    blogPost.setPostContent("content");
+    blogPost.setId(1);
+    blogPost.setPostTitle("title");
+    blogPost.setPostStatus("publish");
+    blogPost.setPostType("post");
+    given(elasticsearchTemplate.queryForList(any(SearchQuery.class), ArgumentMatchers.<Class<BlogPost>>any()))
+    .willReturn(Collections.singletonList(blogPost));
+    final List<BlogPost> result = postElasticSearchService.findRelationPosts("spring boot");
     assertThat(result.get(0).getId()).isEqualTo(1);
     assertThat(result.get(0).getPostTitle()).isEqualTo("title");
     assertThat(result.get(0).getPostStatus()).isEqualTo("publish");
@@ -139,7 +139,7 @@ public class PostElasticSearchServiceTests {
   @Test
   public void update() {
     given(elasticsearchTemplate.update(any())).willReturn(null);
-    postElasticSearchService.update("test", new WpPosts());
+    postElasticSearchService.update("test", new BlogPost());
     verify(elasticsearchTemplate).update(any());
   }
 }

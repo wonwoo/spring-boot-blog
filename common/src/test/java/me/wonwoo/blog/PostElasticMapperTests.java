@@ -6,7 +6,7 @@ import java.util.Collections;
 import me.wonwoo.domain.model.Category;
 import me.wonwoo.domain.model.Post;
 import me.wonwoo.domain.model.User;
-import me.wonwoo.support.elasticsearch.WpPosts;
+import me.wonwoo.support.elasticsearch.BlogPost;
 import org.junit.Test;
 
 public class PostElasticMapperTests {
@@ -18,10 +18,10 @@ public class PostElasticMapperTests {
             "code", "Y", new Category(1L, "spring"),
             new User(), Collections.emptyList());
         post.setId(1L);
-        WpPosts wpPosts = postElasticMapper.map(post);
-        assertThat(wpPosts.getId()).isEqualTo(1);
-        assertThat(wpPosts.getPostTitle()).isEqualTo("post title");
-        assertThat(wpPosts.getPostContent()).isEqualTo("post content");
-        assertThat(wpPosts.getPostContentFiltered()).isEqualTo("code");
+        BlogPost blogPost = postElasticMapper.map(post);
+        assertThat(blogPost.getId()).isEqualTo(1);
+        assertThat(blogPost.getPostTitle()).isEqualTo("post title");
+        assertThat(blogPost.getPostContent()).isEqualTo("post content");
+        assertThat(blogPost.getPostContentFiltered()).isEqualTo("code");
     }
 }

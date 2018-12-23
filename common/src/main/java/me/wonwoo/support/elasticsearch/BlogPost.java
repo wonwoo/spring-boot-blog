@@ -11,8 +11,8 @@ import lombok.Data;
 import org.springframework.data.elasticsearch.annotations.Field;
 
 @Data
-@Document(indexName = "wordpress", type = "post", shards = 5, replicas = 0, refreshInterval = "-1")
-public class WpPosts {
+@Document(indexName = "blog", type = "post", replicas = 0, refreshInterval = "-1")
+public class BlogPost {
   @Id
   @JsonProperty("ID")
   private Integer id;

@@ -20,8 +20,7 @@ import me.wonwoo.domain.repository.CategoryRepository;
 import me.wonwoo.domain.repository.PostRepository;
 import me.wonwoo.dto.SearchForm;
 import me.wonwoo.support.elasticsearch.PostElasticSearchService;
-import me.wonwoo.support.elasticsearch.WpPosts;
-import me.wonwoo.support.sidebar.SidebarContents;
+import me.wonwoo.support.elasticsearch.BlogPost;
 
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang.StringEscapeUtils.unescapeHtml;
@@ -73,8 +72,8 @@ public class IndexController {
   @GetMapping("/search")
   public String search(Model model, @PageableDefault(size = 3) Pageable pageable,
                        @ModelAttribute SearchForm searchForm) {
-    Page<WpPosts> wpPostses = postElasticSearchService.searchWpPosts(searchForm.getQ(), pageable);
-    List<WpPosts> wpPosts = wpPostses.getContent().stream().peek(content -> {
+    Page<BlogPost> wpPostses = postElasticSearchService.searchWpPosts(searchForm.getQ(), pageable);
+    List<BlogPost> wpPosts = wpPostses.getContent().stream().peek(content -> {
       String postContent = pegDownProcessor.markdownToHtml(unescapeHtml(content.getHighlightedContent()));
       String em1 = postContent.replace("&lt;highlight&gt;", "<highlight>");
       String em2 = em1.replace("&lt;/highlight&gt;", "</highlight>");

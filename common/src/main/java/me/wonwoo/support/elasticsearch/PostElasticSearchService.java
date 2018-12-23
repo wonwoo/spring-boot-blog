@@ -49,10 +49,10 @@ public class PostElasticSearchService {
   private static final String ID_FIELD = "ID";
   private static final String DATE_FIELD = "post_date";
 
-  public Page<WpPosts> wpPosts(Pageable pageable) {
+  public Page<BlogPost> wpPosts(Pageable pageable) {
     final SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withPageable(pageable).build();
-    return elasticsearchTemplate.queryForPage(searchQuery, WpPosts.class);
+    return elasticsearchTemplate.queryForPage(searchQuery, BlogPost.class);
   }
 
   private static MultiMatchQueryBuilder matchTitleContent(String queryTerm) {
@@ -63,7 +63,7 @@ public class PostElasticSearchService {
         .minimumShouldMatch("30%");
   }
 
-  public Page<WpPosts> searchWpPosts(String q, Pageable pageable) {
+  public Page<BlogPost> searchWpPosts(String q, Pageable pageable) {
 
     BoolQueryBuilder query = QueryBuilders.boolQuery()
         .must(matchTitleContent(q))
@@ -90,25 +90,25 @@ public class PostElasticSearchService {
                 .fragmentSize(Integer.MAX_VALUE)
                 .numOfFragments(0))
         .withQuery(builder).build();
-    return elasticsearchTemplate.queryForPage(searchQuery, WpPosts.class, new SearchResultMapper() {
+    return elasticsearchTemplate.queryForPage(searchQuery, BlogPost.class, new SearchResultMapper() {
       public <T> AggregatedPage<T> mapResults(SearchResponse response, Class<T> clazz, Pageable pageable) {
-        List<WpPosts> chunk = new ArrayList<>();
+        List<BlogPost> chunk = new ArrayList<>();
         for (SearchHit searchHit : response.getHits()) {
           if (response.getHits().getHits().length <= 0) {
             return new AggregatedPageImpl<>(Collections.emptyList());
           }
-          final WpPosts wpPosts = objectMapper.convertValue(searchHit.getSourceAsMap(), WpPosts.class);
+          final BlogPost blogPost = objectMapper.convertValue(searchHit.getSourceAsMap(), BlogPost.class);
           final HighlightField postContentFiltered = searchHit.getHighlightFields().get(POST_CONTENT_FILTERED);
           if (postContentFiltered != null) {
-            wpPosts.setHighlightedContent(postContentFiltered.fragments()[0].toString());
+            blogPost.setHighlightedContent(postContentFiltered.fragments()[0].toString());
           } else {
-            wpPosts.setHighlightedContent(wpPosts.getPostContentFiltered());
+            blogPost.setHighlightedContent(blogPost.getPostContentFiltered());
           }
           HighlightField postTitle = searchHit.getHighlightFields().get(TITLE_FIELD);
           if (postTitle != null) {
-            wpPosts.setPostTitle(postTitle.fragments()[0].toString());
+            blogPost.setPostTitle(postTitle.fragments()[0].toString());
           }
-          chunk.add(wpPosts);
+          chunk.add(blogPost);
         }
         if (chunk.size() > 0) {
           return new AggregatedPageImpl<>((List<T>) chunk, pageable, response.getHits().getTotalHits());
@@ -118,38 +118,56 @@ public class PostElasticSearchService {
     });
   }
 
-  public void save(WpPosts WpPosts) {
+  public void save(BlogPost BlogPost) {
     IndexQuery indexQuery = new IndexQuery();
-    indexQuery.setObject(WpPosts);
+    indexQuery.setObject(BlogPost);
     elasticsearchTemplate.index(indexQuery);
   }
 
-  public WpPosts findOne(Long id) {
+  public BlogPost findOne(Long id) {
     CriteriaQuery criteriaQuery = new CriteriaQuery(new Criteria(ID_FIELD).is(id));
-    return elasticsearchTemplate.queryForObject(criteriaQuery, WpPosts.class);
+    return elasticsearchTemplate.queryForObject(criteriaQuery, BlogPost.class);
   }
 
-  public List<WpPosts> findRelationPosts(String q) {
+  public List<BlogPost> findRelationPosts(String q) {
     BoolQueryBuilder queryStringQueryBuilder = QueryBuilders.boolQuery()
         .should(matchQuery(TITLE_FIELD, q).boost(3))
         .should(matchQuery(POST_CONTENT_FILTERED, q));
 
     final SearchQuery searchQuery = new NativeSearchQueryBuilder()
-        .withPageable(new PageRequest(0, 4))
+        .withPageable(PageRequest.of(0, 4))
         .withFields(ID_FIELD, TITLE_FIELD, DATE_FIELD)
         .withQuery(queryStringQueryBuilder)
         .build();
-    return elasticsearchTemplate.queryForList(searchQuery, WpPosts.class);
+    return elasticsearchTemplate.queryForList(searchQuery, BlogPost.class);
   }
 
-  public void update(String id, WpPosts index) {
+  public void update(String id, BlogPost index) {
     IndexRequest indexRequest = new IndexRequest();
     indexRequest.source("post_title", index.getPostTitle(),
         "post_content", index.getPostContent(),
         "post_content_filtered", index.getPostContentFiltered());
     UpdateQuery updateQuery = new UpdateQueryBuilder().withId(id)
-        .withClass(WpPosts.class).withIndexRequest(indexRequest).build();
+        .withClass(BlogPost.class).withIndexRequest(indexRequest).build();
     elasticsearchTemplate.update(updateQuery);
+  }
+
+  public <T> void reset(Class<T> clazz, Object setting, Object mapping) {
+    this.deleteIndex(clazz);
+    this.createIndex(clazz, setting);
+    this.putMapping(clazz, mapping);
+  }
+
+  public <T> boolean deleteIndex(Class<T> clazz) {
+    return elasticsearchTemplate.deleteIndex(clazz);
+  }
+
+  public <T> boolean createIndex(Class<T> clazz, Object setting) {
+    return elasticsearchTemplate.createIndex(clazz, setting);
+  }
+
+  public <T> boolean putMapping(Class<T> clazz, Object mapping) {
+    return elasticsearchTemplate.putMapping(clazz, mapping);
   }
 }
 

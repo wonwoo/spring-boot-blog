@@ -1,7 +1,6 @@
 package me.wonwoo.domain.repository;
 
 import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import me.wonwoo.domain.model.Post;
@@ -14,5 +13,5 @@ public interface PostRepository extends JpaRepository<Post, Long>, CustomPostRep
 
   Post findByIdAndYn(Long id, String yn);
 
-  List<Post> findByYnAndIndexingIsNull(String yn);
+  List<Post> findByYnOrderByRegDateDesc(String yn);
 }

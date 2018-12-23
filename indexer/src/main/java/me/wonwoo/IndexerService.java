@@ -17,15 +17,16 @@ public class IndexerService {
 
   //TODO 액츄에이터
   public <T> void index(final Indexer<T> indexer) {
+    indexer.preHandle();
     for (final T item : indexer.indexItems()) {
       executorService.submit(() -> {
         try {
           indexer.indexItem(item);
-          indexer.save(item);
         } catch (Exception e) {
           indexer.error(item, e);
         }
       });
     }
+    indexer.postHandle();
   }
 }

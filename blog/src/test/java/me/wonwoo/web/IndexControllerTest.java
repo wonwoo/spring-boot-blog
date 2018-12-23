@@ -18,7 +18,7 @@ import me.wonwoo.domain.model.User;
 import me.wonwoo.domain.repository.CategoryRepository;
 import me.wonwoo.domain.repository.PostRepository;
 import me.wonwoo.support.elasticsearch.PostElasticSearchService;
-import me.wonwoo.support.elasticsearch.WpPosts;
+import me.wonwoo.support.elasticsearch.BlogPost;
 import me.wonwoo.support.sidebar.SidebarContents;
 import org.junit.Before;
 import org.junit.Test;
@@ -60,18 +60,18 @@ public class IndexControllerTest extends AbstractControllerTests {
   @Autowired
   private MockMvc mockMvc;
 
-  private WpPosts wpPosts;
+  private BlogPost blogPost;
 
   @Before
   public void setup() {
-    wpPosts = new WpPosts();
-    wpPosts.setId(1);
-    wpPosts.setPostAuthor(1);
-    wpPosts.setPostTitle("test title");
-    wpPosts.setPostType("public");
-    wpPosts.setPostDate(LocalDateTime.now());
-    wpPosts.setHighlightedContent("test content");
-    wpPosts.setPostContentFiltered("test content");
+    blogPost = new BlogPost();
+    blogPost.setId(1);
+    blogPost.setPostAuthor(1);
+    blogPost.setPostTitle("test title");
+    blogPost.setPostType("public");
+    blogPost.setPostDate(LocalDateTime.now());
+    blogPost.setHighlightedContent("test content");
+    blogPost.setPostContentFiltered("test content");
     given(categoryRepository.findAll()).willReturn(Arrays.asList(new Category("jpa"), new Category("spring")));
   }
 
@@ -104,13 +104,13 @@ public class IndexControllerTest extends AbstractControllerTests {
   public void search() throws Exception {
     postProperties.setFull(true);
     given(postElasticSearchService.searchWpPosts(any() , any()))
-            .willReturn(new PageImpl<>(Collections.singletonList(wpPosts)));
+            .willReturn(new PageImpl<>(Collections.singletonList(blogPost)));
 
     final MvcResult mvcResult = mockMvc.perform(get("/search"))
             .andExpect(status().isOk())
             .andReturn();
 
-    Page<WpPosts> posts = (Page<WpPosts>) mvcResult.getModelAndView().getModel().get("posts");
+    Page<BlogPost> posts = (Page<BlogPost>) mvcResult.getModelAndView().getModel().get("posts");
     boolean isFull = (boolean) mvcResult.getModelAndView().getModel().get("show");
     assertThat(posts.getContent().get(0).getPostContent()).isEqualTo("<p>test content</p>");
     assertThat(posts.getContent().get(0).getPostTitle()).isEqualTo("test title");
