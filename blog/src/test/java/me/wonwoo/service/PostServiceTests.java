@@ -2,6 +2,7 @@ package me.wonwoo.service;
 
 import java.util.Collections;
 
+import me.wonwoo.support.elasticsearch.PostElasticSearchService;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -20,6 +21,7 @@ import me.wonwoo.junit.MockitoJsonJUnitRunner;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -35,6 +37,9 @@ public class PostServiceTests {
   @Mock
   private CategoryPostRepository categoryPostRepository;
 
+  @Mock
+  private PostElasticSearchService postElasticSearchService;
+
   @Rule
   public final ExpectedException exception = ExpectedException.none();
 
@@ -42,7 +47,7 @@ public class PostServiceTests {
 
   @Before
   public void setup() {
-    postService = new PostService(postRepository, categoryPostRepository);
+    postService = new PostService(postRepository, categoryPostRepository, postElasticSearchService);
   }
 
   @Test
@@ -50,8 +55,11 @@ public class PostServiceTests {
     final Post post = new Post("post title", "post content",
       "code", "Y", Collections.singletonList(new Category(1L, "spring")),
       new User(), Collections.emptyList());
+    post.setId(1L);
     given(postRepository.save(any(Post.class)))
       .willReturn(post);
+
+    doNothing().when(postElasticSearchService).save(any());
 
     final Post result = postService.createPost(post);
     assertThat(result.getTitle()).isEqualTo("post title");

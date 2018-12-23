@@ -43,7 +43,7 @@ public class PostElasticSearchService {
   private final ElasticsearchTemplate elasticsearchTemplate;
   private final ObjectMapper objectMapper;
 
-  private static final String BOOSTED_TITLE_FIELD = "post_title^3";
+  private static final String BOOSTED_TITLE_FIELD = "post_title";
   private static final String TITLE_FIELD = "post_title";
   private static final String POST_CONTENT_FILTERED = "post_content_filtered";
   private static final String ID_FIELD = "ID";
@@ -57,7 +57,8 @@ public class PostElasticSearchService {
 
   private static MultiMatchQueryBuilder matchTitleContent(String queryTerm) {
     return QueryBuilders
-        .multiMatchQuery(queryTerm, BOOSTED_TITLE_FIELD, BOOSTED_TITLE_FIELD, POST_CONTENT_FILTERED)
+        .multiMatchQuery(queryTerm, POST_CONTENT_FILTERED)
+        .field(BOOSTED_TITLE_FIELD, 3)
         .fuzziness(Fuzziness.ONE)
         .minimumShouldMatch("30%");
   }
