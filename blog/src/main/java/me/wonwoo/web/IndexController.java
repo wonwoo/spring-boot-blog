@@ -41,8 +41,6 @@ public class IndexController {
   PostRepository postRepository;
   PegDownProcessor pegDownProcessor;
   PostElasticSearchService postElasticSearchService;
-  SidebarContents sidebarContents;
-
 
   @ModelAttribute("theme")
   public String theme() {
