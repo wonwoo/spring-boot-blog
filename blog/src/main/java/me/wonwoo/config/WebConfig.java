@@ -32,7 +32,7 @@ import org.thymeleaf.dialect.springdata.SpringDataDialect;
  * Created by wonwoo on 2016. 9. 2..
  */
 @Configuration
-@EnableConfigurationProperties({GitProperties.class, PostProperties.class, WeatherAppProperties.class})
+@EnableConfigurationProperties({GitProperties.class, PostProperties.class})
 public class WebConfig implements WebMvcConfigurer {
 
   @Override
