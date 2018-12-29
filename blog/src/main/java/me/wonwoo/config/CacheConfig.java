@@ -1,6 +1,7 @@
 package me.wonwoo.config;
 
 import org.springframework.boot.autoconfigure.cache.JCacheManagerCustomizer;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,8 +13,8 @@ import javax.cache.expiry.Duration;
  * Created by wonwoo on 2017. 2. 14..
  */
 @Configuration
+@EnableCaching
 public class CacheConfig {
-
 
   @Bean
   public JCacheManagerCustomizer cacheManagerCustomizer() {
