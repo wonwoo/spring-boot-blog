@@ -1,98 +1,52 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/main}">
 <head>
-    <title>포스트</title>
-    <script th:src="@{/markdown/js/markdown-it.min.js}"></script>
-    <script th:src="@{/markdown/js/markdown-it-footnote.min.js}"></script>
-    <script th:src="@{/markdown/js/highlight.pack.js}"></script>
-    <script th:src="@{/codemirror/lib/codemirror.js}"></script>
-    <script th:src="@{/codemirror/overlay.js}"></script>
-    <script th:src="@{/codemirror/markdown/markdown.js}"></script>
-    <script th:src="@{/codemirror/gfm/gfm.js}"></script>
-    <script th:src="@{/markdown/js/rawinflate.js}"></script>
-    <script th:src="@{/markdown/js/rawdeflate.js}"></script>
-    <link rel="stylesheet" th:href="@{/markdown/css/base16-light.css}"/>
-    <link rel="stylesheet" th:href="@{/codemirror/lib/codemirror.css}"/>
-    <link rel="stylesheet" th:href="@{'/markdown/css/' + ${theme} + '.css'}" />
-    <link rel="stylesheet" th:href="@{/css/post.css}" />
-    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
-    <script th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
-    <script th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
-    <script>
-        function modalClose() {
-            $('#myModal').modal('hide');
-        }
-    </script>
+    <title>포스터</title>
+    <link th:href="@{/css/search.css}" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/post.css}"/>
 </head>
 <body>
-<form class="form-horizontal well bs-component col-lg-10 col-lg-offset-1" th:action="@{/posts}"
-      th:object="${postDto}" method="post" th:id="post">
-    <fieldset>
-        <div class="form-group" th:classappend="(${#fields.hasErrors('title')}? ' has-error')">
-            <label for="title" class="col-lg-2 control-label">Title</label>
-            <div class="col-lg-10">
-                <input type="text" class="form-control" id="title" name="title" th:field="*{title}"
-                       placeholder="Title"/>
-                <span class="help-block" th:if="${#fields.hasErrors('title')}"
-                      th:errors="*{title}">Incorrect title</span>
+<div class="container" layout:fragment="content">
+    <form class="form-horizontal well bs-component col-lg-10 col-lg-offset-1 blog-post-form" th:action="@{/posts}"
+          th:object="${postDto}" method="post" th:id="post">
+        <fieldset>
+            <div class="form-group " th:classappend="(${#fields.hasErrors('title')}? ' has-error')">
+                <label for="title" class="col-lg-2 control-label">Title</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" id="title" name="title" th:field="*{title}"
+                           placeholder="Title"/>
+                    <span class="help-block" th:if="${#fields.hasErrors('title')}"
+                          th:errors="*{title}">Incorrect title</span>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <label class="col-lg-2 control-label">category</label>
-            <select class="selectpicker" name="categoryId" >
-                <option th:each="category : ${categories}" th:text="${category.name}" th:value="${category.id}"></option>
-            </select>
-        </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label">category</label>
+                <select class="selectpicker" name="categoryId">
+                    <option th:each="category : ${categories}" th:text="${category.name}" th:value="${category.id}"></option>
+                </select>
+            </div>
 
-        <!--<div class="form-group">-->
-            <!--<label class="col-lg-2 control-label">file</label>-->
-            <!--<div class="col-lg-10">-->
-                <!--<input th:value="팝업" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" />-->
-            <!--</div>-->
-            <!--<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
-                <!--<div class="modal-dialog">-->
-                    <!--<div class="modal-content">-->
-                        <!--<div class="modal-header">-->
-                            <!--<button type="button" class="close" onclick="modalClose()">&times;</button>-->
-                            <!--<h4 class="modal-title" id="myModalLabel">파일 업로드</h4>-->
-                        <!--</div>-->
-                        <!--<div class="modal-body" style="height: 600px">-->
-                            <!--<iframe src="http://image.wonwoo.ml" width="100%" height="100%" frameborder="0" allowtransparency="true"></iframe>-->
-                        <!--</div>-->
-                        <!--<div class="modal-footer">-->
-                            <!--<button type="button" class="btn btn-default" onclick="modalClose()">Close</button>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--&lt;!&ndash; /.modal-content &ndash;&gt;-->
-                <!--</div>-->
-                <!--&lt;!&ndash; /.modal-dialog &ndash;&gt;-->
-            <!--</div>-->
-        <!--</div>-->
+            <div class="form-group">
+                <label class="col-lg-2 control-label">tags</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" id="tags" name="tags"/>
+                </div>
+            </div>
 
-        <div class="form-group">
-            <label class="col-lg-2 control-label">tags</label>
-            <div class="col-lg-10">
-                <input type="text" class="form-control" id="tags" name="tags"/>
+            <div class="control-group" th:classappend="(${#fields.hasErrors('content')}? ' error')">
+                <label class="col-lg-2 control-label" for="content">Content:</label>
+                <div class="controls col-lg-10">
+                    <textarea id="content" th:field="*{content}" name="content"></textarea>
+                    <span class="help-inline" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">Incorrect content</span>
+                </div>
             </div>
-        </div>
-
-        <div class="form-group">
-            <div id="in">
-                <input type="hidden" id="content" name="content" th:field="*{content}"/>
-                <input type="hidden" id="code" th:field="*{code}" />
+            <div class="pull-right">
+                <button class="btn btn btn-large btn-primary" type="submit" >Submit</button>
             </div>
-            <div id="out" >
-            </div>
-            <div id="messageContent">
-                <label for="content" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></label>
-            </div>
-            </div>
-        <div id="menu">
-            <input class="btn btn-primary" type="button" value="Submit" onclick="saveAsHtml()"/>
-        </div>
-    </fieldset>
-</form>
-<script th:src="@{/js/post.js}"></script>
+        </fieldset>
+    </form>
+</div>
 </body>
 </html>

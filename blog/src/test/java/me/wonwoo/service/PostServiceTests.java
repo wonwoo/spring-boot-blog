@@ -16,6 +16,7 @@ import me.wonwoo.domain.model.User;
 import me.wonwoo.domain.repository.PostRepository;
 import me.wonwoo.exception.NotFoundException;
 import me.wonwoo.junit.MockitoJsonJUnitRunner;
+import org.pegdown.PegDownProcessor;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
@@ -36,6 +37,9 @@ public class PostServiceTests {
   @Mock
   private PostElasticSearchService postElasticSearchService;
 
+  @Mock
+  private PegDownProcessor pegDownProcessor;
+
   @Rule
   public final ExpectedException exception = ExpectedException.none();
 
@@ -43,7 +47,7 @@ public class PostServiceTests {
 
   @Before
   public void setup() {
-    postService = new PostService(postRepository, postElasticSearchService);
+    postService = new PostService(postRepository, postElasticSearchService, pegDownProcessor);
   }
 
   @Test
@@ -54,9 +58,8 @@ public class PostServiceTests {
     post.setId(1L);
     given(postRepository.save(any(Post.class)))
       .willReturn(post);
-
+    given(pegDownProcessor.markdownToHtml(any(String.class))).willReturn("code");
     doNothing().when(postElasticSearchService).save(any());
-
     final Post result = postService.createPost(post);
     assertThat(result.getTitle()).isEqualTo("post title");
     assertThat(result.getContent()).isEqualTo("post content");
@@ -71,7 +74,7 @@ public class PostServiceTests {
       new User(), Collections.emptyList());
     given(postRepository.findByIdAndYn(any(), any()))
       .willReturn(post);
-
+    given(pegDownProcessor.markdownToHtml(any(String.class))).willReturn("code");
     postService.updatePost(1L, post);
     verify(postRepository, times(1))
       .findByIdAndYn(1L, "Y");
