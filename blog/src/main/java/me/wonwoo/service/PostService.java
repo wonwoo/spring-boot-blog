@@ -1,10 +1,12 @@
 package me.wonwoo.service;
 
 import lombok.RequiredArgsConstructor;
+import me.wonwoo.blog.PostElasticMapper;
 import me.wonwoo.domain.model.Post;
 import me.wonwoo.domain.repository.CategoryPostRepository;
 import me.wonwoo.domain.repository.PostRepository;
 import me.wonwoo.exception.NotFoundException;
+import me.wonwoo.support.elasticsearch.PostElasticSearchService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,10 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostService {
   private final PostRepository postRepository;
   private final CategoryPostRepository categoryPostRepository;
+  private final PostElasticSearchService postElasticSearchService;
+  private final PostElasticMapper postElasticMapper = new PostElasticMapper();
 
   public Post createPost(Post post) {
     Post savePost = postRepository.save(post);
     categoryPostRepository.saveAll(savePost.getCategoryPost());
+    postElasticSearchService.save(postElasticMapper.apply(post));
     return savePost;
   }
 

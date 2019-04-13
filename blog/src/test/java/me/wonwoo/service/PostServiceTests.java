@@ -1,21 +1,27 @@
 package me.wonwoo.service;
 
+import java.util.Collections;
+
+import me.wonwoo.support.elasticsearch.PostElasticSearchService;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+
 import me.wonwoo.domain.model.Category;
 import me.wonwoo.domain.model.Post;
 import me.wonwoo.domain.model.User;
 import me.wonwoo.domain.repository.CategoryPostRepository;
 import me.wonwoo.domain.repository.PostRepository;
+import me.wonwoo.exception.NotFoundException;
 import me.wonwoo.junit.MockitoJsonJUnitRunner;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-
-import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -31,22 +37,31 @@ public class PostServiceTests {
   @Mock
   private CategoryPostRepository categoryPostRepository;
 
+  @Mock
+  private PostElasticSearchService postElasticSearchService;
+
+  @Rule
+  public final ExpectedException exception = ExpectedException.none();
+
   private PostService postService;
 
   @Before
   public void setup() {
-    postService = new PostService(postRepository, categoryPostRepository);
+    postService = new PostService(postRepository, categoryPostRepository, postElasticSearchService);
   }
 
   @Test
   public void createPostTest() {
     final Post post = new Post("post title", "post content",
-      "code", "Y", Collections.singletonList(new Category(1L, "spring")),
-      new User(), Collections.emptyList());
+        "code", "Y", Collections.singletonList(new Category(1L, "spring")),
+        new User(), Collections.emptyList());
+    post.setId(1L);
     given(postRepository.save(any(Post.class)))
-      .willReturn(post);
+        .willReturn(post);
 
-    final Post result = postRepository.save(post);
+    doNothing().when(postElasticSearchService).save(any());
+
+    final Post result = postService.createPost(post);
     assertThat(result.getTitle()).isEqualTo("post title");
     assertThat(result.getContent()).isEqualTo("post content");
     assertThat(result.getCode()).isEqualTo("code");
@@ -56,32 +71,50 @@ public class PostServiceTests {
   @Test
   public void updatePost() {
     final Post post = new Post("post title", "post content",
-      "code", "Y", Collections.singletonList(new Category(1L, "spring")),
-      new User(), Collections.emptyList());
+        "code", "Y", Collections.singletonList(new Category(1L, "spring")),
+        new User(), Collections.emptyList());
     given(postRepository.findByIdAndYn(any(), any()))
-      .willReturn(post);
+        .willReturn(post);
 
     postService.updatePost(1L, post);
     verify(postRepository, times(1))
-      .findByIdAndYn(1L, "Y");
+        .findByIdAndYn(1L, "Y");
     verify(categoryPostRepository, times(1))
-      .deleteAll(post.getCategoryPost());
+        .deleteAll(post.getCategoryPost());
     verify(categoryPostRepository, times(1))
-      .saveAll(post.getCategoryPost());
+        .saveAll(post.getCategoryPost());
+  }
+
+  @Test
+  public void updateNotFoundIdPost() {
+    exception.expect(NotFoundException.class);
+    final Post post = new Post("post title", "post content",
+        "code", "Y", Collections.singletonList(new Category(1L, "spring")),
+        new User(), Collections.emptyList());
+    given(postRepository.findByIdAndYn(any(), any()))
+        .willReturn(null);
+    postService.updatePost(1L, post);
   }
 
   @Test
   public void deletePostTest() {
     final Post post = new Post("post title", "post content",
-      "code", "Y", Collections.singletonList(new Category(1L, "spring")),
-      new User(), Collections.emptyList());
+        "code", "Y", Collections.singletonList(new Category(1L, "spring")),
+        new User(), Collections.emptyList());
     given(postRepository.findByIdAndYn(any(), any()))
-      .willReturn(post);
+        .willReturn(post);
     postService.deletePost(1L);
     verify(postRepository, times(1))
-      .findByIdAndYn(1L, "Y");
-
+        .findByIdAndYn(1L, "Y");
   }
 
+  @Test
+  public void deletePostNotFoundExceptionTest() {
+    exception.expect(NotFoundException.class);
+    given(postRepository.findByIdAndYn(any(), any()))
+        .willReturn(null);
+    postService.deletePost(1L);
+
+  }
 
 }
