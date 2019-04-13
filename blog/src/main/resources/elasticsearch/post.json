@@ -2,52 +2,52 @@
   "post": {
     "properties": {
       "post_title": {
-        "type": "string",
-        "store": "yes",
+        "type": "text",
+        "store": "true",
         "analyzer": "simple"
       },
       "post_author": {
-        "type": "string",
-        "store": "yes",
-        "index": "no"
+        "type": "text",
+        "store": "true",
+        "index": "false"
       },
       "post_content": {
-        "type": "string",
-        "store": "yes",
+        "type": "text",
+        "store": "true",
         "term_vector": "with_positions_offsets",
         "analyzer": "fulltext"
       },
       "post_type": {
-        "type": "string",
-        "store": "yes",
-        "index": "no"
+        "type": "text",
+        "store": "true",
+        "index": "false"
       },
       "post_status": {
-        "type": "string",
-        "store": "yes",
-        "index": "no"
+        "type": "text",
+        "store": "true",
+        "index": "false"
       },
       "post_content_filtered": {
-        "type": "string",
-        "store": "yes",
+        "type": "text",
+        "store": "true",
         "term_vector": "with_positions_offsets",
         "analyzer": "fulltext"
       },
       "post_date": {
         "type": "date",
-        "store": "yes",
-        "index": "not_analyzed"
+        "store": "true",
+        "index": "true"
       },
       "highlightedContent": {
-        "type": "string",
-        "store": "yes",
+        "type": "text",
+        "store": "true",
         "term_vector": "with_positions_offsets",
         "analyzer": "fulltext"
       },
       "tableOfContent": {
-        "type": "string",
-        "store": "yes",
-        "index": "not_analyzed"
+        "type": "text",
+        "store": "true",
+        "index": "true"
       }
     }
   }

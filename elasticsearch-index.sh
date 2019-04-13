@@ -12,21 +12,21 @@ ENDPOINT=$1
 INDEX=$2
 
 echo "\nDelete the existing index."
-curl -XDELETE "$ENDPOINT/$INDEX"
+curl -XDELETE --header "content-type: application/JSON" "$ENDPOINT/$INDEX"
 sleep 1
 
 echo "\nCreate the index again."
-curl -X PUT $ENDPOINT/$INDEX -d '{ "number_of_shards" : 5, "number_of_replicas" : 0}'
+curl -X PUT --header "content-type: application/JSON" $ENDPOINT/$INDEX -d '{ "number_of_shards" : 5, "number_of_replicas" : 0}'
 sleep 1
 echo "\nClosing index."
-curl -XPOST "$ENDPOINT/$INDEX/_close"
+curl -XPOST --header "content-type: application/JSON" "$ENDPOINT/$INDEX/_close"
 sleep 1
-curl -XPUT $ENDPOINT/$INDEX/_settings -d @./blog/src/main/resources/elasticsearch/settings.json
+curl -XPUT --header "content-type: application/JSON" $ENDPOINT/$INDEX/_settings -d @./blog/src/main/resources/elasticsearch/settings.json
 sleep 1
 echo "\nInstall the mapping - do once per type/mapping file."
-curl -XPOST "$ENDPOINT/$INDEX/post/_mapping" -d @./blog/src/main/resources/elasticsearch/post.json
+curl -XPOST --header "content-type: application/JSON" "$ENDPOINT/$INDEX/post/_mapping" -d @./blog/src/main/resources/elasticsearch/post.json
 sleep 1
-curl -XPOST "$ENDPOINT/$INDEX/_open"
+curl -XPOST --header "content-type: application/JSON" "$ENDPOINT/$INDEX/_open"
 sleep 1
 
 echo "\nCheck the settings."

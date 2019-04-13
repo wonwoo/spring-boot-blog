@@ -1,5 +1,6 @@
 package me.wonwoo.web;
 
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import me.wonwoo.domain.model.Category;
 import me.wonwoo.domain.repository.CategoryRepository;
@@ -38,7 +39,7 @@ public class CategoryController {
 
   @GetMapping("/{id}/edit")
   public String edit(@PathVariable Long id, Model model) {
-    model.addAttribute("categoryDto", categoryRepository.findOne(id));
+    model.addAttribute("categoryDto", categoryRepository.findById(id).orElse(null));
     return "category/edit";
   }
 
@@ -47,7 +48,7 @@ public class CategoryController {
     if (bindingResult.hasErrors()) {
       return "category/new";
     }
-    categoryService.createCategory(new Category(categoryDto.getId(), categoryDto.getName()));
+    categoryService.createCategory(new Category(categoryDto.getId(), categoryDto.getName(), LocalDateTime.now()));
     return "redirect:/categories";
   }
 

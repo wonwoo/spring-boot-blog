@@ -3,13 +3,12 @@ package me.wonwoo.autoconfigure.message.telegram;
 import me.wonwoo.support.message.MessageService;
 import me.wonwoo.support.message.telegram.TelegramMessageService;
 import org.springframework.boot.autoconfigure.condition.*;
-import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.PropertyResolver;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.AsyncRestTemplate;
@@ -27,7 +26,7 @@ public class TelegramMessageAutoConfiguration {
   @ConditionalOnBean(AsyncRestTemplate.class)
   @ConditionalOnMissingBean
   public MessageService telegramMessageService(AsyncRestTemplate asyncRestTemplate,
-                                               TelegramProperties telegramProperties) {
+      TelegramProperties telegramProperties) {
     return new TelegramMessageService(asyncRestTemplate, telegramProperties);
   }
 
@@ -35,12 +34,12 @@ public class TelegramMessageAutoConfiguration {
 
     @Override
     public ConditionOutcome getMatchOutcome(ConditionContext context,
-                                            AnnotatedTypeMetadata metadata) {
-      PropertyResolver resolver = new RelaxedPropertyResolver(
-          context.getEnvironment(), "telegram.message.");
-      String apiUrl = resolver.getProperty("apiUrl");
-      String chatId = resolver.getProperty("chatId");
-      if (StringUtils.hasLength(apiUrl) && StringUtils.hasLength(chatId)) {
+        AnnotatedTypeMetadata metadata) {
+      TelegramProperties telegramProperties = Binder.get(context.getEnvironment())
+          .bind("telegram.message", TelegramProperties.class)
+          .orElse(new TelegramProperties());
+      if (StringUtils.hasLength(telegramProperties.getApiUrl())
+          && StringUtils.hasLength(telegramProperties.getChatId())) {
         return ConditionOutcome.match("found apiUrl and chatId property");
       }
       return ConditionOutcome.noMatch("not found apiUrl and chatId property");

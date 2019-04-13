@@ -18,18 +18,16 @@ import lombok.ToString;
  */
 @Entity
 @Getter
-@EntityListeners(value = AuditingEntityListener.class)
 @ToString(exclude = {"post"})
 @EqualsAndHashCode(exclude = {"post"})
 public class Category {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   private String name;
 
-  @CreatedDate
   @Column(name = "reg_date")
   private LocalDateTime regDate;
 

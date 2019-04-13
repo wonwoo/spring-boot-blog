@@ -24,8 +24,9 @@ import lombok.ToString;
 @ToString(exclude = {"comments", "post"})
 @EqualsAndHashCode(exclude = {"comments", "post"})
 public class User implements Serializable, UserDetails {
-  @GeneratedValue
+
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   private String email;

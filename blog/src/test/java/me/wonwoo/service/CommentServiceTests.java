@@ -16,7 +16,7 @@ import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 /**
@@ -41,17 +41,17 @@ public class CommentServiceTests {
   public void createCommentTest() throws IOException {
     final Comment comment = new Comment("good post", new Post(1L), new User());
     given(commentRepository.save(any(Comment.class)))
-      .willReturn(comment);
+        .willReturn(comment);
     final Comment result = commentService.createComment(comment);
     assertThat(this.json.write(result))
-      .isEqualToJson("createcomment.json");
+        .isEqualToJson("createcomment.json");
 
   }
 
   @Test
   public void deleteCommentTest() {
-    doNothing().when(commentRepository).delete(any(Comment.class));
+    doNothing().when(commentRepository).deleteById(any());
     commentService.deleteComment(1L);
-    verify(commentRepository, times(1)).delete(1L);
+    verify(commentRepository, times(1)).deleteById(1L);
   }
 }

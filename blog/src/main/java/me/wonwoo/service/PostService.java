@@ -20,7 +20,7 @@ public class PostService {
 
   public Post createPost(Post post) {
     Post savePost = postRepository.save(post);
-    categoryPostRepository.save(savePost.getCategoryPost());
+    categoryPostRepository.saveAll(savePost.getCategoryPost());
     return savePost;
   }
 
@@ -35,8 +35,8 @@ public class PostService {
     oldPost.setContent(post.getContent());
     //흠.
     post.setId(oldPost.getId());
-    categoryPostRepository.delete(oldPost.getCategoryPost());
-    categoryPostRepository.save(post.getCategoryPost());
+    categoryPostRepository.deleteAll(oldPost.getCategoryPost());
+    categoryPostRepository.saveAll(post.getCategoryPost());
   }
 
   public void deletePost(Long id) {

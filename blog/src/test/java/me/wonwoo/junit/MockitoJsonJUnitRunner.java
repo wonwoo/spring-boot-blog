@@ -3,18 +3,22 @@ package me.wonwoo.junit;
 import org.junit.runner.Description;
 import org.junit.runner.Runner;
 import org.junit.runner.notification.RunNotifier;
-import org.mockito.internal.runners.RunnerImpl;
-import org.mockito.internal.runners.util.RunnerProvider;
+import org.mockito.internal.runners.InternalRunner;
+import org.mockito.internal.runners.StrictRunner;
 
 /**
  * Created by wonwoo on 2017. 2. 12..
  */
 public class MockitoJsonJUnitRunner extends Runner {
 
-  private final RunnerImpl runner;
+  private final InternalRunner runner;
 
   public MockitoJsonJUnitRunner(Class<?> clazz) throws Exception {
-    this.runner = new RunnerProvider().newInstance("me.wonwoo.junit.JsonRunner", clazz);
+    this(new StrictRunner(new JsonRunner(clazz), clazz));
+  }
+
+  public MockitoJsonJUnitRunner(InternalRunner runner) {
+    this.runner = runner;
   }
 
   @Override

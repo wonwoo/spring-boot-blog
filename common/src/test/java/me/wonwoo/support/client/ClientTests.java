@@ -9,6 +9,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.springframework.boot.test.json.JacksonTester;
@@ -22,8 +23,8 @@ import org.springframework.web.client.RestTemplate;
 import me.wonwoo.junit.MockitoJsonJUnitRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
 
 /**
  * Created by wonwoo on 2017. 2. 12..
@@ -47,22 +48,22 @@ public class ClientTests {
   }
 
   @Test
-  public  void invokeTest() throws IOException {
+  public void invokeTest() throws IOException {
     Foo foo = new Foo();
     foo.setId(1L);
     foo.setName("wonwoo");
-    given(restTemplate.exchange(any(), Matchers.<Class<Foo>>any()))
-      .willReturn(ResponseEntity.ok(foo));
+    given(restTemplate.exchange(any(), ArgumentMatchers.<Class<Foo>>any()))
+        .willReturn(ResponseEntity.ok(foo));
     final ResponseEntity<Foo> result = client.invoke(client.createRequestEntity("http://localhost:8080/test"), Foo.class);
     assertThat(this.json.write(result.getBody()))
-      .isEqualToJson("client.json");
+        .isEqualToJson("client.json");
   }
 
   @Test
   public void invokeTest404() {
     exception.expect(HttpClientErrorException.class);
-    given(restTemplate.exchange(any(), Matchers.<Class<String>>any()))
-      .willThrow(HttpClientErrorException.class);
+    given(restTemplate.exchange(any(), ArgumentMatchers.<Class<String>>any()))
+        .willThrow(HttpClientErrorException.class);
     client.invoke(client.createRequestEntity("http://localhost:8080/test"), Foo.class);
   }
 
@@ -74,5 +75,12 @@ public class ClientTests {
     HttpHeaders httpHeaders = new HttpHeaders();
     httpHeaders.add("accept", "application/json");
     assertThat(requestEntity.getHeaders()).isEqualTo(httpHeaders);
+  }
+
+  @Test
+  public void createRequestEntityUriExceptionTest() {
+    exception.expect(IllegalStateException.class);
+    RequestEntity<?> requestEntity = client.createRequestEntity("Asdfas###");
+    System.out.println(requestEntity);
   }
 }

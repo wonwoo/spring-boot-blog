@@ -1,8 +1,10 @@
 package me.wonwoo.service;
 
-import me.wonwoo.domain.model.Category;
-import me.wonwoo.domain.repository.CategoryRepository;
-import me.wonwoo.junit.MockitoJsonJUnitRunner;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
+import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,13 +15,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import me.wonwoo.domain.model.Category;
+import me.wonwoo.domain.repository.CategoryRepository;
+import me.wonwoo.junit.MockitoJsonJUnitRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 /**
@@ -50,51 +51,51 @@ public class CategoryServiceTests {
   public void createCategoryTest() throws IOException {
     final Category category = new Category(1L, "spring");
     given(categoryRepository.save(any(Category.class)))
-      .willReturn(category);
+        .willReturn(category);
     final Category result = categoryService.createCategory(category);
     assertThat(this.json.write(result))
-      .isEqualToJson("createcategory.json");
+        .isEqualToJson("createcategory.json");
 
   }
 
   @Test
   public void deleteTest() {
-    doNothing().when(categoryRepository).delete(any(Category.class));
-    categoryRepository.delete(1L);
-    verify(categoryRepository, times(1)).delete(1L);
+    doNothing().when(categoryRepository).deleteById(any());
+    categoryService.delete(1L);
+    verify(categoryRepository, times(1)).deleteById(1L);
   }
 
   @Test
   public void updateCategoryTest() {
-    given(categoryRepository.findOne(any(Long.class)))
-      .willReturn(new Category(1L, "spring"));
+    given(categoryRepository.findById(any(Long.class)))
+        .willReturn(Optional.of(new Category(1L, "spring")));
     categoryService.updateCategory(new Category(1L, "jpa"));
-    verify(categoryRepository, times(1)).findOne(1L);
+    verify(categoryRepository, times(1)).findById(1L);
   }
 
   @Test
   public void findAllTest() throws IOException {
     Page<Category> page = new PageImpl<>(
-      Arrays.asList(
-        new Category(1L, "spring"),
-        new Category(2L, "jpa")
-      )
+        Arrays.asList(
+            new Category(1L, "spring"),
+            new Category(2L, "jpa")
+        )
     );
     given(categoryRepository.findAll(any(Pageable.class)))
-      .willReturn(page);
-    final Page<Category> result = categoryRepository.findAll(new PageRequest(0, 20));
+        .willReturn(page);
+    final Page<Category> result = categoryService.findAll(PageRequest.of(0, 20));
     assertThat(this.json1.write(result))
-      .isEqualToJson("findcategorypage.json");
+        .isEqualToJson("findcategorypage.json");
   }
   @Test
   public void findAll1Test() throws IOException {
     given(categoryRepository.findAll())
-      .willReturn(      Arrays.asList(
-        new Category(1L, "spring"),
-        new Category(2L, "jpa")
-      ));
-    final List<Category> result = categoryRepository.findAll();
+        .willReturn(      Arrays.asList(
+            new Category(1L, "spring"),
+            new Category(2L, "jpa")
+        ));
+    final List<Category> result = categoryService.findAll();
     assertThat(this.json2.write(result))
-      .isEqualToJson("findcategorylist.json");
+        .isEqualToJson("findcategorylist.json");
   }
 }

@@ -1,24 +1,21 @@
 package me.wonwoo.config;
 
+import static org.pegdown.Extensions.ALL;
+
+import me.wonwoo.config.interceptor.CommonHandlerInterceptor;
 import org.pegdown.PegDownProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.dialect.springdata.SpringDataDialect;
-
-import me.wonwoo.config.interceptor.CommonHandlerInterceptor;
-
-import static org.pegdown.Extensions.ALL;
 
 /**
  * Created by wonwoo on 2016. 9. 2..
  */
 @Configuration
-@EnableJpaAuditing
-public class WebConfig extends WebMvcConfigurerAdapter {
+public class WebConfig implements WebMvcConfigurer {
 
   @Override
   public void addViewControllers(ViewControllerRegistry registry) {

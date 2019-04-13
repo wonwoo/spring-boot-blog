@@ -31,12 +31,12 @@ public class PostRepositoryTests {
   @Test
   public void findByIdAndYnTest() {
     final User user = this.testEntityManager.persist(new User("wonwoo@test.com",
-      "wonwoo",
-      "wonwoo",
-      "https://avatars.githubusercontent.com/u/747472?v=3", "password", true));
+        "wonwoo",
+        "wonwoo",
+        "https://avatars.githubusercontent.com/u/747472?v=3", "password", true));
 
     final Post persist = this.testEntityManager.persist(
-      new Post("test title", "test content", "test content", "Y", user, Arrays.asList("spring", "jpa"))
+        new Post("test title", "test content", "test content", "Y", user, Arrays.asList("spring", "jpa"))
     );
     Post post = this.postRepository.findByIdAndYn(persist.getId(), "Y");
     assertThat(post.getTitle()).isEqualTo("test title");

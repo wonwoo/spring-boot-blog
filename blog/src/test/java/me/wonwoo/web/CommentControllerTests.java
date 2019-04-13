@@ -1,6 +1,16 @@
 package me.wonwoo.web;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.Optional;
 import me.wonwoo.domain.model.Comment;
 import me.wonwoo.domain.model.Post;
 import me.wonwoo.domain.model.User;
@@ -15,19 +25,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 /**
  * Created by wonwoo on 2017. 2. 15..
  */
-@WebMvcTest(value = CommentController.class)
+@WebMvcTest(CommentController.class)
 public class CommentControllerTests extends AbstractControllerTests {
-
 
   @MockBean
   private CommentService commentService;
@@ -38,12 +40,10 @@ public class CommentControllerTests extends AbstractControllerTests {
   @Autowired
   private MockMvc mockMvc;
 
-  private final ObjectMapper objectMapper = new ObjectMapper();
-
   @Before
   public void setup() {
-    given(postRepository.findOne(any(Long.class)))
-      .willReturn(new Post("post test", "Y"));
+    given(postRepository.findById(any(Long.class)))
+        .willReturn(Optional.of(new Post("post test", "Y")));
   }
 
   @Test
@@ -51,24 +51,24 @@ public class CommentControllerTests extends AbstractControllerTests {
 
     final Comment value = new Comment("comment content", new Post(1L), new User());
     given(commentService.createComment(any()))
-      .willReturn(value);
+        .willReturn(value);
     CommentDto commentDto = new CommentDto();
     commentDto.setContent("comment content");
     commentDto.setPostId(1L);
-    mockMvc.perform(post("/comments").param("content", "comment content")
-      .param("postId", "1"))
-      .andExpect(status().isFound())
-      .andExpect(header().string(HttpHeaders.LOCATION, "/posts/1"));
-    verify(commentService, atLeastOnce()).createComment(value);
+    mockMvc.perform(post("/comments").with(csrf()).param("content", "comment content")
+        .param("postId", "1"))
+        .andExpect(status().isFound())
+        .andExpect(header().string(HttpHeaders.LOCATION, "/posts/1"));
+    verify(commentService, atLeastOnce()).createComment(any());
 
   }
 
   @Test
   public void deleteComment() throws Exception {
     doNothing().when(commentService).deleteComment(any());
-    mockMvc.perform(post("/comments/{postId}/{commentId}", "1", "1"))
-      .andExpect(status().isFound())
-      .andExpect(header().string(HttpHeaders.LOCATION, "/posts/1"));
+    mockMvc.perform(post("/comments/{postId}/{commentId}", "1", "1").with(csrf()))
+        .andExpect(status().isFound())
+        .andExpect(header().string(HttpHeaders.LOCATION, "/posts/1"));
     verify(commentService, atLeastOnce()).deleteComment(1L);
   }
 }

@@ -1,70 +1,69 @@
 package me.wonwoo.support.condition;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.Test;
-import org.springframework.boot.test.util.EnvironmentTestUtils;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.boot.test.context.runner.ApplicationContextRunner;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Created by wonwoolee on 2017. 4. 2..
  */
 public class ConditionOnProfilesTests {
 
-  private final AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+  private final ApplicationContextRunner runner = new ApplicationContextRunner();
 
 
   @Test
   public void doesNotMatchIfFoo1IsRequired() {
-    load(Foo1Required.class);
-    assertPresent(false);
+    runner.withUserConfiguration(Foo1Required.class)
+        .run(context -> assertPresent(context, false));
   }
 
   @Test
   public void matchIfFoo1IsRequired() {
-    load(Foo1Required.class, "spring.profiles.active=foo1");
-    assertPresent(true);
+    runner
+        .withPropertyValues("spring.profiles.active=foo1")
+        .withUserConfiguration(Foo1Required.class)
+        .run(context -> assertPresent(context, true));
   }
 
 
   @Test
   public void doesNotMatchIfFoo2IsRequired() {
-    load(Foo2Required.class);
-    assertPresent(false);
+    runner.withUserConfiguration(Foo2Required.class)
+        .run(context -> assertPresent(context, false));
   }
 
   @Test
   public void matchIfFoo2IsRequired() {
-    load(Foo2Required.class, "spring.profiles.active=foo2");
-    assertPresent(true);
+    runner
+        .withPropertyValues("spring.profiles.active=foo2")
+        .withUserConfiguration(Foo2Required.class)
+        .run(context -> assertPresent(context, true));
   }
 
 
   @Test
   public void matchIfFoo3Required() {
-    load(Foo3Required.class);
-    assertPresent(false);
+    runner.withUserConfiguration(Foo3Required.class)
+        .run(context -> assertPresent(context, false));
   }
 
 
   @Test
   public void doesNotMatchIfFoo3IsRequired() {
-    load(Foo3Required.class, "spring.profiles.active=foo3");
-    assertPresent(true);
+    runner
+        .withPropertyValues("spring.profiles.active=foo3")
+        .withUserConfiguration(Foo3Required.class)
+        .run(context -> assertPresent(context, true));
   }
 
 
-  private void load(Class<?> config, String... environment) {
-    EnvironmentTestUtils.addEnvironment(this.context, environment);
-    this.context.register(config);
-    this.context.refresh();
-  }
-
-
-  private void assertPresent(boolean expected) {
-    assertThat(this.context.getBeansOfType(String.class)).hasSize(expected ? 1 : 0);
+  private void assertPresent(ApplicationContext context, boolean expected) {
+    assertThat(context.getBeansOfType(String.class)).hasSize(expected ? 1 : 0);
   }
 
   @Configuration

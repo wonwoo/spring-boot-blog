@@ -18,12 +18,11 @@ import lombok.ToString;
 @EqualsAndHashCode(exclude = {"user", "post"})
 public class Comment {
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   private String content;
 
-  @CreatedDate
   @Column(name = "reg_date")
   private LocalDateTime regDate;
 
@@ -39,6 +38,7 @@ public class Comment {
     this.content = content;
     this.post = post;
     this.user = user;
+    this.regDate = LocalDateTime.now();
   }
 
   Comment() {

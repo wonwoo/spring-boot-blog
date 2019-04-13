@@ -16,8 +16,8 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -46,11 +46,11 @@ public class GithubPageControllerTests extends AbstractControllerTests {
     githubPage.setSize(10000L);
     githubPage.setPath("/home/wonwoo/test");
     given(githubClient.sendRequest(anyString(), any()))
-      .willReturn(new GithubPage[]{githubPage});
+        .willReturn(new GithubPage[]{githubPage});
 
     final MvcResult mvcResult = mockMvc.perform(get("/github/page"))
-      .andExpect(status().isOk())
-      .andReturn();
+        .andExpect(status().isOk())
+        .andReturn();
     List<GithubPage> githubPages = (List<GithubPage>) mvcResult.getModelAndView().getModel().get("githubPages");
     assertThat(githubPages.get(0).getContent()).isEqualTo("test content");
     assertThat(githubPages.get(0).getName()).isEqualTo("wonwoo");
@@ -67,11 +67,11 @@ public class GithubPageControllerTests extends AbstractControllerTests {
     githubPage.setSize(10000L);
     githubPage.setPath("/home/wonwoo/test");
     given(githubClient.sendRequest(anyString(), any()))
-      .willReturn(githubPage);
+        .willReturn(githubPage);
 
     final MvcResult mvcResult = mockMvc.perform(get("/github/page/{name}", "wonwoo"))
-      .andExpect(status().isOk())
-      .andReturn();
+        .andExpect(status().isOk())
+        .andReturn();
     GithubPage result = (GithubPage) mvcResult.getModelAndView().getModel().get("githubPage");
     assertThat(result.getContent()).isEqualTo("<p>test content</p>");
     assertThat(result.getName()).isEqualTo("wonwoo.md");

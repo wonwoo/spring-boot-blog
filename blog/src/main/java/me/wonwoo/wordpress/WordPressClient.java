@@ -35,13 +35,9 @@ public class WordPressClient extends Client {
   @Cacheable("wp.posts")
   public Page<WordPress> findAll(Pageable pageable, String q) {
     String url;
-    try {
-      url = String.format(
-          WP_API + MY_SITE + POST + "?number=%s&page=%s&search=%s&fields=ID,content,title,date,author,tags",
-          pageable.getPageSize(), pageable.getPageNumber() + 1, UriUtils.encode(q, "UTF-8"));
-    } catch (UnsupportedEncodingException e) {
-      return new PageImpl<>(Collections.emptyList(), pageable, 0);
-    }
+    url = String.format(
+        WP_API + MY_SITE + POST + "?number=%s&page=%s&search=%s&fields=ID,content,title,date,author,tags",
+        pageable.getPageSize(), pageable.getPageNumber() + 1, UriUtils.encode(q, "UTF-8"));
     WordPresses body = invoke(createRequestEntity(url), WordPresses.class).getBody();
     return new PageImpl<>(body.getPosts(), pageable, body.getFound());
   }

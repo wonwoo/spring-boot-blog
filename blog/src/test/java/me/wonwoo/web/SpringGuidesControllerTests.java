@@ -18,7 +18,7 @@ import me.wonwoo.support.asciidoc.GuideMetadata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -39,9 +39,9 @@ public class SpringGuidesControllerTests extends AbstractControllerTests {
 	public void guides() throws Exception {
 		given(guidesService.findAllMetadata()).willReturn(Arrays.asList(new DefaultGuideMetadata()));
 		MvcResult mvcResult = mockMvc
-				.perform(get("/guides"))
-				.andExpect(status().isOk())
-				.andReturn();
+			.perform(get("/guides"))
+			.andExpect(status().isOk())
+			.andReturn();
 
 		String type = (String) mvcResult.getModelAndView().getModel().get("type");
 		assertThat(type).isEqualTo("gs");
@@ -58,9 +58,9 @@ public class SpringGuidesControllerTests extends AbstractControllerTests {
 		given(guidesService.findGs(any())).willReturn(gettingStartedGuide);
 
 		MvcResult mvcResult = mockMvc
-				.perform(get("/guides/{project}", "spring-blog"))
-				.andExpect(status().isOk())
-				.andReturn();
+			.perform(get("/guides/{project}", "spring-blog"))
+			.andExpect(status().isOk())
+			.andReturn();
 
 		assertThat(mvcResult.getModelAndView().getViewName()).isEqualTo("guides/guide");
 		verify(guidesService).findGs("spring-blog");

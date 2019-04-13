@@ -9,12 +9,12 @@ import org.springframework.test.context.junit4.SpringRunner;
  * Created by wonwoo on 2017. 2. 15..
  */
 @RunWith(SpringRunner.class)
-@WithMockUser(username = "wonwoo")
+@WithMockUser(username = "wonwoo", roles = "ADMIN")
 public abstract class AbstractControllerTests {
 
 
-  @SpringBootApplication
-  public static class BootTest {
+    @SpringBootApplication
+    public static class BootTest {
 
-  }
+    }
 }

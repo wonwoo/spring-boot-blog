@@ -20,8 +20,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>
-    <thymeleaf.version>3.0.0.RELEASE</thymeleaf.version>
-    <thymeleaf-layout-dialect.version>2.0.3</thymeleaf-layout-dialect.version>
     <root.dir>${basedir}</root.dir>
     <gem.home>${root.dir}/target/rubygems</gem.home>
     <gem.path>${root.dir}/target/rubygems</gem.path>
@@ -76,15 +74,18 @@
     </dependency>
 
     <dependency>
+      <groupId>nz.net.ultraq.thymeleaf</groupId>
+      <artifactId>thymeleaf-layout-dialect</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>org.thymeleaf.extras</groupId>
-      <artifactId>thymeleaf-extras-springsecurity4</artifactId>
-      <version>${thymeleaf.version}</version>
+      <artifactId>thymeleaf-extras-springsecurity5</artifactId>
     </dependency>
 
     <dependency>
       <groupId>org.thymeleaf.extras</groupId>
       <artifactId>thymeleaf-extras-java8time</artifactId>
-      <version>${thymeleaf.version}</version>
     </dependency>
 
     <dependency>

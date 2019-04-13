@@ -26,7 +26,7 @@ import static java.util.stream.Collectors.toList;
 public class Post {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @NotNull

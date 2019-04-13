@@ -16,8 +16,8 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.InternalAggregations;
-import org.elasticsearch.search.highlight.HighlightBuilder;
-import org.elasticsearch.search.highlight.HighlightField;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -106,7 +106,7 @@ public class PostElasticSearchService {
           if (response.getHits().getHits().length <= 0) {
             return new AggregatedPageImpl<>(Collections.emptyList());
           }
-          final WpPosts wpPosts = objectMapper.convertValue(searchHit.getSource(), WpPosts.class);
+          final WpPosts wpPosts = objectMapper.convertValue(searchHit.getSourceAsMap(), WpPosts.class);
           final HighlightField postContentFiltered = searchHit.getHighlightFields().get(POST_CONTENT_FILTERED);
           if (postContentFiltered != null) {
             wpPosts.setHighlightedContent(postContentFiltered.fragments()[0].toString());

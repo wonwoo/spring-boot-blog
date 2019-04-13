@@ -17,7 +17,7 @@ import me.wonwoo.support.github.GithubClient;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -39,13 +39,13 @@ public class NewControllerTests extends AbstractControllerTests {
   @Test
   public void homeTest() throws Exception {
     given(githubClient.getRecentCommits(any(), any()))
-      .willReturn(Collections.singletonList(
-        new Commit("733865b2e23b2acff6e9b1603b6ff83d79ee1972", "test messge",
-          new Commit.Committer("wonwoo", "wonwoo", "https://avatars.githubusercontent.com/u/747472?v=3"), Instant.now()))
-      );
+        .willReturn(Collections.singletonList(
+            new Commit("733865b2e23b2acff6e9b1603b6ff83d79ee1972", "test messge",
+                new Commit.Committer("wonwoo", "wonwoo", "https://avatars.githubusercontent.com/u/747472?v=3"), Instant.now()))
+        );
     final MvcResult mvcResult = mockMvc.perform(get("/news"))
-      .andExpect(status().isOk())
-      .andReturn();
+        .andExpect(status().isOk())
+        .andReturn();
 
     List<Commit> commits = (List<Commit>) mvcResult.getModelAndView().getModel().get("latestSpringBlogCommits");
     assertThat(commits.get(0).getMessage()).isEqualTo("test messge");
