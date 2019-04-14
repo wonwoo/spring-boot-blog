@@ -11,6 +11,8 @@ public interface WpPostsRepository extends JpaRepository<WpPost, Long> {
 
   Iterable<WpPost> findByPostTypeAndPostStatusAndIndexingIsNull(String type, String status);
 
+  Iterable<WpPost> findByPostTypeAndPostStatus(String type, String status);
+
   Iterable<WpPost> findByPostTypeAndPostStatusAndIndexingAndPostModifiedAfter(String type,
                                                                               String status, String indexing,
                                                                               LocalDateTime localDateTime);

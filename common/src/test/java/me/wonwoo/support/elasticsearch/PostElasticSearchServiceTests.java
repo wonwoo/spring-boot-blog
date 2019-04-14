@@ -60,7 +60,7 @@ public class PostElasticSearchServiceTests {
     AggregatedPage<WpPosts> page = new AggregatedPageImpl<>(Collections.singletonList(wpPosts));
     given(elasticsearchTemplate.queryForPage(any(SearchQuery.class), ArgumentMatchers.<Class<WpPosts>>any()))
       .willReturn(page);
-    final Page<WpPosts> result = postElasticSearchService.wpPosts(new PageRequest(0, 20));
+    final Page<WpPosts> result = postElasticSearchService.wpPosts(PageRequest.of(0, 20));
     final List<WpPosts> content = result.getContent();
     assertThat(content.get(0).getId()).isEqualTo(1);
     assertThat(content.get(0).getPostTitle()).isEqualTo("title");
