@@ -1,13 +1,20 @@
 package me.wonwoo.support.elasticsearch;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import java.util.stream.Collectors;
+import org.elasticsearch.action.admin.indices.analyze.AnalyzeRequest;
+import org.elasticsearch.action.admin.indices.analyze.AnalyzeResponse;
+import org.elasticsearch.action.admin.indices.analyze.AnalyzeResponse.AnalyzeToken;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MultiMatchQueryBuilder;
@@ -43,6 +50,7 @@ public class PostElasticSearchService {
 
   private final ElasticsearchTemplate elasticsearchTemplate;
   private final ObjectMapper objectMapper;
+  private final RestHighLevelClient restHighLevelClient;
 
   private static final String BOOSTED_TITLE_FIELD = "post_title^3";
   private static final String TITLE_FIELD = "post_title";
@@ -67,19 +75,37 @@ public class PostElasticSearchService {
 
   private static MultiMatchQueryBuilder matchTitleContent(String queryTerm) {
     return QueryBuilders
-        .multiMatchQuery(queryTerm, BOOSTED_TITLE_FIELD, BOOSTED_TITLE_FIELD, POST_CONTENT_FILTERED)
+        .multiMatchQuery(queryTerm, TITLE_FIELD, POST_CONTENT_FILTERED)
         .fuzziness(Fuzziness.ONE)
         .minimumShouldMatch("30%");
   }
 
+  //TODO
+  private List<String> analyze(String index, String text) {
+    AnalyzeRequest request = new AnalyzeRequest();
+    request.index(index);
+    request.text(text);
+    request.analyzer("openkoreantext-analyzer");
+    AnalyzeResponse analyze;
+    try {
+      analyze = restHighLevelClient.indices().analyze(request, RequestOptions.DEFAULT);
+    } catch (IOException e) {
+      throw new RuntimeException("analyze exception", e);
+    }
+    return analyze.getTokens()
+        .stream().filter(analyzeToken -> analyzeToken.getType().equals("Noun"))
+        .map(AnalyzeToken::getTerm)
+        .collect(Collectors.toList());
+  }
+
   public Page<WpPosts> searchWpPosts(String q, Pageable pageable) {
-
-    BoolQueryBuilder query = QueryBuilders.boolQuery()
-        .must(matchTitleContent(q))
-        .boost(3f);
-
-    final QueryBuilder builder = boolQuery()
-        .must(query);
+      List<String> analyzes = analyze("wordpress", q);
+      BoolQueryBuilder query = QueryBuilders.boolQuery();
+      for (String analyze : analyzes) {
+          query.must(matchTitleContent(analyze));
+      }
+      final QueryBuilder builder = boolQuery()
+          .must(query);
     final SearchQuery searchQuery = new NativeSearchQueryBuilder()
         .withPageable(pageable)
         .withSearchType(SearchType.DEFAULT)
@@ -87,15 +113,15 @@ public class PostElasticSearchService {
         .withHighlightFields(new HighlightBuilder.Field(POST_CONTENT_FILTERED)
                 .preTags("<highlight>")
                 .order("score")
-                .requireFieldMatch(false)
+                .requireFieldMatch(true)
                 .postTags("</highlight>")
-                .fragmentSize(Integer.MAX_VALUE)
+                .fragmentSize(10)
                 .numOfFragments(0),
             new HighlightBuilder.Field(TITLE_FIELD)
                 .preTags("<highlight>")
                 .postTags("</highlight>")
                 .order("score")
-                .requireFieldMatch(false)
+                .requireFieldMatch(true)
                 .fragmentSize(Integer.MAX_VALUE)
                 .numOfFragments(0))
         .withQuery(builder).build();
