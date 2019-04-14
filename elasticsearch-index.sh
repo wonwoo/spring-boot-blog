@@ -16,13 +16,13 @@ curl -XDELETE --header "content-type: application/JSON" "$ENDPOINT/$INDEX"
 sleep 1
 
 echo "\nCreate the index again."
-curl -X PUT --header "content-type: application/JSON" $ENDPOINT/$INDEX -d '{ "number_of_shards" : 5, "number_of_replicas" : 0}'
+curl -X PUT --header "content-type: application/JSON" $ENDPOINT/$INDEX  -d @./blog/src/main/resources/elasticsearch/settings.json
 sleep 1
 echo "\nClosing index."
 curl -XPOST --header "content-type: application/JSON" "$ENDPOINT/$INDEX/_close"
 sleep 1
-curl -XPUT --header "content-type: application/JSON" $ENDPOINT/$INDEX/_settings -d @./blog/src/main/resources/elasticsearch/settings.json
-sleep 1
+#curl -XPUT --header "content-type: application/JSON" $ENDPOINT/$INDEX/_settings -d @./blog/src/main/resources/elasticsearch/settings.json
+#sleep 1
 echo "\nInstall the mapping - do once per type/mapping file."
 curl -XPOST --header "content-type: application/JSON" "$ENDPOINT/$INDEX/post/_mapping" -d @./blog/src/main/resources/elasticsearch/post.json
 sleep 1

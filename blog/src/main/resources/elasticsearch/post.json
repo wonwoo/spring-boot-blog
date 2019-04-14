@@ -4,7 +4,7 @@
       "post_title": {
         "type": "text",
         "store": "true",
-        "analyzer": "simple"
+        "analyzer": "post_index_analyzer"
       },
       "post_author": {
         "type": "text",
@@ -15,7 +15,7 @@
         "type": "text",
         "store": "true",
         "term_vector": "with_positions_offsets",
-        "analyzer": "fulltext"
+        "analyzer": "post_index_analyzer"
       },
       "post_type": {
         "type": "text",
@@ -31,7 +31,7 @@
         "type": "text",
         "store": "true",
         "term_vector": "with_positions_offsets",
-        "analyzer": "fulltext"
+        "analyzer": "post_index_analyzer"
       },
       "post_date": {
         "type": "date",
@@ -41,8 +41,7 @@
       "highlightedContent": {
         "type": "text",
         "store": "true",
-        "term_vector": "with_positions_offsets",
-        "analyzer": "fulltext"
+        "term_vector": "with_positions_offsets"
       },
       "tableOfContent": {
         "type": "text",

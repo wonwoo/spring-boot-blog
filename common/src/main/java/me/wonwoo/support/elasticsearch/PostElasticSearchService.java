@@ -186,5 +186,24 @@ public class PostElasticSearchService {
         .withClass(WpPosts.class).withIndexRequest(indexRequest).build();
     elasticsearchTemplate.update(updateQuery);
   }
+
+  public <T> void reset(Class<T> clazz, Object setting, Object mapping) {
+    this.deleteIndex(clazz);
+    this.createIndex(clazz, setting);
+    this.putMapping(clazz, mapping);
+  }
+
+  public <T> boolean deleteIndex(Class<T> clazz) {
+    return elasticsearchTemplate.deleteIndex(clazz);
+  }
+
+  public <T> boolean createIndex(Class<T> clazz, Object setting) {
+    return elasticsearchTemplate.createIndex(clazz, setting);
+  }
+
+  public <T> boolean putMapping(Class<T> clazz, Object mapping) {
+    return elasticsearchTemplate.putMapping(clazz, mapping);
+  }
+
 }
 
