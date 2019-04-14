@@ -170,7 +170,7 @@ public class PostElasticSearchService {
         .should(matchQuery(POST_CONTENT_FILTERED, q));
 
     final SearchQuery searchQuery = new NativeSearchQueryBuilder()
-        .withPageable(new PageRequest(0, 4))
+        .withPageable(PageRequest.of(0, 4))
         .withFields(ID_FIELD, TITLE_FIELD, DATE_FIELD)
         .withQuery(queryStringQueryBuilder)
         .build();
