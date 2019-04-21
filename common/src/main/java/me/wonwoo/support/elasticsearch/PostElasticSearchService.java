@@ -81,7 +81,7 @@ public class PostElasticSearchService {
     AnalyzeRequest request = new AnalyzeRequest();
     request.index(index);
     request.text(text);
-    request.analyzer("openkoreantext-analyzer");
+    request.analyzer("post_index_analyzer");
     AnalyzeResponse analyze;
     try {
       analyze = restHighLevelClient.indices().analyze(request, RequestOptions.DEFAULT);
