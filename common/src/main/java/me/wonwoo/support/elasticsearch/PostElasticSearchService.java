@@ -1,12 +1,16 @@
 package me.wonwoo.support.elasticsearch;
 
+import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
+import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeRequest;
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeResponse;
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeResponse.AnalyzeToken;
@@ -35,14 +39,7 @@ import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
 import org.springframework.data.elasticsearch.core.aggregation.impl.AggregatedPageImpl;
 import org.springframework.data.elasticsearch.core.query.*;
 import org.springframework.stereotype.Service;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import lombok.RequiredArgsConstructor;
 import org.springframework.util.ReflectionUtils;
-
-import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
-import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 
 @Service
 @RequiredArgsConstructor
@@ -75,9 +72,7 @@ public class PostElasticSearchService {
 
   private static MultiMatchQueryBuilder matchTitleContent(String queryTerm) {
     return QueryBuilders
-        .multiMatchQuery(queryTerm, TITLE_FIELD, POST_CONTENT_FILTERED)
-        .fuzziness(Fuzziness.ONE)
-        .minimumShouldMatch("30%");
+        .multiMatchQuery(queryTerm, TITLE_FIELD, POST_CONTENT_FILTERED);
   }
 
   //TODO
