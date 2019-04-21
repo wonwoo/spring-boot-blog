@@ -9,6 +9,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeRequest;
@@ -85,12 +86,17 @@ public class PostElasticSearchService {
     try {
       analyze = restHighLevelClient.indices().analyze(request, RequestOptions.DEFAULT);
     } catch (IOException e) {
-      throw new RuntimeException("analyze exception", e);
+      return Collections.singletonList(text);
     }
     return analyze.getTokens()
-        .stream().filter(analyzeToken -> analyzeToken.getType().equals("Noun"))
+        .stream()
+        .filter(isToken())
         .map(AnalyzeToken::getTerm)
         .collect(Collectors.toList());
+  }
+
+  private Predicate<AnalyzeToken> isToken() {
+      return analyzeToken -> analyzeToken.getType().equals("Noun") || analyzeToken.getType().equals("Alpha");
   }
 
   public Page<WpPosts> searchWpPosts(String q, Pageable pageable) {
