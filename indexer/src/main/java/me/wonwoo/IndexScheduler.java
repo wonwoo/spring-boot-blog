@@ -18,7 +18,7 @@ public class IndexScheduler {
   private final BlogUpdateIndexer blogUpdateIndexer;
   private final BlogFullIndexer blogFullIndexer;
 
-  @Scheduled(fixedDelay = ONE_HOUR, initialDelayString = "${search.indexer.delay:0}")
+  @Scheduled(cron = "0 0 3 * * ?")
   public void indexFullPostPosts() {
     indexerService.index(blogFullIndexer);
   }
