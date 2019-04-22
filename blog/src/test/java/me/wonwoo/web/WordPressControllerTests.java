@@ -80,7 +80,7 @@ public class WordPressControllerTests extends AbstractControllerTests {
     assertThat(wordPresses.getContent().get(0).getPostType()).isEqualTo("public");
     assertThat(wordPresses.getContent().get(0).getHighlightedContent()).isEqualTo("test content");
     assertThat(wordPresses.getContent().get(0).getPostContent()).isEqualTo("<p>test content</p>");
-    verify(postElasticSearchService, atLeastOnce()).wpPosts(new PageRequest(0, 3, Sort.Direction.DESC, "post_date"));
+    verify(postElasticSearchService, atLeastOnce()).wpPosts(PageRequest.of(0, 3, Sort.Direction.DESC, "post_date"));
   }
 
   @Test
@@ -101,7 +101,7 @@ public class WordPressControllerTests extends AbstractControllerTests {
     assertThat(wordPresses.getContent().get(0).getPostType()).isEqualTo("public");
     assertThat(wordPresses.getContent().get(0).getHighlightedContent()).isEqualTo("test content");
     assertThat(wordPresses.getContent().get(0).getPostContent()).isEqualTo("<p>test content</p>");
-    verify(postElasticSearchService, atLeastOnce()).searchWpPosts("test", new PageRequest(0, 3));
+    verify(postElasticSearchService, atLeastOnce()).searchWpPosts("test", PageRequest.of(0, 3));
 
   }
 

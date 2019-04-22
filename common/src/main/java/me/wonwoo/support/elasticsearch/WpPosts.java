@@ -13,8 +13,6 @@ import org.springframework.data.elasticsearch.annotations.Setting;
 
 @Data
 @Document(indexName = "wordpress", type = "post", shards = 5, replicas = 0, refreshInterval = "-1")
-@Setting(settingPath = "/elasticsearch/settings.json")
-@Mapping(mappingPath = "/elasticsearch/post.json")
 public class WpPosts {
   @Id
   @JsonProperty("ID")

@@ -37,7 +37,7 @@ public class WordPressClientTests {
 						+ "?number=1&page=1&search=tester&fields=ID,content,title,date,author,tags",
 				"posts.json");
 
-		PageRequest pageRequest = new PageRequest(0, 1);
+		PageRequest pageRequest = PageRequest.of(0, 1);
 		Page<WordPress> tester = wordPressClient.findAll(pageRequest, "tester");
 		assertThat(tester.getContent()).isNotNull();
 		assertThat(tester.getContent().get(0).getTitle()).isEqualTo("test title");
@@ -51,7 +51,7 @@ public class WordPressClientTests {
 						+ "/1?fields=ID,content,title,date,author,tags",
 				"post.json");
 
-		PageRequest pageRequest = new PageRequest(0, 1);
+		PageRequest pageRequest = PageRequest.of(0, 1);
 		WordPress wordPress = wordPressClient.findOne(1L);
 		assertThat(wordPress).isNotNull();
 		assertThat(wordPress.getTitle()).isEqualTo("test title");

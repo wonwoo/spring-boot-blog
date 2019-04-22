@@ -57,7 +57,7 @@ public class BlogHistoryServiceTests {
         new BlogHistory("/accounts", "http://localhost:8080/accounts", "127.0.0.1", "USER", null, LocalDateTime.now())));
     given(blogHistoryRepository.findAll(any(Pageable.class))).willReturn(page);
 
-    PageRequest request = new PageRequest(0, 10);
+    PageRequest request = PageRequest.of(0, 10);
     Page<BlogHistory>  result = blogHistoryService.findByDateBetween(request);
 
     assertThat(result.getContent().get(0).getUrl()).isEqualTo("/accounts");

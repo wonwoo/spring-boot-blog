@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.wonwoo.Indexer;
 import me.wonwoo.domain.model.WpPost;
 import me.wonwoo.domain.repository.WpPostsRepository;
+import me.wonwoo.setting.IndexSettingsService;
 import me.wonwoo.support.elasticsearch.PostElasticSearchService;
 import me.wonwoo.support.elasticsearch.WpPosts;
 import org.springframework.stereotype.Service;
@@ -16,10 +17,13 @@ public class BlogFullIndexer implements Indexer<WpPost> {
 
     private final WpPostsRepository wpPostsRepository;
     private final PostElasticSearchService postElasticSearchService;
+    private final IndexSettingsService indexSettingsService;
 
     @Override
     public Iterable<WpPost> indexItems() {
-        postElasticSearchService.reset(WpPosts.class);
+        String setting = indexSettingsService.getSetting();
+        String mapping = indexSettingsService.getMapping();
+        postElasticSearchService.reset(WpPosts.class, setting ,mapping);
         return wpPostsRepository.findByPostTypeAndPostStatus("post", "publish");
     }
 
@@ -47,4 +51,5 @@ public class BlogFullIndexer implements Indexer<WpPost> {
         logger.error("BlogIndexer error ", e);
         logger.error("id : {}, title : {} ", index.getId(), index.getPostTitle());
     }
+
 }

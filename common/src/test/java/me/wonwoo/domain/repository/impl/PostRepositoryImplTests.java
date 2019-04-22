@@ -40,7 +40,7 @@ public class PostRepositoryImplTests {
 		final Category category = this.testEntityManager.persist(new Category("spring"));
 		CategoryPost categoryPost = testEntityManager.persist(new CategoryPost(category, post));
 		post.setCategoryPost(Collections.singletonList(categoryPost));
-		Page<Post> posts = postRepository.findByPostsForCategory(category.getId(), new PageRequest(0, 1));
+		Page<Post> posts = postRepository.findByPostsForCategory(category.getId(), PageRequest.of(0, 1));
 		assertThat(posts.getTotalElements()).isEqualTo(1);
 		assertThat(posts.getContent().get(0).getTitle()).isEqualTo("test title");
 		assertThat(posts.getContent().get(0).getContent()).isEqualTo("test content");
@@ -58,7 +58,7 @@ public class PostRepositoryImplTests {
 		final Post post = this.testEntityManager.persist(new Post("test title", "test content", "test content", "Y", user, Arrays.asList("spring", "jpa")));
 		final Category category = this.testEntityManager.persist(new Category("spring"));
 		testEntityManager.persist(new CategoryPost(category, post));
-		Page<Post> posts = postRepository.findByPostsForTag("spring", new PageRequest(0, 1));
+		Page<Post> posts = postRepository.findByPostsForTag("spring", PageRequest.of(0, 1));
 		assertThat(posts.getTotalElements()).isEqualTo(1);
 		assertThat(posts.getContent().get(0).getTitle()).isEqualTo("test title");
 		assertThat(posts.getContent().get(0).getContent()).isEqualTo("test content");

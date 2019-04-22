@@ -188,22 +188,22 @@ public class PostElasticSearchService {
     elasticsearchTemplate.update(updateQuery);
   }
 
-  public <T> void reset(Class<T> clazz) {
+  public <T> void reset(Class<T> clazz, Object setting, Object mapping) {
     this.deleteIndex(clazz);
-    this.createIndex(clazz);
-    this.putMapping(clazz);
+    this.createIndex(clazz, setting);
+    this.putMapping(clazz, mapping);
   }
 
   public <T> boolean deleteIndex(Class<T> clazz) {
     return elasticsearchTemplate.deleteIndex(clazz);
   }
 
-  public <T> boolean createIndex(Class<T> clazz) {
-    return elasticsearchTemplate.createIndex(clazz);
+  public <T> boolean createIndex(Class<T> clazz, Object setting) {
+    return elasticsearchTemplate.createIndex(clazz, setting);
   }
 
-  public <T> boolean putMapping(Class<T> clazz) {
-    return elasticsearchTemplate.putMapping(clazz);
+  public <T> boolean putMapping(Class<T> clazz, Object mapping) {
+    return elasticsearchTemplate.putMapping(clazz, mapping);
   }
 
 }
