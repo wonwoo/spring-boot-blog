@@ -95,7 +95,8 @@ public class PostElasticSearchService {
   }
 
   private Predicate<AnalyzeToken> isToken() {
-      return analyzeToken -> analyzeToken.getType().equals("Noun") || analyzeToken.getType().equals("Alpha");
+      return analyzeToken -> analyzeToken.getType().equals("Noun") || analyzeToken.getType().equals("Alpha")
+          || analyzeToken.getType().equals("SYNONYM");
   }
 
   public Page<WpPosts> searchWpPosts(String q, Pageable pageable) {
