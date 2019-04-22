@@ -1,5 +1,6 @@
 package me.wonwoo;
 
+import me.wonwoo.blog.BlogFullIndexer;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -15,15 +16,21 @@ public class IndexScheduler {
   private final IndexerService indexerService;
   private final BlogIndexer blogIndexer;
   private final BlogUpdateIndexer blogUpdateIndexer;
+  private final BlogFullIndexer blogFullIndexer;
 
-  @Scheduled(fixedDelay = ONE_HOUR, initialDelayString = "${search.indexer.delay:0}")
-  public void indexBlogPosts() {
-    indexerService.index(blogIndexer);
+  @Scheduled(cron = "0 0 3 * * ?", initialDelayString = "${search.indexer.delay:0}")
+  public void indexFullPostPosts() {
+    indexerService.index(blogFullIndexer);
   }
 
-  @Scheduled(fixedDelay = ONE_HOUR, initialDelayString = "${search.indexer.delay:0}")
-  public void indexBlogUpdatePost() {
-    indexerService.index(blogUpdateIndexer);
-  }
+//  @Scheduled(fixedDelay = ONE_HOUR, initialDelayString = "${search.indexer.delay:0}")
+//  public void indexBlogPosts() {
+//    indexerService.index(blogIndexer);
+//  }
+//
+//  @Scheduled(fixedDelay = ONE_HOUR, initialDelayString = "${search.indexer.delay:0}")
+//  public void indexBlogUpdatePost() {
+//    indexerService.index(blogUpdateIndexer);
+//  }
 
 }
